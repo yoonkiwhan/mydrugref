@@ -1,0 +1,39 @@
+<h2 align="center">Search Results</h2>
+
+<% if @total == 0 %>
+
+<p align="center">No items found...</p>
+
+<% else %>
+
+<p align="center">Searching <strong><%= @query %></strong> returned
+<b><%= @total %></b> warning(s).</p>
+<% end %>
+
+ <% @warnings.each do |warning| %>
+<div class="post">
+    <%= user_thumb warning.creator %>
+<div class="body">
+    <h4><%= link_to warning.name, url_for(:action => 'show', :id => warning, :controller => 'warnings') %></h4>
+    <p class="meta">
+      <span class="comments"><%= link_to pluralize(warning.comments_count, 'comment'), :action => 'show', :id => warning %></span>
+      Updated <%= time_ago_in_words warning.updated_at %> ago
+    </p>
+    <%= simple_format warning.body %>
+  </div>
+<%= clear_div %>
+</div>
+
+<% end %>
+
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= pagination_links(@pages, :params => { :query=> @query }) %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+
+<%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>
+
+<h4>Search</h4>
+<form method="get" action="search">
+<input type="text" name="query" size="15" value="" /><br />
+<input type="submit" name="submit" value="Search" />
+</form>

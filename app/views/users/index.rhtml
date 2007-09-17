@@ -1,0 +1,18 @@
+
+<div id="form_container">
+  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
+  <% if admin? %><div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %></div><% end %>
+  <%= render :partial => 'form' %>
+</div>
+
+<fieldset>
+    <legend>Alphabetical Index</legend>
+    <% @letters.each do |letter| %>
+        <% letter_class = (letter == @initial) ? "letter_current" : "letter" %>
+        <%= link_to letter, { :action => "index", :id => letter },
+                    :class => letter_class %>
+    <% end %>
+    <br clear="all" />
+</fieldset>
+
+<%= render :partial => "user_table" %>

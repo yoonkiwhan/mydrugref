@@ -1,0 +1,11 @@
+<% @page_title = "Sign In" %>
+
+
+
+<% form_for :session, @user, :url => sessions_url, :html => { :class => "standard", :style => "width: 250px" }, :builder => LabelingFormBuilder do |f| %>
+  <fieldset>
+    <%= f.text_field :email %>
+    <%= f.password_field :password %>
+    <%= submit_tag 'Sign in' %>
+  </fieldset>
+<% end %>

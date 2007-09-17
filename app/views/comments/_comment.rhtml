@@ -1,0 +1,16 @@
+<div class="post">
+  <%= user_thumb comment.creator %>
+        <p class="meta"><%= time_ago_in_words comment.created_at %> ago</p>
+        <% if current_user.id == comment.created_by %><big><strong><%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
+            <!-- Only allow user to vote once -->
+            <% no_vote = no_vote + 1 %>
+        <% end %></big></strong>
+  <%= simple_format comment.body %>
+ <% if comment.goat == true %> 
+	<img src="/images/thumbsup copy.bmp" alt="Agree" float="left">
+ <% elsif comment.goat == false %>
+ 	 <img src="/images/thumbs down.bmp" alt="Disagree" float="left">
+ <% else %>
+	 <% end %>
+  <%= clear_div %>
+</div>

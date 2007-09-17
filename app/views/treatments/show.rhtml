@@ -1,0 +1,87 @@
+<div id="form_container" <% if @edit_on %>class="active"<% end %>>
+  <div id="cancel_link">
+    <%= link_to_function "Cancel", "PostForm.toggle()", :class =>'delete small' %>
+  </div>
+  <div id="new_link">
+    <% if can_edit? @post %>
+    <span>&nbsp&nbsp;</span>
+    <%= link_to_function "Edit", "PostForm.toggle()", :class =>'create' %>
+    <% end %>
+  </div>
+  <div id="meta">
+    Posted <%= time_ago_in_words @post.created_at %> ago by <%= link_to @post.creator.name, user_url(:id => @post.creator),
+                                                                 {'class' =>'grey' } %>
+  </div>
+  <%= render :partial =>'form' %>
+  </div>
+  <h3>First Line Drugs</h3>
+  <ol>
+  <li class="arab"><b><%= @post.fldrug1 %></b> (<%= @post.atc %>)</li>
+  <% if @post.drug2.any? %>
+  <br>
+  <li class="arab"><b><%= @post.drug2 %></b> (<%= @post.atc2 %>)</li>
+  <% end %>
+  <% if @post.fldrug3.any? %>
+  <br>
+  <li class="arab"><b><%= @post.fldrug3 %></b> (<%= @post.atc3 %>)</li>
+  <% end %>
+  </ol>
+  <% if @post.sldrug1.empty? %>
+  <% else %>
+  <h3>Second Line Drugs</h3>
+  <ol>
+  <li class="arab"><%= @post.sldrug1 %> (<%= @post.slatc %>)</li>
+  <% if @post.sldrug2.any? %>
+  <br>
+  <li class="arab"><%= @post.sldrug2 %> (<%= @post.slatc2 %>)</li>
+  <% end %>
+  <% if @post.sldrug3.any? %>
+  <br>
+  <li class="arab"><%= @post.sldrug3 %> (<%= @post.slatc3 %>)</li>
+  <% end %>
+  </ol>
+  <% end %>
+  <% if @post.pregdrug1.empty? %>
+  <% else %>
+  <h3>For Pregnant Women, Suggest</h3>
+  <ol>
+  <li class="arab"><%= @post.pregdrug1 %> (<%= @post.pregatc %>)</li>
+  <% if @post.pregdrug2.any? %>
+  <br>
+  <li class="arab"><%= @post.pregdrug2 %> (<%= @post.pregatc2 %>)</li>
+  <% end %>
+  <% if @post.pregdrug3.any? %>
+  <br>
+  <li class="arab"><%= @post.pregdrug3 %> (<%= @post.pregatc3 %></li>
+  <% end %>
+  </ol>
+  <% end %>
+  
+  <% if @post.reference.any? %>
+  <h3>Reference</h3>
+  <div id="detail"><%= simple_format(@post.reference) %></div>
+  <% end %>
+  
+  <h3>Comments/Instructions</h3>
+  <div id="detail">
+    <%= simple_format(@post.body) if @post.body.any? %>
+  </div>
+  
+  <% @tags = Tag.find(:all) %>
+  
+  <h3>Tags</h3>
+  <% if @post.tags.empty? %>
+  (None)<p>
+  <% else %>
+    <% for tag in @post.tags %>
+        <ul><li><%= tag.name %>&nbsp;
+        <% if can_edit? @post %>
+        <%= link_to '(Remove)', { :action => 'remove_tag', :id => @post,
+        :which_tag => tag.id }, 
+        :confirm => 'Are you sure?' %>
+        <% end %>
+        </li></ul>
+    <% end %>
+  <% end %>
+
+<%= render :partial => "comments/comments", :comments => @post.comments %>

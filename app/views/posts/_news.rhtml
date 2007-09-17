@@ -1,0 +1,12 @@
+<div class="post">
+  <%= user_thumb post.creator %>
+  <div class="body">
+    <h4><%= link_to post.name, url_for(:action => 'show', :id => post) %></h4>
+    <p class="meta">
+      <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :id => post %></span>
+      <%= time_ago_in_words post.updated_at %> ago
+    </p>
+    <%= simple_format post.body %>
+  </div>
+  <%= clear_div %>
+</div>

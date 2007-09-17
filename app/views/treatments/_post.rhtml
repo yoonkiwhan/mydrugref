@@ -1,0 +1,24 @@
+<div class="post">
+	<%= user_thumb post.creator %>
+	<div class="body">
+	<h4>
+		<%= link_to post.name, url_for(:action => 'show', :controller => 'treatments', :id => post) %>
+	</h4>
+	<p class="meta">
+	<span class="comments">
+      <% if post.comments.count == 0 %>
+	  No comments
+	  
+	  <% else %>
+	  <%= link_to  "#{post.comments.tally2 * (100 / post.comments.count)}% agree", :action => 'show', :controller => 'treatments', :id => post %>
+	  <br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people)</small>
+	  <% end %>
+	  </span>
+	<%= time_ago_in_words post.updated_at %> ago
+	</p>
+	<b><%= post.fldrug1 %></b> . . .
+	<br>
+	<%= simple_format post.body %>
+	</div>
+	<%= clear_div %>
+</div>

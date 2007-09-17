@@ -1,0 +1,62 @@
+<h2 align="center">Search Results</h2>
+
+<% if @total == 0 %>
+
+<p align="center">No items found...</p>
+
+<% else %>
+
+<p align="center">for query <strong><%= @query %></strong>:</p>
+<% end %>
+
+ <% @cheese.each do |fromage| %>
+<div class="post">
+    <%= user_thumb fromage.creator %>
+<div class="body">
+	<% if fromage.drug2 == nil %>
+    <h4><%= link_to fromage.name, url_for(:action => 'show', :id => fromage, :controller => "#{fromage.type}s" ) %></h4>
+    <% else %>
+	<h4><%= link_to fromage.name + " and " + fromage.drug2, url_for(:action => 'show', :id => fromage, :controller => "#{fromage.type}s" ) %></h4>
+	<% end %>
+	<p class="meta">
+      
+	<span class="comments">
+	<% if fromage.comments.count == 0 %>
+	No comments
+	<% else %>
+<%= link_to  "#{fromage.comments.tally2 * (100 / fromage.comments.count)}% agree", :action => 'show', :id => fromage, :controller => "#{fromage.type}s" %>
+	  <br><small> (<%= fromage.comments.tally2 %> / <%= fromage.comments.count %> people)</small>
+	  <% end %>
+	  </span>	
+
+      Updated <%= time_ago_in_words fromage.updated_at %> ago
+    </p>
+    <%= simple_format fromage.body %>
+  </div>
+<%= clear_div %>
+</div>
+
+<% end %>
+
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= pagination_links(@pages, :params => { :query=> @query }) %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+
+<h4>Search</h4>
+<form method="get" action="cheese" controller="posts">
+             &nbsp; <input type="text" name="query" size="15" value="" />
+            <input type="submit" name="submit" value="Search" />
+            <select name="type_options">
+                <option value="all">All Posts</option>
+                <option value="Warning">Warnings</option>
+                <option value="Interaction">Interactions</option>
+            </select>
+            <select name="date_options">
+                <option value="all">All Dates</option>
+                <option value="1">This year</option>
+                <option value="2">This month</option>
+                <option value="3">This week</option>
+                <option value="4">Today</option>
+            </select>
+         <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
+        </form> 

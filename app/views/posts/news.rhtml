@@ -1,0 +1,61 @@
+<% @page_title = "Welcome!" %>
+<div id="posts">
+ 
+<!-- oooh.. change this so it goes into the partial later, yo! -->
+  <h3>Warnings Today (<%= @warnings_today.size %>)</h3>
+  <% unless @warnings_today.size == 0 %>
+    <% for post in @warnings_today %>
+    <div class="post">
+        <%= user_thumb post.creator %>
+        <div class="body">
+            <h4><%= link_to post.name, url_for(:action => 'show', :controller => 'warnings', :id => post) %></h4>
+            <p class="meta">
+               <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'warnings', :id => post %></span>
+               <%= time_ago_in_words post.updated_at %> ago
+            </p>
+            <%= simple_format post.body %>
+        </div>
+        <%= clear_div %>
+    </div>
+    <% end %>
+  <% end %>
+
+  <h3>Interactions Today (<%= @interactions_today.size %>)</h3>
+        <% unless @interactions_today.size == 0 %>
+            <% for post in @interactions_today %>
+                <div class="post">
+                    <%= user_thumb post.creator %>
+                    <div class="body">
+                        <h4><%= link_to (post.name + " and " + post.drug2), url_for(:action => 'show', :controller => 'interactions', :id => post) %></h4>
+						<p class="meta">
+                            <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'interactions', :id => post %></span>
+                            <%= time_ago_in_words post.updated_at %> ago
+                        </p>
+                        <%= simple_format post.body %>
+                    </div>
+                    <%= clear_div %>
+                </div>
+            <% end %>
+        <% end %>
+ 
+<h3>Treatments Today (<%= @treatments_today.size %>)</h3>
+  <% unless @treatments_today.size == 0 %>
+    <% for post in @treatments_today %>
+    <div class="post">
+        <%= user_thumb post.creator %>
+        <div class="body">
+            <h4><%= link_to post.name, url_for(:action => 'show', :controller => 'treatments', :id => post) %></h4>
+            <p class="meta">
+               <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'treatments', :id => post %></span>
+               <%= time_ago_in_words post.updated_at %> ago
+	</p>
+	<b><%= post.fldrug1 %></b> . . .
+	<br>
+	<%= simple_format post.body %>
+	</div>
+	<%= clear_div %>
+</div>
+    <% end %>
+  <% end %>
+ 
+</div>

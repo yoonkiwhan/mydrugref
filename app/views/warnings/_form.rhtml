@@ -1,0 +1,35 @@
+<% standard_form :post, @post do |f| %>
+ <p><font color="purple"><b>Please type at least four characters and wait patiently for 
+ autocomplete to find your drug. 
+ <p>Also, avoid using backspace as it will slow down autocomplete tenfold.</b></font></p>
+  <%= f.text_field :name, :label => "Drug Name" %>
+<div class="auto_complete" id="post_name_auto_complete"></div>
+      <script type="text/javascript">;
+        new Ajax.Autocompleter('post_name',
+'post_name_auto_complete',
+'/posts/auto_complete_for_post_name',
+        { minChars: 4,
+          frequency: 0.05,
+          updateElement: function(selected) {
+          Element.cleanWhitespace(selected);
+          dn = selected.childNodes;
+          $('post_name').value = dn[0].firstChild.nodeValue;
+          $('post_atc').value = dn[2].firstChild.nodeValue;
+        } } );
+      </script>
+
+<%= f.text_field :atc, :label => "ATC Code (read only)", :readonly => true %>
+  <%= f.text_area :body, :label => "Warning" %>
+ <h4>Evidence</h4>
+ <%= f.select(:evidence, %w{ Good Fair Poor}) %>
+  <%= f.text_field :reference, :label => "Reference" %>
+  <h4>Significance</h4>
+  <select name="post[significance]">
+  <option value="3">High</option>
+  <option value="2">Medium</option>
+  <option value="1">Low</option>
+  </select> 
+  <%= standard_submit %>
+<% end %>
+
+

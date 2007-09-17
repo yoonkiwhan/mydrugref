@@ -1,0 +1,39 @@
+!SESSION 2007-09-06 09:10:03.178 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=GNU libgcj 4.1.2 (Ubuntu 4.1.2-0ubuntu5)
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.ui 4 4 2007-09-06 09:10:39.098
+!MESSAGE Unable to find Action Set: com.aptana.ide.server.ui.launchActionSet
+
+!ENTRY com.aptana.ide.intro 4 0 2007-09-06 09:11:08.071
+!MESSAGE (Build 0.2.9.16696) Feature store does not exist
+
+!ENTRY org.eclipse.update.core 4 0 2007-09-06 09:11:40.282
+!MESSAGE Digest could not be parsed:Unable to retrieve remote reference "http://update.aptana.com/update/3.2/site_rcp.xml./digest.zip". [Server returned HTTP response code: "404 Not Found" for URL: http://update.aptana.com/update/3.2/site_rcp.xml./digest.zip.]
+!SESSION 2007-09-06 09:24:50.257 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=GNU libgcj 4.1.2 (Ubuntu 4.1.2-0ubuntu5)
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2007-09-06 09:25:10.356
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2007-09-06 09:25:10.356
+!MESSAGE Commands should really have a category: plug-in='org.rubypeople.rdt.ui', id='org.rubypeople.rdt.ui.edit.text.ruby.toggle.comment', categoryId='org.eubypeople.rdt.ui.category.source'
+
+!ENTRY org.eclipse.ui 4 4 2007-09-06 09:25:21.551
+!MESSAGE Invalid Menu Extension (Path is invalid): org.eclipse.update.ui.updateMenu
+
+!ENTRY org.eclipse.ui 4 4 2007-09-06 09:25:21.552
+!MESSAGE Invalid Menu Extension (Path is invalid): org.eclipse.update.ui.configManager
+
+!ENTRY org.eclipse.ui 4 4 2007-09-06 09:25:21.553
+!MESSAGE Invalid Menu Extension (Path is invalid): org.eclipse.update.ui.newUpdates
+
+!ENTRY org.eclipse.ui 4 4 2007-09-06 09:25:21.572
+!MESSAGE Invalid Menu Extension (Path is invalid): goToResource
+
+!ENTRY org.eclipse.ui 4 4 2007-09-06 09:25:22.044
+!MESSAGE Invalid Menu Extension (Path is invalid): org.eclipse.ui.actions.showKeyAssistHandler

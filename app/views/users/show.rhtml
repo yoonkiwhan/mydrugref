@@ -1,0 +1,155 @@
+<div id="form_container" <% if @edit_on %>class="active"<% end %>>
+  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
+  <div id="new_link"><% if can_edit? @user %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+  <%= render :partial => 'form' %>
+</div><br />
+ <div id="detail">
+    <div id="change_picture">
+      <%= image_tag formatted_user_url(:id => @user, :format => 'jpg'), :class => 'user_picture', :alt => @user.name %>
+      <% if can_edit? @user %>
+	  
+      <form id="picture_form" style="display: none;" method="post" enctype="multipart/form-data" action="<%= url_for(:action => 'show') %>">
+        <fieldset>
+          <input type="hidden" name="_method" value="put" />
+          <input type="file" name="user[file]" /> 
+		  <input type="submit" value="Change Picture" />
+        </fieldset>
+      </form>
+	  <% end %>
+    </div>
+	 
+    <% unless @user.email.blank? %><p><strong>Email: </strong> <%= @user.email %></p><% end %>
+    <% unless @user.phone.blank? %><p><strong>Phone: </strong> <%= @user.phone %></p><% end %>
+    <% unless @user.address.blank? %><p><strong>Address: </strong><%= @user.address %></p><% end %>
+	<% unless @user.city.blank? %><p><strong>City: </strong><%= @user.city %></p><% end %>
+	<% unless @user.state.blank? %><p><strong>Province: </strong><%= @user.state %></p><% end %>
+	<% unless @user.zip.blank? %><p><strong>Postal Code: </strong><%= @user.zip %></p><% end %>
+</div>
+
+<h2><%= @user.doc_name %>'s postings (<%= @posts.size %>)</h2>
+
+<% if @warnings.any? %>
+<h4>Warnings</h4>
+	
+	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="64%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" width="36%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Body</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @posts %>
+  			<% if post.type == Warning %>
+  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == 3 %>
+    				<%= "#bcd2ee" if post.significance == 2 %>
+    				<%= "#cae1ff" if post.significance == 1 %><%= "#6699FF" if post.significance == nil %>;">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => 'warnings', :id => post.id %></td></b>
+    				<td><font size="1"><%= post.body %></font></td>   
+  				</tr>
+  			<% end %>
+		<% end %>
+	</table>
+	
+<% end %>
+<% if @interactions.any? %>
+<h4>Interactions</h4>
+<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="64%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" width="36%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Body</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @posts %>
+  			<% if post.type == Interaction %>
+  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == 3 %>
+    				<%= "#bcd2ee" if post.significance == 2 %>
+    				<%= "#cae1ff"if post.significance == 1 %><%= "#6699FF" if post.significance == nil %>;">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.type}s", :id => post.id %></td></b>
+    				<td><font size="1"><%= post.body %></font></td>   
+  				</tr>
+  			<% end %>
+		<% end %>
+	</table>
+
+<% end %>
+
+<% if @treatments.any? %>
+<h4>Treatments</h4>
+	
+	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="64%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Condition</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" width="36%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Drug of Choice</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="36%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Comments/Instructions</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @posts %>
+  			<% if post.type == Treatment %>
+  				<tr align="center" bgcolor="#cae1ff">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => 'treatments', :id => post.id %></td></b>
+    				<td><%= post.fldrug1 %>
+    				<td><font size="1"><%= post.body %></font></td>   
+  				</tr>
+  			<% end %>
+		<% end %>
+	</table>
+	
+<% end %>
+
+<% if @comments.any? %>
+<h4>Comments</h4>	
+	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="64%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" width="36%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Body</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @posts %>
+  			<% if post.type == Comment %>
+  				<tr align="center" style = "background: 
+					<%= "#B5EAAA" if post.goat == true %>
+    				<%= "#EEB4B4" if post.goat != true %>;
+					color: 
+					<%= "green" if post.goat == true %>
+					<%= "#B22222" if post.goat != true %>;">
+    				<td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).type}s", :id => post.post_id %></td></b>
+    				<td><font size="1"><%= post.body %></font></td>   
+  				</tr>
+  			<% end %>
+		<% end %>
+	</table>
+	
+<% end %>	
+
+

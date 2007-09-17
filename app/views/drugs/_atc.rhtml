@@ -1,0 +1,15 @@
+RESULTS:
+<ul id="atcs">
+	<% @drugs.each do |la| %>
+	<% if la.valid? %>
+    <%  @drug_code = la.drug_code %>
+     <%  @drug_name = la.name %>
+    <%  @atc = Code.find_by_drug_code(@drug_code) %><% end %>
+	<% if @atc != nil %>
+      <li> <%= @drug_name %> , <%= @atc.tc_atc_number %> </li>
+      <% end %>
+
+    </ul>
+   <% end %> 
+    Found: <%=@total.to_s%>
+

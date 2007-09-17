@@ -1,0 +1,38 @@
+<h2 align="center">Search Results</h2>
+
+<% if @total == 0 %>
+
+<p align="center">No items found...</p>
+
+<% else %>
+
+<p align="center">Searching <strong><%= @query %></strong> returned
+<b><%= @total %></b> interaction(s).</p>
+<% end %>
+
+ <% @interactions.each do |interaction| %>
+<div class="post">
+    <%= user_thumb interaction.creator %>
+<div class="body">
+    <h4><%= link_to (interaction.name + " and " + interaction.drug2), url_for(:action => 'show', :id => interaction, :controller => 'interactions') %></h4>
+    <p class="meta">
+      <span class="comments"><%= link_to pluralize(interaction.comments_count, 'comment'), :action => 'show', :id => interaction %></span>
+      Created <%= time_ago_in_words interaction.updated_at %> ago
+    </p>
+    <%= simple_format interaction.body %>
+  </div>
+<%= clear_div %>
+</div>
+
+<% end %>
+
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= pagination_links(@pages, :params => { :query=> @query }) %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+
+<h4>Search</h4>
+<form method="get" action="bla">
+<input type="text" name="query" size="15" value="" /><br />
+<input type="submit" name="submit" value="Search" />
+</form>
+<%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>

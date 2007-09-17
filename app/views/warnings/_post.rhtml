@@ -1,0 +1,28 @@
+<div class="post">
+  <%= user_thumb post.creator %>
+  <div class="body">
+    <h4><% if post.significance == 3 %>
+            <img src="/images/red.bmp" alt="High Significance (3)" float="left">
+        <% elsif post.significance == 2 %>
+            <img src="/images/orange.bmp" alt="High Significance (2)" float="left">
+        <% elsif post.significance == 1 %>
+            <img src="/images/yellow.bmp" alt="High Significance (1)" float="left">
+        <% end %>
+        <%= link_to post.name, url_for(:action => 'show', :id => post) %>
+    </h4>
+    <p class="meta">
+      <span class="comments">
+      <% if post.comments.count == 0 %>
+	  No comments
+	  
+	  <% else %>
+	  <%= link_to  "#{post.comments.tally2 * (100 / post.comments.count)}% agree", :action => 'show', :id => post %>
+	  <br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people)</small>
+	  <% end %>
+	  </span>
+      Updated <%= time_ago_in_words post.updated_at %> ago
+    </p>
+    <%= simple_format post.body %>
+  </div>
+  <%= clear_div %>
+</div>

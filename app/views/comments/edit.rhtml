@@ -1,0 +1,14 @@
+<div id="comments">
+  <h2>Edit your comment</h2>
+	
+<%= form_tag :controller => "comments", :action => "update", :post_id => @post, :id => @comment.id  %>
+<h3><%= current_user.name %> said...</h3>
+<%= text_area "comment", "body", "rows" => 5 %><br>
+	
+    <p><b><label for="comment_goat">Vote:</label></b><br/>
+    <select id="comment_goat" name="comment[goat]"><option value="true">Agree</option>
+        <option value="false">Disagree</option></select></p> 
+   
+	<%= submit_tag "Edit Comment" %> <%= image_tag "spinner.gif", :style => "display: none;", :id => "spinner" %>
+	<%= link_to "Delete", {:post_id => @post, :id => @comment.id, :action => 'destroy'}, :confirm => "Are you sure?", :class => "delete" %>
+    </div>

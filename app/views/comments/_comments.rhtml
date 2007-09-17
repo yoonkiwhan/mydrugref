@@ -1,0 +1,47 @@
+<div id="comments">
+  <h2><% if @post.comments.any? %> <%= @post.comments.tally2 %> out of <%= @post.comments.size %> people agree <% else %>Be the first to post a comment<% end %></h2>
+	<% yo_goat = 0 %>
+	<% for comment in @post.comments %>
+
+  <div class="post">
+  <%= user_thumb comment.creator %>
+  
+        <p class="meta">Created <%= time_ago_in_words comment.created_at %> ago</p>
+        <% unless comment.created_at == comment.updated_at %>
+		<p class="meta"><b>Updated <%=time_ago_in_words comment.updated_at %> ago</b></p>
+		<% end %>
+		<% if current_user.id == comment.created_by %><big><strong><%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
+            <!-- Only allow user to vote once -->
+            <% yo_goat = yo_goat + 1 %>
+        <% end %></big></strong>
+  <%= simple_format comment.body %>
+ <% if comment.goat? %> 
+	<img src="/images/thumbsup copy.bmp" alt="Agree" float="left">
+	 <% elsif comment.goat == false %> 
+	 <img src="/images/thumbs down.bmp" alt="Disagree" float="left">
+	 <% else %>
+	 
+	 <% end %>
+	
+  <%= clear_div %>
+</div>
+<% end %>
+  
+  <% if yo_goat == 0 %>
+  
+  <% remote_form_for :comment,
+                     :url => comments_url(:post_type => "Comment", :post_id => @post),
+                     :html => { :action => comments_url(:post_type => params[:controller], :post_id => @post) },
+                     :before => "$('spinner').show()",
+                     :complete => "$('spinner').hide(); $('comment_body').value=''" do |c| %>
+ <% end %>
+
+<%= form_tag :controller => "comments", :action => "create", :post_id => @post %>
+<h3><%= current_user.name %> said...</h3>
+<%= text_area "comment", "body", "rows" => 5 %><br>
+    <p><b><label for="comment_goat">Vote:</label></b><br/>
+    <select id="comment_goat" name="comment[goat]"><option value="true">Agree</option>
+        <option value="false">Disagree</option></select></p>
+	<%= submit_tag "Post New Comment" %> <%= image_tag "spinner.gif", :style => "display: none;", :id => "spinner" %>
+<% end %> 	
+    </div>

@@ -1,0 +1,39 @@
+<h2 align="center">Search Results</h2>
+
+<% if @total == 0 %>
+
+<p align="center">No items found...</p>
+
+<% else %>
+
+<p align="center">for query <strong><%= @query %></strong>:</p>
+<% end %>
+
+ <% @drugs.each do |drug| %>
+ 	<% if drug.valid? %>
+    <%  @drug_code = drug.drug_code %>
+     <%  @drug_name = drug.name %>
+    <%  @atc = Code.find_by_drug_code(@drug_code) %><% end %>
+<div class="post">
+    
+<div class="body">
+    <h4><%= @drug_name #link_to, url_for(:action => 'show', :id => warning, :controller => 'warnings') 
+    %></h4>
+	<% if @atc != nil %>
+	<%= @atc.tc_atc_number %>
+    <%= simple_format @atc.tc_atc %>
+	<% end %>
+  </div>
+<%= clear_div %>
+</div>
+<% end %>
+
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= pagination_links(@pages, :params => { :query=> @query }) %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+
+<h4>Search</h4>
+<form method="get" action="search">
+<input type="text" name="query" size="15" value="" /><br />
+<input type="submit" name="submit" value="Search" />
+</form>

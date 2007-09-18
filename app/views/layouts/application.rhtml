@@ -37,7 +37,7 @@
 		<% end %>
 		 
 		 Signed in as <%= link_to current_user.first_name, user_url(:id => current_user), :class => 'strong stealth' %><br/><%= link_to "Home", :action => 'news', :controller => 'posts' %>
-<%= link_to 'Settings', edit_user_url(:id => current_user), :class => 'small subtle' %> <%= link_to 'Sign Out', session_url(:id => session.session_id), :method => :delete, :class => 'small delete' %>
+ <%= link_to 'Sign Out', session_url(:id => session.session_id), :method => :delete, :class => 'small delete' %>
 		</div>
         <ul id="nav">
           <li id="warnings"><%= link_to_unless_current "Warnings", warnings_url %></li>

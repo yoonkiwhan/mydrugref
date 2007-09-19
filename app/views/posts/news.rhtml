@@ -2,9 +2,8 @@
 <div id="posts">
  
 <!-- oooh.. change this so it goes into the partial later, yo! -->
-  <h3>Warnings Today (<%= @warnings_today.size %>)</h3>
-  <% unless @warnings_today.size == 0 %>
-    <% for post in @warnings_today %>
+  <h3>Last Five Warnings Added</h3>
+    <% for post in @latest_w %>
     <div class="post">
         <%= user_thumb post.creator %>
         <div class="body">
@@ -13,16 +12,22 @@
                <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'warnings', :id => post %></span>
                <%= time_ago_in_words post.updated_at %> ago
             </p>
-            <%= simple_format post.body %>
+            <%= simple_format truncate(post.body, 100) %>
         </div>
         <%= clear_div %>
     </div>
     <% end %>
+    
+  <% unless @warnings_today.size == 0 %>
+  <h3>Warnings Added Today (<%= @warnings_today.size %>)</h3>
+    <ul><% for post in @warnings_today %>
+            <li><%= link_to post.name, url_for(:action => 'show', :controller => 'warnings', :id => post) %></li>
+    <% end %>
+    </ul>
   <% end %>
 
-  <h3>Interactions Today (<%= @interactions_today.size %>)</h3>
-        <% unless @interactions_today.size == 0 %>
-            <% for post in @interactions_today %>
+  <h3>Last Five Interactions Added</h3>
+  <% for post in @latest_i %>
                 <div class="post">
                     <%= user_thumb post.creator %>
                     <div class="body">
@@ -31,16 +36,22 @@
                             <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'interactions', :id => post %></span>
                             <%= time_ago_in_words post.updated_at %> ago
                         </p>
-                        <%= simple_format post.body %>
+                        <%= simple_format truncate(post.body, 100) %>
                     </div>
                     <%= clear_div %>
                 </div>
             <% end %>
+            
+<% unless @interactions_today.size == 0 %>
+  <h3>Interactions Added Today (<%= @interactions_today.size %>)</h3>
+          <ul><% for post in @interactions_today %>
+                 <li><%= link_to (post.name + " and " + post.drug2), url_for(:action => 'show', :controller => 'interactions', :id => post) %></li>
+            <% end %>
+            </ul>
         <% end %>
  
-<h3>Treatments Today (<%= @treatments_today.size %>)</h3>
-  <% unless @treatments_today.size == 0 %>
-    <% for post in @treatments_today %>
+ <h3>Last Five Treatments Added</h3>
+ <% for post in @latest_t %>
     <div class="post">
         <%= user_thumb post.creator %>
         <div class="body">
@@ -51,11 +62,24 @@
 	</p>
 	<b><%= post.fldrug1 %></b> . . .
 	<br>
-	<%= simple_format post.body %>
+	<%= simple_format truncate(post.body, 100) %>
 	</div>
 	<%= clear_div %>
 </div>
     <% end %>
+ 
+ <% unless @treatments_today.size == 0 %>
+<h3>Treatments Added Today (<%= @treatments_today.size %>)</h3>
+    <ul><% for post in @treatments_today %>
+           <li><%= link_to post.name, url_for(:action => 'show', :controller => 'treatments', :id => post) %></li>
+    <% end %>
+    </ul>
   <% end %>
  
-</div>
+<br />
+<% unless @current_user.friends.blank? %>
+    <h2>You trust: </h2>
+        <ul><% for pal in @current_user.friends %> 
+            <li><%= link_to pal.name, :action => 'show', :controller => "users", :id => pal.id %></li> 
+        <% end %></ul>
+<% end %>

@@ -94,20 +94,25 @@ a:hover.create { background-color: #009900; color: #fff; }
 }
 
 #header h1 {
-	font-family: futura;
-	font-size: 20px;
+	
 	float: left;
 	height: 200px;
 	width: 181px;
 
-	background-image: url('/images/logo.gif');
-	text-indent: 40px;
+	background-image: url('/images/backgroundlogo.gif');
+	text-indent: -3px;
 	/* or */
 	height: 72px;
 	padding-top: 20px;
 	width: 120px;
 	padding-left: 60px;
 	
+}
+
+#header #imagelink {
+    float: left;
+    padding-top: 39px;
+    z-index: 10;
 }
 
 #header h1 a { text-decoration: none; }
@@ -291,7 +296,7 @@ form.standard .fieldWithErrors { border-left: 4px solid #c00; padding-left: 3px;
 form.standard label span.error { color: #c00; }
 form.standard input[type='submit'] { width: 100px; display: block; }
 form.standard textarea { height: 150px; }
-form.standard select { margin-bottom: 10px; width: 100px;}
+form.standard select { margin-bottom: 10px; width: 150px; }
 
 /* Body details */
 /* -------------------------------------------------------------------------- */

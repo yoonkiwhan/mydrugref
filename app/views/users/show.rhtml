@@ -16,8 +16,17 @@
         </fieldset>
       </form>
 	  <% end %>
+	  <br />
+	  <% unless @current_user.friends.include?(@user) or @user == @current_user %>
+<%= link_to "Trust #{@user.name}",
+            { :controller => "friendship", :action => "create",
+            :id => @user.id }, :confirm => "Keep tabs on #{@user.name}?" %>
+<% end %>
+    <% if @current_user.friends.include?(@user) %>
+<%= link_to "Untrust", :controller => "friendship", :action => "destroy", :id => @user.id %>
+    <% end %>
     </div>
-	 
+
     <% unless @user.email.blank? %><p><strong>Email: </strong> <%= @user.email %></p><% end %>
     <% unless @user.phone.blank? %><p><strong>Phone: </strong> <%= @user.phone %></p><% end %>
     <% unless @user.address.blank? %><p><strong>Address: </strong><%= @user.address %></p><% end %>
@@ -25,7 +34,7 @@
 	<% unless @user.state.blank? %><p><strong>Province: </strong><%= @user.state %></p><% end %>
 	<% unless @user.zip.blank? %><p><strong>Postal Code: </strong><%= @user.zip %></p><% end %>
 </div>
-
+<br />
 <h2><%= @user.doc_name %>'s postings (<%= @posts.size %>)</h2>
 
 <% if @warnings.any? %>
@@ -50,7 +59,7 @@
     				<%= "#bcd2ee" if post.significance == 2 %>
     				<%= "#cae1ff" if post.significance == 1 %><%= "#6699FF" if post.significance == nil %>;">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'warnings', :id => post.id %></td></b>
-    				<td><font size="1"><%= post.body %></font></td>   
+    				<td><font size="1"><%= truncate(post.body, 200) %></font></td>   
   				</tr>
   			<% end %>
 		<% end %>
@@ -78,7 +87,7 @@
     				<%= "#bcd2ee" if post.significance == 2 %>
     				<%= "#cae1ff"if post.significance == 1 %><%= "#6699FF" if post.significance == nil %>;">
     				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.type}s", :id => post.id %></td></b>
-    				<td><font size="1"><%= post.body %></font></td>   
+    				<td><font size="1"><%= truncate(post.body, 200) %></font></td>   
   				</tr>
   			<% end %>
 		<% end %>
@@ -112,7 +121,7 @@
   				<tr align="center" bgcolor="#cae1ff">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'treatments', :id => post.id %></td></b>
     				<td><%= post.fldrug1 %>
-    				<td><font size="1"><%= post.body %></font></td>   
+    				<td><font size="1"><%= truncate(post.body, 200) %></font></td>   
   				</tr>
   			<% end %>
 		<% end %>
@@ -144,7 +153,7 @@
 					<%= "green" if post.goat == true %>
 					<%= "#B22222" if post.goat != true %>;">
     				<td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).type}s", :id => post.post_id %></td></b>
-    				<td><font size="1"><%= post.body %></font></td>   
+    				<td><font size="1"><%= truncate(post.body, 200) %></font></td>   
   				</tr>
   			<% end %>
 		<% end %>
@@ -152,4 +161,18 @@
 	
 <% end %>	
 
-
+<br />
+<% unless @user.friends.blank? %>
+    <h2><%= @user.doc_name %> trusts: </h2>
+        <ul><% for pal in @friends %> 
+            <li><%= link_to pal.name, :action => 'show', :controller => "users", :id => pal.id %></li> 
+        <% end %></ul>
+<% end %>
+<br />
+<h4><%= @user.doc_name %> is trusted by:</h4>
+<ul>
+<% for person in @allusers %>
+    <% if person.friends.include?(@user) %>
+        <li><%= link_to person.name, :action => 'show', :controller => "users", :id => person.id %></li>
+    <% end %>
+    <% end %></ul>

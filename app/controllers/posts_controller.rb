@@ -32,7 +32,7 @@ class PostsController < ApplicationController
       @page_title = "New #{post_type}"
       @edit_on = true
       render :action => 'new'
-    end
+  end
   end
 
   def show
@@ -71,6 +71,9 @@ class PostsController < ApplicationController
     @interactions_today = Interaction.today
     @treatments_today = Treatment.today
     @post_pages, @posts = paginate :posts, :per_page => 5
+    @latest_w = Warning.latest
+    @latest_i = Interaction.latest
+    @latest_t = Treatment.latest
   end
   
    def cheese

@@ -19,4 +19,9 @@ class Interaction < Post
                           :order => "created_at DESC",
                           :limit => 2)
   end
+  
+ def self.latest
+    Interaction.find(:all, :order => "created_at DESC", :limit => 5)
+ end
+ 
 end

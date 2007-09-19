@@ -5,6 +5,7 @@ class TreatmentsController < PostsController
     @post_pages, @posts = paginate :treatments, :order_by => 'created_at desc', :per_page => 5
   end
 
+# add_tag is not currently being used
   def add_tag
     @treat = Treatment.find(params[:id])
     # changed to reflect latest version of acts_as_taggable_on_steroids

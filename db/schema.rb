@@ -143,13 +143,10 @@ ActiveRecord::Schema.define(:version => 15) do
     t.column "vet_sub_species", :string,  :limit => 80
   end
 
-  create_table "friendships", :id => false, :force => true do |t|
-    t.column "user_id",    :integer,  :null => false
-    t.column "friend_id",  :integer,  :null => false
-    t.column "created_at", :datetime
+  create_table "friends_users", :id => false, :force => true do |t|
+    t.column "user_id",   :integer
+    t.column "friend_id", :integer
   end
-
-  add_index "friendships", ["user_id", "friend_id"], :name => "index_friendships_on_user_id_and_friend_id"
 
   create_table "link_generic_brand", :force => true do |t|
     t.column "drug_code", :string, :limit => 30

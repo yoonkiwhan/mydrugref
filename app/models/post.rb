@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User', :foreign_key => "created_by"
   belongs_to :attachment, :dependent => :destroy
 
-  validates_presence_of :name
+  validates_presence_of :name, :created_by
 
   def self.full_text_search(q, options = {},find_options = {})
    return nil if q.nil? or q==""

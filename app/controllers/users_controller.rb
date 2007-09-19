@@ -33,11 +33,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @posts = Post.find_all_by_created_by(User.find(params[:id]))
-    @treatments = Treatment.find_all_by_created_by(User.find(params[:id]))
-    @comments = Comment.find_all_by_created_by(User.find(params[:id]))
-    @interactions = Interaction.find_all_by_created_by(User.find(params[:id]))
-    @warnings = Warning.find_all_by_created_by(User.find(params[:id]))
+    @posts = Post.find_all_by_created_by(@user)
+    @treatments = Treatment.find_all_by_created_by(@user)
+    @comments = Comment.find_all_by_created_by(@user)
+    @interactions = Interaction.find_all_by_created_by(@user)
+    @warnings = Warning.find_all_by_created_by(@user)
+    @friends = @user.friends
+    @allusers = User.find(:all)
     if params[:format]=='jpg'
       if @user.picture
         send_data @user.picture.content, :filename => "#{@user.id}.jpg", :type => 'image/jpeg', :disposition => 'inline'
@@ -82,13 +84,6 @@ class UsersController < ApplicationController
     @user.destroy
     flash[:notice] = "User deleted."
     redirect_to users_url
-  end
-  
-  def destroy_friendship
-    @user = User.find(params[:user_id])
-    @friendship = @user.friendships.find_by_friend_id(params[:id]).destroy
-    flash[:notice] = "Trustee deleted."
-    redirect_to user_url
   end
 
   private

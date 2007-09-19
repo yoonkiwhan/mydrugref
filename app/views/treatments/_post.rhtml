@@ -18,7 +18,9 @@
 	</p>
 	<b><%= post.fldrug1 %></b> . . .
 	<br>
-	<%= simple_format post.body %>
+	<%= simple_format truncate(post.body, 100) %>
+	<br>
+	<%= link_to post.tags.name, :action => %>
 	</div>
 	<%= clear_div %>
 </div>

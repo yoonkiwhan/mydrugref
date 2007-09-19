@@ -1,32 +1,16 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
-
-  has_many   :posts, :foreign_key => "created_by", :dependent => :destroy
-  has_many :friendships,
-    :foreign_key =>       'user_id',
-    :class_name =>        'Friendship'
-  has_many :befriendships,
-    :foreign_key =>       'friend_id',
-    :class_name =>        'Friendship'
-  has_many :friends,
-    :through =>     :friendships,
-    :source => :befriendshipped
-  has_many :befrienders,
-    :through => :befriendships,
-    :source => :friendshipped
-  
+  has_and_belongs_to_many :friends,
+    :class_name => "User",
+    :join_table => "friends_users",
+    :association_foreign_key => "friend_id",
+    :foreign_key => "user_id"
+ 
   belongs_to :picture, :class_name => 'Attachment', :foreign_key => 'picture_id', :dependent => :destroy
 
   validates_length_of     :name, :email, :within => 4..100
   validates_uniqueness_of :email
   validates_format_of     :email, :with => /^(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?$/
-
-#attr_accessor :password_confirmation
-#validates_confirmation_of :password
-
- # def self.authenticate(email, password)
- #   find_by_email_and_password(email, password)
- # end
 
   def first_name; name.split.first; end
   def last_name;  name.split.last; end

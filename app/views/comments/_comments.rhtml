@@ -1,5 +1,7 @@
 <div id="comments">
   <h2><% if @post.comments.any? %> <%= @post.comments.tally2 %> out of <%= @post.comments.size %> people agree <% else %>Be the first to post a comment<% end %></h2>
+	<!--yo_goat keeps track of whether the user has already left one review to prevent 
+	multiple reviews and thus multiple votes. -->
 	<% yo_goat = 0 %>
 	<% for comment in @post.comments %>
 
@@ -10,7 +12,9 @@
         <% unless comment.created_at == comment.updated_at %>
 		<p class="meta"><b>Updated <%=time_ago_in_words comment.updated_at %> ago</b></p>
 		<% end %>
-		<% if current_user.id == comment.created_by %><big><strong><%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
+		<% if current_user.id == comment.created_by %>
+		<big><strong>
+		<%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
             <!-- Only allow user to vote once -->
             <% yo_goat = yo_goat + 1 %>
         <% end %></big></strong>

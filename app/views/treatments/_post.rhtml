@@ -19,8 +19,12 @@
 	<b><%= post.fldrug1 %></b> . . .
 	<br>
 	<%= simple_format truncate(post.body, 100) %>
-	<br>
-	<%= link_to post.tags.name, :action => %>
+	<p class="meta">
+	<b>Category: </b>
+	<% for tag in post.tags %>
+	<%= link_to tag.name, :action => 'show', :controller => 'tags', :id => tag.id %>
+	<% end %>
+	</p>	
 	</div>
 	<%= clear_div %>
 </div>

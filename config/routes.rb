@@ -24,9 +24,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'remove_tag',
       :controller => 'treatments',
       :action => 'remove_tag'
-  map.connect 'add_tag',
-      :controller => 'treatments',
-      :action => 'add_tag'
       
   map.home 'post/news', :controller => 'posts', :action => 'news'
   

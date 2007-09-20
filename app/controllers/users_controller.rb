@@ -52,6 +52,13 @@ class UsersController < ApplicationController
 
   def edit
     @edit_on = true
+    @posts = Post.find_all_by_created_by(@user)
+    @treatments = Treatment.find_all_by_created_by(@user)
+    @comments = Comment.find_all_by_created_by(@user)
+    @interactions = Interaction.find_all_by_created_by(@user)
+    @warnings = Warning.find_all_by_created_by(@user)
+    @friends = @user.friends
+    @allusers = User.find(:all)
     render :action => 'show'
   end
 

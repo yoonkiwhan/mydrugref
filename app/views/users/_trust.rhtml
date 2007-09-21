@@ -1,0 +1,8 @@
+<%# This query is put here so that the partial can easily be included in any view %>
+
+<% unless @current_user.friends.blank? %>
+    <h4>You trust: </h4>
+        <ul id="statuses"><% for pal in @current_user.friends %> 
+            <li><%= link_to pal.short_name, :action => 'show', :controller => "users", :id => pal.id %></li> 
+        <% end %></ul>
+<% end %>

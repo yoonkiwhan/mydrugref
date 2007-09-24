@@ -31,9 +31,9 @@ def create_first_user
       reset_session
       session[:user_id] = user.id
       redirect_back_or_default home_url
-      flash[:notice] = "Yayy!"
+      flash[:notice] = "Welcome!"
     else
-      flash[:warning] = "Invalid!!!"
+      flash[:warning] = "Invalid e-mail or password."
 #    if user = User.authenticate(params[:session][:email], params[:session][:password])
 #      reset_session
 #      session[:user_id] = user.id

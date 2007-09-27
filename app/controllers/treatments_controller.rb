@@ -14,6 +14,14 @@ class TreatmentsController < PostsController
     redirect_to :action => 'show', :id => @post  
   end
   
+  def bling
+    @page_title = "Search Results"
+    @query = params[:query]
+    @total, @treatments = Treatment.full_text_search(@query, :page => (params[:page]||1))        
+    @pages = pages_for(@total)
+    render :partial => "bling", :layout => true
+  end
+  
   private
     def model_name; 'Treatment'; end
     

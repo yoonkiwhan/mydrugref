@@ -15,7 +15,7 @@
       <% if logged_in? and current_user.valid? %>
          <div id="account"> 
        
-	   <% if @page_title == 'Warnings' or @page_title == 'Interactions' or @page_title == 'Users' %>  
+	   <% if @page_title == 'Warnings' or @page_title == 'Interactions' or @page_title == 'Users' or @page_title == 'Treatments' or @page_title == 'Bulletins' %>  
         <form method="get" action="cheese" controller="posts">
              &nbsp; <input type="text" name="query" size="15" value="" />
             <input type="submit" name="submit" value="Search" />
@@ -23,6 +23,8 @@
                 <option value="all">All Posts</option>
                 <option value="Warning">Warnings</option>
                 <option value="Interaction">Interactions</option>
+                <option value="Treatment">Treatments</option>
+                <option value="Bulletin">Bulletins</option>
                 </optgroup></select>
             <select name="date_options">
                 <option value="all">All Dates</option>
@@ -46,7 +48,7 @@
           <li id="users"><%= link_to_unless_current "Users", users_url %></li>
 
           <li id="interactions"><%= link_to_unless_current "Interactions", interactions_url %></li>
-          <li id="drugs"><%= link_to_unless_current "Health Canada DB", :action => 'hcdb', :controller => 'drugs' %></li>
+          <li id="bulletins"><%= link_to_unless_current "Bulletins", :action => 'index', :controller => 'bulletins' %></li>
 
         </ul>
       <% end %>

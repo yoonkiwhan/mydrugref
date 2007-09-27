@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
     if params[:id]
       @initial = params[:id]
-      @users = User.find (:all,
+      @users = User.find(:all,
                           :conditions => ["name like ?", @initial+'%'])
     end
     @page_title = "Users"
@@ -38,6 +38,7 @@ class UsersController < ApplicationController
     @comments = Comment.find_all_by_created_by(@user)
     @interactions = Interaction.find_all_by_created_by(@user)
     @warnings = Warning.find_all_by_created_by(@user)
+    @bulletins = Bulletin.find_all_by_created_by(@user)
     @friends = @user.friends
     @allusers = User.find(:all)
     if params[:format]=='jpg'
@@ -57,6 +58,7 @@ class UsersController < ApplicationController
     @comments = Comment.find_all_by_created_by(@user)
     @interactions = Interaction.find_all_by_created_by(@user)
     @warnings = Warning.find_all_by_created_by(@user)
+    @bulletins = Bulletin.find_all_by_created_by(@user)
     @friends = @user.friends
     @allusers = User.find(:all)
     render :action => 'show'
@@ -78,13 +80,8 @@ class UsersController < ApplicationController
           @edit_on = true
           render :action => 'show'
         end
-      }
-      format.js { render :text => @user.status.blank? ? "(none)" : @user.status }
+        }
     end
-  end
-
-  def status
-    render :text => @user.status
   end
   
   def destroy

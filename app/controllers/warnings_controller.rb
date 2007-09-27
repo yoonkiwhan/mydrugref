@@ -8,6 +8,7 @@ class WarningsController < PostsController
   end
   
    def search
+    @page_title = "Search Results"
     @query = params[:query]
     @total, @warnings = Warning.full_text_search(@query, :page => (params[:page]||1))        
     @pages = pages_for(@total)

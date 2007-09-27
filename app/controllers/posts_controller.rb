@@ -25,6 +25,7 @@ class PostsController < ApplicationController
     @post = model.new params[:post]
     @post.creator = current_user
     @post.updated_by = @post.created_by
+    
     if @post.save 
       flash[:notice] = 'Post successfully created.'
       redirect_to :action => 'index'
@@ -32,7 +33,7 @@ class PostsController < ApplicationController
       @page_title = "New #{post_type}"
       @edit_on = true
       render :action => 'new'
-  end
+    end
   end
 
   def show
@@ -77,6 +78,7 @@ class PostsController < ApplicationController
   end
   
    def cheese
+    @page_title = "Search Results"
     @type_options = params[:type_options]
     @date_options = params[:date_options]
     

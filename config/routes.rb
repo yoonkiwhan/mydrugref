@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   # A resource for each post type
-  map.resources :warnings, :interactions, :treatments, :member => { :download => :get }
+  map.resources :warnings, :interactions, :treatments, :bulletins, :member => { :download => :get }
   # A comments resource under every post type ex. warnings/comments
   map.resources :comments, :path_prefix => "/:post_type/:post_id"
   # map.resources :reviews, :path_prefix => "/:post_type/:post_id"
@@ -21,6 +21,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'bla',
       :controller => 'interactions',
       :action => 'bla'
+  map.connect 'bling',
+      :controller => 'treatments',
+      :action => 'bling'
+  map.connect 'b_search',
+      :controller => 'bulletins',
+      :action => 'b_search'
   map.connect 'remove_tag',
       :controller => 'treatments',
       :action => 'remove_tag'

@@ -1,5 +1,5 @@
 <% standard_form :post, @post do |f| %>
-<p><font color="purple"><b>Please type at least four characters and wait patiently for 
+<p><font color="purple"><b>Please type at least three characters and wait patiently for 
 autocomplete to find your drug. 
 <p>Avoid using backspace as it will slow down autocomplete tenfold.</p>
 <p>-> All text fields are optional except for those marked with "*".</b></font>
@@ -12,7 +12,7 @@ autocomplete to find your drug.
         new Ajax.Autocompleter('post_fldrug1',
 'post_fldrug1_auto_complete',
 '/posts/auto_complete_for_post_fldrug1',
-        { minChars: 4,
+        { minChars: 3,
           frequency: 0.01,
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);
@@ -48,7 +48,7 @@ autocomplete to find your drug.
         new Ajax.Autocompleter('post_fldrug3',
 'post_fldrug3_auto_complete',
 '/posts/auto_complete_for_post_fldrug3',
-        { minChars: 4,
+        { minChars: 3,
           frequency: 0.01,
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);
@@ -67,7 +67,7 @@ autocomplete to find your drug.
         new Ajax.Autocompleter('post_sldrug1',
 'post_sldrug1_auto_complete',
 '/posts/auto_complete_for_post_sldrug1',
-        { minChars: 4,
+        { minChars: 3,
           frequency: 0.01,
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);
@@ -103,7 +103,7 @@ autocomplete to find your drug.
         new Ajax.Autocompleter('post_sldrug3',
 'post_sldrug3_auto_complete',
 '/posts/auto_complete_for_post_sldrug3',
-        { minChars: 4,
+        { minChars: 3,
           frequency: 0.01,
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);
@@ -122,7 +122,7 @@ autocomplete to find your drug.
         new Ajax.Autocompleter('post_pregdrug1',
 'post_pregdrug1_auto_complete',
 '/posts/auto_complete_for_post_pregdrug1',
-        { minChars: 4,
+        { minChars: 3,
           frequency: 0.01,
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);
@@ -158,7 +158,7 @@ autocomplete to find your drug.
         new Ajax.Autocompleter('post_pregdrug3',
 'post_pregdrug3_auto_complete',
 '/posts/auto_complete_for_post_pregdrug3',
-        { minChars: 4,
+        { minChars: 3,
           frequency: 0.01,
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);

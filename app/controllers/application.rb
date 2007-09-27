@@ -30,6 +30,8 @@ end
           record.created_by == current_user.id # interactions can only be edited by their creators,. Yo, straight up.
         when 'Treatment'
           record.created_by == current_user.id
+        when 'Bulletin'
+          record.created_by == current_user.id
         else true # everyone can edit anything else
       end
     end

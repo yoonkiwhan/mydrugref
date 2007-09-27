@@ -1,5 +1,3 @@
-<h2 align="center">Search Results</h2>
-
 <% if @total == 0 %>
 
 <p align="center">No items found...</p>
@@ -13,7 +11,7 @@
 <div class="post">
     <%= user_thumb fromage.creator %>
 <div class="body">
-	<% if fromage.drug2 == nil %>
+	<% if fromage.effect == nil %>
     <h4><%= link_to fromage.name, url_for(:action => 'show', :id => fromage, :controller => "#{fromage.type}s" ) %></h4>
     <% else %>
 	<h4><%= link_to fromage.name + " and " + fromage.drug2, url_for(:action => 'show', :id => fromage, :controller => "#{fromage.type}s" ) %></h4>
@@ -31,7 +29,7 @@
 
       Updated <%= time_ago_in_words fromage.updated_at %> ago
     </p>
-    <%= simple_format fromage.body %>
+    <%= simple_format truncate(fromage.body, 100) %>
   </div>
 <%= clear_div %>
 </div>
@@ -50,6 +48,8 @@
                 <option value="all">All Posts</option>
                 <option value="Warning">Warnings</option>
                 <option value="Interaction">Interactions</option>
+                <option value="Treatment">Treatments</option>
+                <option value="Bulletin">Bulletins</option>
             </select>
             <select name="date_options">
                 <option value="all">All Dates</option>

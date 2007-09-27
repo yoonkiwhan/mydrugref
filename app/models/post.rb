@@ -18,10 +18,12 @@ class Post < ActiveRecord::Base
    # now do the query with our options
    results = Warning.find_by_contents(q, options,  find_options)
    resultsb = Interaction.find_by_contents(q, options,  find_options)
+   resultsc = Treatment.find_by_contents(q, options, find_options)
+   resultsd = Bulletin.find_by_contents(q, options, find_options)
    puts options
    puts find_options
   
-   return [results.total_hits + resultsb.total_hits, results + resultsb]
+   return [results.total_hits + resultsb.total_hits + resultsc.total_hits + resultsd.total_hits, results + resultsb + resultsc + resultsd]
 end
  
   # Creates an attachment from a file upload

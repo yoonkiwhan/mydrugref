@@ -1,2 +1,36 @@
-<h1>Treatments#_bling</h1>
-<p>Find me in app/views/treatments/_bling.rhtml</p>
+<% if @total == 0 %>
+
+<p align="center">No items found...</p>
+
+<% else %>
+
+<p align="center">Searching <strong><%= @query %></strong> returned
+<b><%= @total %></b> treatment(s).</p>
+<% end %>
+
+ <% @treatments.each do |treat| %>
+<div class="post">
+    <%= user_thumb treat.creator %>
+<div class="body">
+    <h4><%= link_to treat.name, url_for(:action => 'show', :id => treat, :controller => 'treatments') %></h4>
+    <p class="meta">
+      <span class="comments"><%= link_to pluralize(treat.comments_count, 'comment'), :action => 'show', :id => treat %></span>
+      Created <%= time_ago_in_words treat.updated_at %> ago
+    </p>
+    <%= simple_format truncate(treat.body, 100) %>
+  </div>
+<%= clear_div %>
+</div>
+
+<% end %>
+
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= pagination_links(@pages, :params => { :query=> @query }) %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+
+<h4>Search</h4>
+<form method="get" action="bling">
+<input type="text" name="query" size="15" value="" /><br />
+<input type="submit" name="submit" value="Search" />
+</form>
+<%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>

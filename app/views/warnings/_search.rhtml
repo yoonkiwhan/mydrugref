@@ -1,5 +1,3 @@
-<h2 align="center">Search Results</h2>
-
 <% if @total == 0 %>
 
 <p align="center">No items found...</p>
@@ -19,7 +17,7 @@
       <span class="comments"><%= link_to pluralize(warning.comments_count, 'comment'), :action => 'show', :id => warning %></span>
       Updated <%= time_ago_in_words warning.updated_at %> ago
     </p>
-    <%= simple_format warning.body %>
+    <%= simple_format truncate(warning.body, 100) %>
   </div>
 <%= clear_div %>
 </div>

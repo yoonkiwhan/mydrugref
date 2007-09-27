@@ -1,5 +1,5 @@
 <% standard_form :post, @post do |f| %>
- <p><font color="purple"><b>Please type at least four characters and wait patiently for 
+ <p><font color="purple"><b>Please type at least three characters and wait patiently for 
  autocomplete to find your drug. 
  <p>Also, avoid using backspace as it will slow down autocomplete tenfold.</b></font></p>
   <%= f.text_field :name, :label => "Drug Name" %>
@@ -8,7 +8,7 @@
         new Ajax.Autocompleter('post_name',
 'post_name_auto_complete',
 '/posts/auto_complete_for_post_name',
-        { minChars: 4,
+        { minChars: 3,
           frequency: 0.05,
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);

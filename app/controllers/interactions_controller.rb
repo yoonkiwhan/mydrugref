@@ -10,6 +10,7 @@ def test
 end  
   
  def bla
+    @page_title = "Search Results"
     @query = params[:query]
     @total, @interactions = Interaction.full_text_search(@query, :page => (params[:page]||1))        
     @pages = pages_for(@total)

@@ -90,6 +90,30 @@
     </ul>
   <% end %>
  
+ <h3>Last Five Bulletins Added</h3>
+    <% for post in @latest_b %>
+    <div class="post">
+        <%= user_thumb post.creator %>
+        <div class="body">
+            <h4>
+            <%= link_to post.name, url_for(:action => 'show', :controller => 'bulletins', :id => post) %></h4>
+            <p class="meta">
+               <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'bulletins', :id => post %></span>
+               <%= time_ago_in_words post.updated_at %> ago
+            </p>
+            <%= simple_format truncate(post.body, 100) %>
+        </div>
+        <%= clear_div %>
+    </div>
+    <% end %>
+    
+  <% unless @bulletins_today.size == 0 %>
+  <h3>Bulletins Added Today (<%= @bulletins_today.size %>)</h3>
+    <ul><% for post in @bulletins_today %>
+            <li><%= link_to post.name, url_for(:action => 'show', :controller => 'bulletins', :id => post) %></li>
+    <% end %>
+    </ul>
+  <% end %>
 
 <br />
 <br />

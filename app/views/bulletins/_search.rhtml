@@ -1,0 +1,37 @@
+<% if @total == 0 %>
+
+<p align="center">No items found...</p>
+
+<% else %>
+
+<p align="center">Searching <strong><%= @query %></strong> returned
+<b><%= @total %></b> bulletin(s).</p>
+<% end %>
+
+ <% @bulletins.each do |b| %>
+<div class="post">
+    <%= user_thumb b.creator %>
+<div class="body">
+    <h4><%= link_to b.name, url_for(:action => 'show', :id => b, :controller => 'bulletins') %></h4>
+    <p class="meta">
+      <span class="comments"><%= link_to pluralize(b.comments_count, 'comment'), :action => 'show', :id => b %></span>
+      Updated <%= time_ago_in_words b.updated_at %> ago
+    </p>
+    <%= simple_format b.body %>
+  </div>
+<%= clear_div %>
+</div>
+
+<% end %>
+
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= pagination_links(@pages, :params => { :query=> @query }) %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+
+<%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>
+
+<h4>Search</h4>
+<form method="get" action="b_search">
+<input type="text" name="query" size="15" value="" /><br />
+<input type="submit" name="submit" value="Search" />
+</form>

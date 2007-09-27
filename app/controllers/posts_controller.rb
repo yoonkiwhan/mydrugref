@@ -71,10 +71,12 @@ class PostsController < ApplicationController
     @warnings_today = Warning.today
     @interactions_today = Interaction.today
     @treatments_today = Treatment.today
+    @bulletins_today = Bulletin.today
     @post_pages, @posts = paginate :posts, :per_page => 5
     @latest_w = Warning.latest
     @latest_i = Interaction.latest
     @latest_t = Treatment.latest
+    @latest_b = Bulletin.latest
   end
   
    def cheese

@@ -8,8 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # User and session resources
   map.resources :sessions
-  map.resources :users, :collection => { :statuses => :get }, :member => { :status => :any }
-   #what's with the :member thing?
+  map.resources :users
   
 
   map.connect 'cheese',

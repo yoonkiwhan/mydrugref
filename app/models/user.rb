@@ -26,11 +26,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  # n.b, the status heartbeat updates last_active every 30 seconds
-  def inactive?
-    last_active < 1.minute.ago rescue true
-  end
-#--
 def validate
   errors.add_to_base("Missing password") if hashed_password.blank?
 end

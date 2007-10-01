@@ -6,6 +6,6 @@ class TagsController < ApplicationController
   
   def show
     @page_title = Tag.find(params[:id])
-    @treatments = Treatment.find_tagged_with("#{@page_title}")
+    @treatments = Treatment.find_tagged_with("#{@page_title}", :order => 'name')
   end
 end

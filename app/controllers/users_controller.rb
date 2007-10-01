@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_filter :require_admin, :only => [ :new, :create ]
-  before_filter :find_user, :only => [ :show, :status, :edit, :update, :destroy ]
+  before_filter :find_user, :only => [ :show, :edit, :update, :destroy ]
   before_filter :check_permissions, :only => [ :edit, :update, :destroy ]
   skip_before_filter :check_for_valid_user, :only => [ :edit, :update ]
   filter_parameter_logging :password
@@ -62,11 +62,6 @@ class UsersController < ApplicationController
     @friends = @user.friends
     @allusers = User.find(:all)
     render :action => 'show'
-  end
-
-  def statuses
-    current_user.update_attributes :last_active => Time.now
-    render :partial => 'statuses'
   end
   
   def update

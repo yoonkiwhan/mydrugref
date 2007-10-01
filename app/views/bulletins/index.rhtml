@@ -12,5 +12,7 @@
 
 <div id="posts">
   <%= render :partial => "post", :collection => @posts %>
+  <%= link_to 'Previous page', { :page => @post_pages.current.previous} if @post_pages.current.previous %>
   <%= pagination_links @post_pages %>
+  <%= link_to 'Next page', { :page => @post_pages.current.next} if @post_pages.current.next %>
 </div>

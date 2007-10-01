@@ -12,7 +12,6 @@
     <%= flash_div :system_announcement %>
     <div id="header">
       <h1><div id="imagelink"><%= link_to(image_tag("mydrugref.gif", :border => "0"), home_url) %></div></h1>
-      <% if logged_in? and current_user.valid? %>
          <div id="account"> 
        
 	   <% if @page_title == 'Warnings' or @page_title == 'Interactions' or @page_title == 'Users' or @page_title == 'Treatments' or @page_title == 'Bulletins' %>  
@@ -37,10 +36,16 @@
          <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
         </form> 
 		<% end %>
-		 
-		 Signed in as <%= link_to current_user.first_name, user_url(:id => current_user), :class => 'strong stealth' %><br/><%= link_to "Home", :action => 'news', :controller => 'posts' %>
+		<% if logged_in? and current_user.valid? %> 
+		 Signed in as <%= link_to current_user.first_name, user_url(:id => current_user), :class => 'strong stealth' %>
+		 <br/><%= link_to "Home", :action => 'news', :controller => 'posts' %>
  <%= link_to 'Settings', edit_user_url(:id => current_user), :class => 'small subtle' %>
  <%= link_to 'Sign Out', session_url(:id => session.session_id), :method => :delete, :class => 'small delete' %>
+        <% else %>
+        You are currently a <%= link_to 'Guest', {:action => 'new', :controller => 'sessions'}, :class => 'strong stealth' %>.
+        <br/><%= link_to 'Sign In', {:action => 'new', :controller => 'sessions'}, :class => 'small subtle' %>
+		<%= link_to "Home", :action => 'news', :controller => 'posts' %>
+		<% end %>
 		</div>
         <ul id="nav">
           <li id="warnings"><%= link_to_unless_current "Warnings", warnings_url %></li>
@@ -51,7 +56,7 @@
           <li id="bulletins"><%= link_to_unless_current "Bulletins", :action => 'index', :controller => 'bulletins' %></li>
 
         </ul>
-      <% end %>
+      
     </div>
 
     <div id="utility">

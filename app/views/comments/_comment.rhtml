@@ -1,7 +1,7 @@
 <div class="post">
   <%= user_thumb comment.creator %>
         <p class="meta"><%= time_ago_in_words comment.created_at %> ago</p>
-        <% if current_user.id == comment.created_by %><big><strong><%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
+        <% if logged_in? and current_user.valid? and current_user.id == comment.created_by %><big><strong><%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
             <!-- Only allow user to vote once -->
             <% no_vote = no_vote + 1 %>
         <% end %></big></strong>

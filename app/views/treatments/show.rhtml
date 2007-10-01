@@ -3,7 +3,7 @@
     <%= link_to_function "Cancel", "PostForm.toggle()", :class =>'delete small' %>
   </div>
   <div id="new_link">
-    <% if can_edit? @post %>
+    <% if logged_in? and current_user.valid? and can_edit? @post %>
     <span>&nbsp&nbsp;</span>
     <%= link_to_function "Edit", "PostForm.toggle()", :class =>'create' %>
     <% end %>
@@ -75,7 +75,7 @@
   <% else %>
     <% for tag in @post.tags %>
         <ul><li><%= tag.name %>&nbsp;
-        <% if can_edit? @post %>
+        <% if logged_in? and current_user.valid? and can_edit? @post %>
         <%= link_to '(Remove)', { :action => 'remove_tag', :id => @post,
         :which_tag => tag.id }, 
         :confirm => 'Are you sure?' %>

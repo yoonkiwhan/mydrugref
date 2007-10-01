@@ -117,7 +117,7 @@
 
 <br />
 <br />
-<% unless @current_user.friends.blank? %>
+<% unless logged_in? == false or @current_user.friends.blank? %>
     <h2>You trust: </h2>
         <ul><% for pal in @current_user.friends %> 
             <li><%= link_to pal.name, :action => 'show', :controller => "users", :id => pal.id %></li> 

@@ -3,6 +3,8 @@
 <input type="text" name="query" size="15" value="" /><br />
 <input type="submit" name="submit" value="Search" />
 </form>
+
+<% if logged_in? and current_user.valid? %>
 <div id="form_container">
   <div id="cancel_link">
     <%= link_to_function "Cancel", "PostForm.toggle()", :class =>'delete small' %>
@@ -13,6 +15,8 @@
   </div>
   <%= render :partial => 'form' %>
 </div>
+<% end %>
+
   <br>
   <%= link_to "Find by Category", :action => 'index', :controller => 'tags' %>
 <div id="posts">

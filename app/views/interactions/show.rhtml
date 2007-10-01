@@ -1,7 +1,8 @@
 <% @page_title = (@post.name + "&nbsp;and&nbsp;" + @post.drug2 ) %>
 <div id="form_container" <% if @edit_on %>class="active"<% end %>>
   <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><% if can_edit? @post %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @post %><span>&nbsp;&nbsp;</span>
+  <%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
   <div id="meta">Posted <%= time_ago_in_words @post.created_at %> ago by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
   (
   	

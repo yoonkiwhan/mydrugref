@@ -1,12 +1,12 @@
 <div id="form_container" <% if @edit_on %>class="active"<% end %>>
   <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><% if can_edit? @user %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @user %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
   <%= render :partial => 'form' %>
 </div><br />
  <div id="detail">
     <div id="change_picture">
       <%= image_tag formatted_user_url(:id => @user, :format => 'jpg'), :class => 'user_picture', :alt => @user.name %>
-      <% if can_edit? @user %>
+      <% if logged_in? and current_user.valid? and can_edit? @user %>
 	  
       <form id="picture_form" style="display: none;" method="post" enctype="multipart/form-data" action="<%= url_for(:action => 'show') %>">
         <fieldset>
@@ -17,12 +17,12 @@
       </form>
 	  <% end %>
 	  <br />
-	  <% unless @current_user.friends.include?(@user) or @user == @current_user %>
+	  <% unless logged_in? == false or @current_user.friends.include?(@user) or @user == @current_user %>
 <%= link_to "Trust #{@user.name}",
             { :controller => "friendship", :action => "create",
             :id => @user.id }, :confirm => "Keep tabs on #{@user.name}?" %>
 <% end %>
-    <% if @current_user.friends.include?(@user) %>
+    <% if logged_in? and @current_user.friends.include?(@user) %>
 <%= link_to "Untrust", :controller => "friendship", :action => "destroy", :id => @user.id %>
     <% end %>
     </div>

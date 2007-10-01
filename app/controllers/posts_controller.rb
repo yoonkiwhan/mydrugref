@@ -245,7 +245,7 @@ class PostsController < ApplicationController
     # Before filter to bail unless the user has permission to edit the post.
     def check_permissions
       unless can_edit? @post
-        flash[:warning] = "You can't edit that post."
+        flash.now[:warning] = "You can't edit that post."
         redirect_to :action => 'show'
         return false
       end

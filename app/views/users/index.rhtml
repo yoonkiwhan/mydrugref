@@ -1,7 +1,7 @@
 
 <div id="form_container">
   <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <% if admin? %><div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %></div><% end %>
+  <% if logged_in? and admin? %><div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %></div><% end %>
   <%= render :partial => 'form' %>
 </div>
 

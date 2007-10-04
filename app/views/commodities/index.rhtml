@@ -5,12 +5,33 @@
   <%= render :partial => 'form' %>
 </div>
 <% end %>
-
+<br><br>
+<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b> Drug Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>DIN Code</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Manufacturer</b>
+ 			</font>
+           	</td>
+  		</tr>
 <% for comm in @posts %>
-<br><big><b>
-<%= link_to comm.name, :action => 'show', :id => comm %>
-</b></big>
+<tr align="center" bgcolor="#a2b5cd">
+    <td><b><%= link_to comm.name, :action => 'show', :id => comm %></td></b>
+    	<td><font size="1"><%= comm.din %></font></td>   
+    		<td><font size="1"><%= comm.news_source %></font></td> 
+  				</tr>
 <% end %>
+</table>
 
   <%= link_to 'Previous page', { :page => @post_pages.current.previous} if @post_pages.current.previous %>
   <%= pagination_links @post_pages %>

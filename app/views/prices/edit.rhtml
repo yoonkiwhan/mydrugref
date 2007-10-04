@@ -1,0 +1,12 @@
+<div id="comments">
+  <h2>Edit price</h2>
+	
+<%= form_tag :controller => "prices", :action => "update", :post_id => @post, :id => @price.id  %>
+<b>Cost</b><br>
+<%= text_field "price", "cost" %><br><br>
+<b>Retailer</b><br>
+<%= text_field "price", "reference" %><br><br>	 
+   
+<%= submit_tag "Edit Price" %><br><br>
+<%= link_to "Delete", {:post_id => @post, :id => @price.id, :action => 'destroy'}, :confirm => "Are you sure?", :class => "delete" %>
+    </div>

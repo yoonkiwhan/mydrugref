@@ -1,0 +1,3 @@
+class Commodity < Post
+  
+end

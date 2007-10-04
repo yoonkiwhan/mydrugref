@@ -20,7 +20,11 @@ class PostsController < ApplicationController
     @edit_on = true
     @post = model.new
   end
-
+  
+  def add_price
+    @post = Post.find(params[:id])
+  end
+ 
   def create
     @post = model.new params[:post]
     @post.creator = current_user
@@ -83,6 +87,7 @@ class PostsController < ApplicationController
     @page_title = "Search Results"
     @type_options = params[:type_options]
     @date_options = params[:date_options]
+    @author_options = params[:author_options]
     
     # THIS IS REALLY TERRIBLE UNDER HERE
               if @date_options == "1"
@@ -95,15 +100,19 @@ class PostsController < ApplicationController
                 @date_options = Time.today
               end
               # FIX IT EVENTUALLY OK???
+    if @author_options == "trust"
+      @author_options = @current_user.friends
+    end
+    
     @conditions = ["type = ? and created_at between ? AND ?", @type_options, @date_options, Time.now]
     @query = params[:query]
    
     if @type_options == "all" and @date_options == "all"
     @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)})       
    
-    elsif @type_options == "all" and @date_options == "all" and @rating_options == "true"
+    elsif @type_options == "all" and @date_options == "all" and @author_options != "all"
     @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                      { :conditions => ["comments.fifty = ?", @rating_options]})
+                                                      { :conditions => ["created_by = ?", @author_options]})
     
    
     elsif @type_options == "all" and @date_options != "all"
@@ -120,6 +129,10 @@ class PostsController < ApplicationController
     end
     @pages = pages_for(@total)
     render :partial => "posts/search", :layout => true
+  end
+  
+  def advanced_search
+    @page_title = 'Advanced Search'
   end
   
   def auto_complete_for_post_name

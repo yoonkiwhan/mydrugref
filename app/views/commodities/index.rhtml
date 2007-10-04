@@ -1,0 +1,17 @@
+<% if logged_in? and current_user.valid? %>
+<div id="form_container">
+  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
+  <div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %></div>
+  <%= render :partial => 'form' %>
+</div>
+<% end %>
+
+<% for comm in @posts %>
+<br><big><b>
+<%= link_to comm.name, :action => 'show', :id => comm %>
+</b></big>
+<% end %>
+
+  <%= link_to 'Previous page', { :page => @post_pages.current.previous} if @post_pages.current.previous %>
+  <%= pagination_links @post_pages %>
+  <%= link_to 'Next page', { :page => @post_pages.current.next} if @post_pages.current.next %>

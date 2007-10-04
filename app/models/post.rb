@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
  acts_as_ferret
   
   has_many   :comments,  :order => 'id', :dependent => :destroy
+  has_many   :prices,  :order => 'cost', :dependent => :destroy
   belongs_to :creator, :class_name => 'User', :foreign_key => "created_by"
   belongs_to :attachment, :dependent => :destroy
 

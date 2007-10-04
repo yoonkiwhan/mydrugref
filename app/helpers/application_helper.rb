@@ -65,7 +65,7 @@ module ApplicationHelper
   # Renders the form used for all post and user creating/editing.
   # Yields an instance of LabelingFormBuilder (see lib/labeling_form_helper.rb).
   def standard_form name, object, &block
-    url  = { :action    => "object.new_record?" ? "index" : "show" }
+    url  = { :action    => object.new_record? ? "index" : "show" }
     html = { :class     => "standard",
              :style     => (@edit_on ? '' : "display: none;"),
              :multipart => true }

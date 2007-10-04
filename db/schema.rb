@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "attachments", :force => true do |t|
     t.column "content",    :binary
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(:version => 16) do
     t.column "updated_at",              :datetime
     t.column "created_by",              :integer
     t.column "updated_by",              :integer
-    t.column "body",                    :text,                    :default => "", :null => false
+    t.column "body",                    :text,                    :default => "",  :null => false
     t.column "attachment_id",           :integer
     t.column "attachment_filename",     :string
     t.column "attachment_content_type", :string,   :limit => 128
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(:version => 16) do
     t.column "pregatc3",                :string
     t.column "news_source",             :string
     t.column "news_date",               :string
+    t.column "cost",                    :decimal,                 :default => 0.0
   end
 
   add_index "posts", ["created_at"], :name => "created_at"

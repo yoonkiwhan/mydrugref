@@ -15,45 +15,31 @@
          <div id="account"> 
        
 	   <% if @page_title == 'Warnings' or @page_title == 'Interactions' or @page_title == 'Users' or @page_title == 'Treatments' or @page_title == 'Bulletins' %>  
-        <form method="get" action="cheese" controller="posts">
-             &nbsp; <input type="text" name="query" size="15" value="" />
-            <input type="submit" name="submit" value="Search" />
-            <select name="type_options">
-                <option value="all">All Posts</option>
-                <option value="Warning">Warnings</option>
-                <option value="Interaction">Interactions</option>
-                <option value="Treatment">Treatments</option>
-                <option value="Bulletin">Bulletins</option>
-                </optgroup></select>
-            <select name="date_options">
-                <option value="all">All Dates</option>
-                <option value="1">This year</option>
-                <option value="2">This month</option>
-                <option value="3">This week</option>
-                <option value="4">Today</option>
-                </select>
-	    
-         <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
-        </form> 
+        <%= render :partial => 'posts/searchform' %>
 		<% end %>
+		
 		<% if logged_in? and current_user.valid? %> 
+		
 		 Signed in as <%= link_to current_user.first_name, user_url(:id => current_user), :class => 'strong stealth' %>
 		 <br/><%= link_to "Home", :action => 'news', :controller => 'posts' %>
- <%= link_to 'Settings', edit_user_url(:id => current_user), :class => 'small subtle' %>
- <%= link_to 'Sign Out', session_url(:id => session.session_id), :method => :delete, :class => 'small delete' %>
+        <%= link_to 'Settings', edit_user_url(:id => current_user), :class => 'small subtle' %>
+        <%= link_to 'Sign Out', session_url(:id => session.session_id), :method => :delete, :class => 'small delete' %>
+        
         <% else %>
-        You are currently a <%= link_to 'Guest', {:action => 'new', :controller => 'sessions'}, :class => 'strong stealth' %>.
-        <br/><%= link_to 'Sign In', {:action => 'new', :controller => 'sessions'}, :class => 'small subtle' %>
+       
+        You are not currently signed in.
+        <br/><%= link_to 'Sign In', {:action => 'new', :controller => 'sessions'}, :class => 'strong stealth' %>
 		<%= link_to "Home", :action => 'news', :controller => 'posts' %>
+		
 		<% end %>
+		
 		</div>
         <ul id="nav">
           <li id="warnings"><%= link_to_unless_current "Warnings", warnings_url %></li>
-          <li id="treatments"><%= link_to_unless_current "Treatments", :action => 'index', :controller => 'treatments' %></li>
-          <li id="users"><%= link_to_unless_current "Users", users_url %></li>
-
+          <li id="treatments"><%= link_to_unless_current "Treatments", treatments_url %></li>
+          <li id="commodities"><%= link_to_unless_current "Prices", commodities_url %></li>
           <li id="interactions"><%= link_to_unless_current "Interactions", interactions_url %></li>
-          <li id="bulletins"><%= link_to_unless_current "Bulletins", :action => 'index', :controller => 'bulletins' %></li>
+          <li id="bulletins"><%= link_to_unless_current "Bulletins", bulletins_url %></li>
 
         </ul>
       
@@ -61,11 +47,11 @@
 
     <div id="utility">
       <%= flash_div :notice %>
-      <% if logged_in? and current_user.valid? %>
         <div id="status">
           <%= render :partial => "users/trust" %>
         </div>
-      <% end %>
+       <br>
+     <%= link_to_unless_current "Users", users_url, :class => 'strong stealth' %> 
     </div>
     
     <div id="main">

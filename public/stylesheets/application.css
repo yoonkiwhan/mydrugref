@@ -206,7 +206,7 @@ ul#nav li {
 }
 html>body ul#nav li { padding: 3px 7px 4px 7px; } /* non-iewin */
 
-body.warnings li#warnings, body.treatments li#treatments, body.users li#users, body.documents li#documents, body.interactions li#interactions, body.bulletins li#bulletins {
+body.warnings li#warnings, body.treatments li#treatments, body.commodities li#commodities, body.documents li#documents, body.interactions li#interactions, body.bulletins li#bulletins {
 	background-color: #fff; border: 1px solid #888; border-bottom: 1px solid #fff;
 }
 

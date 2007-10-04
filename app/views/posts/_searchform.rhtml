@@ -1,0 +1,19 @@
+<form method="get" action="cheese" controller="posts">
+             &nbsp; <input type="text" name="query" size="15" value="" />
+            <input type="submit" name="submit" value="Search" />
+            <select name="type_options">
+                <option value="all">All Posts</option>
+                <option value="Warning">Warnings</option>
+                <option value="Interaction">Interactions</option>
+                <option value="Treatment">Treatments</option>
+                <option value="Bulletin">Bulletins</option>
+            </select>
+            <select name="date_options">
+                <option value="all">All Dates</option>
+                <option value="1">This year</option>
+                <option value="2">This month</option>
+                <option value="3">This week</option>
+                <option value="4">Today</option>
+            </select>
+         <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
+        </form> 

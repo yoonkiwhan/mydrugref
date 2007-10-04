@@ -8,4 +8,15 @@
     <%= f.password_field :password %>
     <%= submit_tag 'Sign in' %>
   </fieldset>
+  <% end %>
+  <br>
+  <br>
+  <h2>Sign in as 'Guest'</h2>
+<% form_for :session, @user, :url => sessions_url do |f| %>
+<fieldset>
+<%= f.hidden_field :email, :value => "this_is_fake@guest.com" %>
+<%= f.hidden_field :password, :value => "guest" %>
+<%= submit_tag 'Here' %>
+</fieldset>
+
 <% end %>

@@ -1,0 +1,37 @@
+<div id="form_container" <% if @edit_on %>class="active"<% end %>>
+  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
+  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @post %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+  <div id="meta">
+  	Posted <%= time_ago_in_words @post.created_at %> ago by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>	
+  </div>
+<%= render :partial => 'form' %>
+ </div>
+ <h3>ATC Code</h3>
+   <div id="detail"><%= simple_format(@post.atc) if @post.atc.any? %></div>
+ <h3>DIN Code</h3>
+   <div id="detail"><%= simple_format(@post.din) if @post.din.any? %></div> 
+  <h3>Manufacturer</h3>
+   <div id="detail"><%= simple_format(@post.news_source) if @post.news_source.any? %></div>
+  
+  <div id="comments">
+    <h2>Post a Price</h2>
+<% if logged_in? and current_user.valid? %>
+
+<% form_for :price, @price, :url => { :action => "create", :post_id => @post, :controller => 'prices' } do |f| %>
+
+        <b>Price:</b>
+            <%= f.text_field :cost %>
+<br><br><br>
+        <b>Retailer:</b>
+            <%= f.text_field :reference %>
+<br><br><br>
+<%= submit_tag "Post Price" %>
+<% end %>
+</form> 
+<% end %> 
+</div> 
+<br>
+  <h2>Prices</h2>
+  <div id="posts">
+  <%= render :partial => "prices/prices", :prices => @post.prices %>
+ </div>

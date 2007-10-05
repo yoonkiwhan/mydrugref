@@ -4,6 +4,7 @@ set_table_name "cd_drug_search"
 acts_as_ferret
 has_many :codes
 has_many :products
+has_many :companies
 validates_numericality_of :drug_code 
 
   def self.full_text_search(q, options = {})
@@ -19,3 +20,6 @@ validates_numericality_of :drug_code
    return [results.total_hits, results]
   end
 end
+
+
+#http://216.176.50.202/formulary/SearchServlet?searchType=singleQuery&keywords=02242929

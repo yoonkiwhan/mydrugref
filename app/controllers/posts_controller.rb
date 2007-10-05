@@ -135,6 +135,16 @@ class PostsController < ApplicationController
     @page_title = 'Advanced Search'
   end
   
+  def auto_complete_for_products
+    value = params[:post][:name]
+    @drugs = Drug.find(:all,
+      :conditions => [ 'LOWER(name) LIKE ?',
+      '%' + params[:post][:name].downcase + '%' ],
+      :order => 'name ASC',
+      :limit => 20)
+    render :partial => 'products'
+  end
+  
   def auto_complete_for_post_name
     value = params[:post][:name]
     @drugs = Drug.find(:all,

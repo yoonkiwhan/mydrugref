@@ -1,0 +1,25 @@
+<ul class="posts">
+
+<% @drugs.each do |drug| %>
+	<% if drug.valid? %>
+    <%  @drug_code = drug.drug_code %>
+     <%  @drug_name = drug.name %>
+    <%  @atc = Code.find_by_drug_code(@drug_code) %>
+    <%  @company = Company.find_by_drug_code(@drug_code) %>
+    <% end %>
+	<% if @atc != nil %>
+    <li class="post">
+    <span class="post_name"><%= @drug_name %></span>
+    <br />
+    <span class="post_atc"> <%= @atc.tc_atc_number %></span>
+    <span class="post_din"> <%= @drug_code %></span>
+    <span class="post_company"> <%= @company.company_name %></span>
+    </li>
+	<% end %>
+  <% end %>
+<% if @drugs.empty? %>
+	<li class="post">
+		<span class="post_name" >Eek! No results were found. Try changing the Drug Name again.</span>
+	</li>
+<% end %>
+</ul>

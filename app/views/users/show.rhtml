@@ -187,6 +187,71 @@
 	
 <% end %>
 
+<% if @products.any? %>
+<h4>Drug Products</h4>
+	
+	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b> Drug Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Created</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Last Updated</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @posts %>
+  			<% if post.type == Product %>
+  				<tr align="center" bgcolor="#a2b5cd">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => 'products', :id => post.id %></td></b>
+    				<td><font size="1"><%= post.created_at %></font></td>   
+    				<td><font size="1"><%= post.updated_at %></font></td> 
+  				</tr>
+  			<% end %>
+		<% end %>
+	</table>	
+<% end %>
+
+<% if @prices.any? %>
+<h4>Drug Prices</h4>	
+	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Created</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Last Updated</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @posts %>
+  			<% if post.type == Price %>
+  				<tr align="center" bgcolor="#a2b5cd">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).type}s", :id => post.post_id %></td></b>
+    				<td><font size="1"><%= post.created_at %></font></td>   
+    				<td><font size="1"><%= post.updated_at %></font></td> 
+  				</tr>
+  			<% end %>
+		<% end %>
+	</table>	
+<% end %>
+
 <% if @comments.any? %>
 <h4>Comments</h4>	
 	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">

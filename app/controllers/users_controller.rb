@@ -39,6 +39,8 @@ class UsersController < ApplicationController
     @interactions = Interaction.find_all_by_created_by(@user)
     @warnings = Warning.find_all_by_created_by(@user)
     @bulletins = Bulletin.find_all_by_created_by(@user)
+    @products = Product.find_all_by_created_by(@user)
+    @prices = Price.find_all_by_created_by(@user)
     @friends = @user.friends
     @allusers = User.find(:all)
     if params[:format]=='jpg'
@@ -59,6 +61,8 @@ class UsersController < ApplicationController
     @interactions = Interaction.find_all_by_created_by(@user)
     @warnings = Warning.find_all_by_created_by(@user)
     @bulletins = Bulletin.find_all_by_created_by(@user)
+    @products = Product.find_all_by_created_by(@user)
+    @prices = Price.find_all_by_created_by(@user)
     @friends = @user.friends
     @allusers = User.find(:all)
     render :action => 'show'

@@ -11,8 +11,9 @@
 		<%= link_to 'Edit', :controller => "prices", :action => "edit", :post_id => @post, :id => price.id %>
 		</big></strong>
 		<% end %>
-<h4>Price: $<%= price.cost %></h4>
-<h4>Retailer: <%= price.reference %></h4>
+<p>
+<p>Price: $<%= price.cost %>
+<p>Retailer: <%= price.reference %>
 <%= clear_div %>
 </div>
 <% end %>  

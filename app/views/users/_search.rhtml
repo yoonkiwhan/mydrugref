@@ -1,0 +1,65 @@
+<% if @total == 0 %>
+
+<p align="center">No items found...</p>
+
+<% else %>
+
+<p align="center">for query <strong><%= @query %></strong>:</p>
+<% end %>
+
+ <% @search_by_u.each do |result| %>
+<div class="post">
+    <%= user_thumb result.creator %>
+<div class="body">
+	<% if result.effect == nil %>
+    <h4><%= link_to result.name, url_for(:action => 'show', :id => result, :controller => "#{result.type}s" ) %></h4>
+    <% else %>
+	<h4><%= link_to result.name + " and " + result.drug2, url_for(:action => 'show', :id => result, :controller => "#{result.type}s" ) %></h4>
+	<% end %>
+	<p class="meta">
+      
+	<span class="comments">
+	<% if result.comments.count == 0 %>
+	No comments
+	<% else %>
+<%= link_to  "#{result.comments.tally2 * (100 / result.comments.count)}% agree", :action => 'show', :id => result, :controller => "#{result.type}s" %>
+	  <br><small> (<%= result.comments.tally2 %> / <%= result.comments.count %> people)</small>
+	  <% end %>
+	  </span>	
+
+      Updated <%= time_ago_in_words result.updated_at %> ago
+    </p>
+    <%= simple_format truncate(result.body, 100) %>
+  </div>
+<%= clear_div %>
+</div>
+
+<% end %>
+
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= pagination_links(@pages, :params => { :query=> @query }) %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+<br>
+<form method="get" action="search_by_u">
+             &nbsp; <input type="text" name="query" size="15" value="" />
+            <input type="submit" name="submit" value="Search" />
+            <select name="type_options">
+                <option value="all">All Posts</option>
+                <option value="Warning">Warnings</option>
+                <option value="Interaction">Interactions</option>
+                <option value="Treatment">Treatments</option>
+                <option value="Bulletin">Bulletins</option>
+            </select>
+            <select name="author_options">
+                <option value="all">All Users</option>
+                <% if logged_in? and current_user.valid? %>
+                <% unless @current_user.friends.blank? %> 
+                <option value="trusted">Trusted Users</option>
+                <% end %>
+                <% end %>
+                <% for user in @users %>
+               <option value="<%= user.id %>"><%= user.name %></option>
+                <% end %>
+            </select>
+         <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
+        </form>

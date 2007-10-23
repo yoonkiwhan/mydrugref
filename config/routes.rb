@@ -26,11 +26,17 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'b_search',
       :controller => 'bulletins',
       :action => 'b_search'
+  map.connect 'p_search',
+      :controller => 'products',
+      :action => 'p_search'
   map.connect 'remove_tag',
       :controller => 'treatments',
       :action => 'remove_tag'
+  map.connect 'search_by_u',
+      :controller => 'users',
+      :action => 'search_by_u'
       
-  map.home 'post/news', :controller => 'posts', :action => 'news'
+  map.home 'posts/news', :controller => 'posts', :action => 'news'
   
   # The priority is based upon order of creation: first created -> highest priority.
   

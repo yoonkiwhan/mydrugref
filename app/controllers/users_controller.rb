@@ -7,14 +7,8 @@ class UsersController < ApplicationController
   filter_parameter_logging :password
   
   def index
-    @letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
-    if params[:id]
-      @initial = params[:id]
-      @users = User.find(:all,
-                          :conditions => ["name like ?", @initial+'%'])
-    end
-    @page_title = "Users"
-    @user = User.new
+    @page_title = "MyDrugRef Users"
+    @users = User.find :all, :order => 'name'
   end
   
   def new
@@ -89,6 +83,51 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+  def search_by_u
+    @page_title = "Search Results"
+    @users = User.find :all, :order => 'name'
+    @type_options = params[:type_options]
+    @author_options = params[:author_options]
+    
+    @conditions = ["type = ? and created_by = ?", @type_options, @author_options]
+    @query = params[:query]
+    
+    if @author_options != "trusted"
+    #@total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
+     #                                                 { :conditions => "created_by = 1 or created_by = 3" })
+    
+      if @type_options == "all" and @author_options == "all"
+      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})       
+       
+      elsif @type_options == "all" and @author_options != "all"
+      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
+                                                           { :conditions => ["created_by = ?", @author_options]})
+    
+      elsif @type_options != "all" and @author_options == "all"
+      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
+                                                           { :conditions => ["type = ?", @type_options]})   
+       
+      else
+      @total, @search_by_u = Post.full_text_search(@query,  {:page => (params[:page]||1)},
+                                                            {:conditions => @conditions})
+      end
+    @pages = pages_for(@total)
+    render :partial => "search", :layout => true
+    
+    else
+    
+      if @type_options == "all" and @author_options == "trusted"
+      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})
+    
+      elsif @type_options != "all" and @author_options == "trusted"
+      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
+                                                           { :conditions => ["type = ?", @type_options]}) 
+      end
+    @pages = pages_for(@total)
+    render :partial => "tsearch", :layout => true 
+    end
+  end
+  
   private
   
     def post_type; "User"; end

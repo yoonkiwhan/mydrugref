@@ -1,3 +1,9 @@
+<h4>Search Products Only</h4>
+<form method="get" action="p_search">
+<input type="text" name="query" size="15" value="" /><br />
+<input type="submit" name="submit" value="Search" />
+</form>
+
 <% if logged_in? and current_user.valid? %>
 <div id="form_container">
   <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>

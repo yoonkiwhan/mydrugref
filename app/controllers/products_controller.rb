@@ -11,6 +11,14 @@ class ProductsController < PostsController
     redirect_to :back
   end
   
+  def p_search
+    @page_title = "Search Results"
+    @query = params[:query]
+    @total, @products = Product.full_text_search(@query, :page => (params[:page]||1))        
+    @pages = pages_for(@total)
+    render :partial => "search", :layout => true
+  end
+  
   private
     def model_name; 'Product'; end
     

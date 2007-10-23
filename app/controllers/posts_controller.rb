@@ -1,6 +1,5 @@
 class PostsController < ApplicationController
   
-  
   before_filter :find_post, :only => [ :show, :download, :edit, :update, :destroy ]
   before_filter :check_permissions, :only => [ :update, :destroy ]
   
@@ -87,7 +86,6 @@ class PostsController < ApplicationController
     @page_title = "Search Results"
     @type_options = params[:type_options]
     @date_options = params[:date_options]
-    @author_options = params[:author_options]
     
     # THIS IS REALLY TERRIBLE UNDER HERE
               if @date_options == "1"
@@ -100,9 +98,6 @@ class PostsController < ApplicationController
                 @date_options = Time.today
               end
               # FIX IT EVENTUALLY OK???
-    if @author_options == "trust"
-      @author_options = @current_user.friends
-    end
     
     @conditions = ["type = ? and created_at between ? AND ?", @type_options, @date_options, Time.now]
     @query = params[:query]

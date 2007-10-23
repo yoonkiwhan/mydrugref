@@ -38,6 +38,4 @@ end
       write_attribute('attachment_size', file.size)
     end
   end
-  
-
 end

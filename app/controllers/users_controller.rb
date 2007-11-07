@@ -127,7 +127,9 @@ class UsersController < ApplicationController
     render :partial => "tsearch", :layout => true 
     end
   end
-  
+  # try: for user in @friends
+  #       @total, @search_by_u = blabla :conditions => created_by = user
+  #       end
   private
   
     def post_type; "User"; end

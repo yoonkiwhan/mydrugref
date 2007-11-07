@@ -27,9 +27,25 @@
   <h3>Details</h3>
   <div id="detail"><%= simple_format(@post.body) if @post.body.any? %></div>
   <h3>Effect</h3>
-  <div id="detail"><%= simple_format(@post.effect) if @post.effect.any? %></div>
+  <% if @post.effect == "A" %>
+  Augments
+  <% elsif @post.effect == "I" %>
+  Inhibits
+  <% elsif @post.effect == "N" %>
+  No Effect
+  <% else %>
+   <%= @post.effect %>
+  <% end %>
   <h3>Evidence</h3>
+  <% if @post.evidence == "G" %>
+  Good
+  <% elsif @post.evidence == "F" %>
+  Fair
+  <% elsif @post.evidence == "P" %>
+  Poor
+  <% else %>
    <%= @post.evidence %>
+  <% end %>
   <h3>Reference</h3>
    <div id="detail"><%= simple_format(@post.reference) if @post.reference.any? %></div>
 <%= render :partial => "comments/comments", :comments => @post.comments %>

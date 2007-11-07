@@ -2,6 +2,9 @@ class OscarApi < ActionWebService::API::Base
   api_method :find_posts_by_atc,
              :expects => [:string],
              :returns => [[Post]]
+  api_method :fetch,
+             :expects => [:string, [:string]],
+             :returns => [[Post]]
   api_method :find_users_by_name,
              :expects => [:string],
              :returns => [[User]]

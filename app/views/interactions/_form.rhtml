@@ -38,10 +38,19 @@ autocomplete to find your drug.
 
 <%= f.text_field :atc2, :label => "ATC Code (read only)", :readonly => true %>
  
-  <%= f.text_field :effect, :label => "Effect" %>
+  <h4>Effect</h4>
+  <select name="post[effect]">
+  <option value="A">Augments</option>
+  <option value="I">Inhibits</option>
+  <option value="N">No Effect</option>
+  </select>
   <%= f.text_area :body, :label => "Details" %>
   <h4>Evidence</h4>
-  <%= f.select(:evidence, %w{ Good Fair Poor}) %>
+  <select name="post[evidence]">
+  <option value="G">Good</option>
+  <option value="F">Fair</option>
+  <option value="P">Poor</option>
+  </select>
   <%= f.text_field :reference, :label => "Reference" %>
   <h4>Significance</h4>
   <select name="post[significance]">

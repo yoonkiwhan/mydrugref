@@ -29,7 +29,15 @@
   <div id="detail">
  <%= simple_format(@post.body) if @post.body.any? %></div>
   <h3>Evidence</h3>
-   <%= @post.evidence %>  
+  <% if @post.evidence == "G" %>
+  Good
+  <% elsif @post.evidence == "F" %>
+  Fair
+  <% elsif @post.evidence == "P" %>
+  Poor
+  <% else %>
+   <%= @post.evidence %>
+  <% end %>  
   <h3>Reference</h3>
    <div id="detail"><%= simple_format(@post.reference) if @post.reference.any? %></div>
 <%= render :partial => "comments/comments", :comments => @post.comments %>

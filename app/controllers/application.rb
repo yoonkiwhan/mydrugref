@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 #  session :session_key => '_lofty_session_id'
 
   include Authentication
-  before_filter :require_login, :except => [ :index, :show, :search, :bla, :bling, :b_search, :p_search, :search_by_u, :news, :cheese, :popup, :rss ]
+  before_filter :require_login, :except => [ :index, :show, :search, :bla, :bling, :b_search, :p_search, :search_by_u, :news, :cheese, :popup, :rss, :invoke, :invoke_method_params, :invoke_submit, :api, :fetch ]
   before_filter :check_for_valid_user
   
   def pages_for(size, options = {})

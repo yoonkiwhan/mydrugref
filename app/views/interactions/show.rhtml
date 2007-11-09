@@ -23,7 +23,7 @@
   <%= render :partial => 'form' %>
 </div>
   <h3>Respective ATC Codes</h3>
-   <div id="detail"><%= simple_format(@post.atc) if @post.atc.any? %>&nbsp;and&nbsp;<%= simple_format(@post.atc2) if @post.atc2.any? %></div>
+   <div id="detail"><%= @post.atc %>&nbsp;and&nbsp;<%= @post.atc2 %></div>
   <h3>Details</h3>
   <div id="detail"><%= simple_format(@post.body) if @post.body.any? %></div>
   <h3>Effect</h3>

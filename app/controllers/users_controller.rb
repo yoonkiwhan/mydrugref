@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
-  before_filter :require_admin, :only => [ :new, :create ]
+#  before_filter :require_admin, :only => [ :new, :create ]
+  before_filter :not_guest, :only => [ :new, :create ]
   before_filter :find_user, :only => [ :show, :edit, :update, :destroy ]
   before_filter :check_permissions, :only => [ :edit, :update, :destroy ]
   skip_before_filter :check_for_valid_user, :only => [ :edit, :update ]
@@ -9,6 +10,7 @@ class UsersController < ApplicationController
   def index
     @page_title = "MyDrugRef Users"
     @users = User.find :all, :order => 'name'
+    @user = User.new
   end
   
   def new
@@ -20,6 +22,8 @@ class UsersController < ApplicationController
   def create
     if @user = User.create(params[:user])
       flash[:notice] = 'User was successfully saved.'
+      @current_user.friends << @user
+      @user.friends << @current_user
       redirect_to user_url(:id => @user)
     else
       render :action => 'index'
@@ -117,14 +121,28 @@ class UsersController < ApplicationController
     else
     
       if @type_options == "all" and @author_options == "trusted"
-      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})
-    
+     # @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})
+        @array1 = Array.new
+        for pal in @current_user.friends
+        @array2 = Post.find_by_contents(@query,# { :page => (params[:page]||1)},
+                                                { :conditions => ["created_by = ?", pal]})
+        @array1 = @array1 + @array2
+        end
+      @total, @search_by_u = @array1
+       
+        
       elsif @type_options != "all" and @author_options == "trusted"
-      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                           { :conditions => ["type = ?", @type_options]}) 
+      @array3 = Array.new
+      for user in @current_user.friends
+      @array4 = Post.full_text_search(@query, { :page => (params[:page]||1)},
+                                              { :conditions => ["type = ? and created_by = ?", @type_options, user]})
+      @array3 = @array3 + @array4
       end
-    @pages = pages_for(@total)
-    render :partial => "tsearch", :layout => true 
+      @total, @search_by_u = Array.new(@array3)
+      end
+    #@pages = pages_for(@total)
+    render :partial => "search", :layout => true
+    #render :partial => "tsearch", :layout => true 
     end
   end
   # try: for user in @friends

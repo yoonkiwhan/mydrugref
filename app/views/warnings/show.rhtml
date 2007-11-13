@@ -5,16 +5,16 @@
   <div id="meta">
   	Posted <%= time_ago_in_words @post.created_at %> ago by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b> (
   	
-	<% if @post.significance == 3 %>
+	<% if @post.significance == "3" %>
             
 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
            		<b>HIGH</b> 			
 			</font>
-   	<% elsif @post.significance == 2 %>
+   	<% elsif @post.significance == "2" %>
            <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
            	<b>MEDIUM</b> 			
 			</font>
-    <% elsif @post.significance == 1 %>
+    <% elsif @post.significance == "1" %>
            <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
            	<b>LOW</b> 			
 			</font>

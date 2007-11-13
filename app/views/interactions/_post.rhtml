@@ -1,11 +1,11 @@
 <div class="post">
   <%= user_thumb post.creator %>
   <div class="body">
-    <h4><% if post.significance == 3 %>
+    <h4><% if post.significance == "3" %>
             <img src="/images/red.bmp" alt="High Significance (3)" float="left">
-        <% elsif post.significance == 2 %>
+        <% elsif post.significance == "2" %>
             <img src="/images/orange.bmp" alt="High Significance (2)" float="left">
-        <% elsif post.significance == 1 %>
+        <% elsif post.significance == "1" %>
             <img src="/images/yellow.bmp" alt="High Significance (1)" float="left">
         <% end %>
         <%= link_to (post.name + " and " + post.drug2), url_for(:action => 'show', :id => post) %>

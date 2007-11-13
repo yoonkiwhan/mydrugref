@@ -6,16 +6,16 @@
   <div id="meta">Posted <%= time_ago_in_words @post.created_at %> ago by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
   (
   	
-	<% if @post.significance == 3 %>
+	<% if @post.significance == "3" %>
             
 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
            		<b>HIGH</b> 			
 			</font>
-   	<% elsif @post.significance == 2 %>
+   	<% elsif @post.significance == "2" %>
            <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
            	<b>MEDIUM</b> 			
 			</font>
-    <% elsif @post.significance == 1 %>
+    <% elsif @post.significance == "1" %>
            <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
            	<b>LOW</b> 			
 			</font>
@@ -24,8 +24,10 @@
 </div>
   <h3>Respective ATC Codes</h3>
    <div id="detail"><%= @post.atc %>&nbsp;and&nbsp;<%= @post.atc2 %></div>
+  <% if @post.body.any? %>
   <h3>Details</h3>
-  <div id="detail"><%= simple_format(@post.body) if @post.body.any? %></div>
+  <div id="detail"><%= simple_format(@post.body) %></div>
+  <% end %>
   <h3>Effect</h3>
   <% if @post.effect == "A" %>
   Augments
@@ -46,7 +48,9 @@
   <% else %>
    <%= @post.evidence %>
   <% end %>
+  <% if @post.reference != nil %>
   <h3>Reference</h3>
-   <div id="detail"><%= simple_format(@post.reference) if @post.reference.any? %></div>
+   <div id="detail"><%= simple_format(@post.reference) %></div>
+  <% end %>
 <%= render :partial => "comments/comments", :comments => @post.comments %>
 

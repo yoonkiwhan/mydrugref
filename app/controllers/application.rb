@@ -41,6 +41,13 @@ end
     def admin?; current_user.admin?; end
     helper_method :admin?
     
+    def not_guest
+      if current_user.name == "Guest"
+	 flash[:warning] = "Sorry, guests cannot do that."
+         redirect_to Warnings_url
+      end
+    end
+
     # Before filter to limit certain actions to administrators
     def require_admin
       unless admin?

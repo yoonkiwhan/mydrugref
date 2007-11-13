@@ -1,6 +1,6 @@
 <div id="form_container" <% if @edit_on %>class="active"<% end %>>
   <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @user %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @user and @current_user.name != "Guest" %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
   <%= render :partial => 'form' %>
 </div><br />
  <div id="detail">
@@ -26,13 +26,9 @@
 <%= link_to "Untrust", :controller => "friendship", :action => "destroy", :id => @user.id %>
     <% end %>
     </div>
-
-    <% unless @user.email.blank? %><p><strong>Email: </strong> <%= @user.email %></p><% end %>
-    <% unless @user.phone.blank? %><p><strong>Phone: </strong> <%= @user.phone %></p><% end %>
-    <% unless @user.address.blank? %><p><strong>Address: </strong><%= @user.address %></p><% end %>
-	<% unless @user.city.blank? %><p><strong>City: </strong><%= @user.city %></p><% end %>
-	<% unless @user.state.blank? %><p><strong>Province: </strong><%= @user.state %></p><% end %>
-	<% unless @user.zip.blank? %><p><strong>Postal Code: </strong><%= @user.zip %></p><% end %>
+<% if logged_in? and current_user.valid? and can_edit? @user and @current_user.name != "Guest" %>
+<B>E-mail:</b> <%= @user.email %>
+<% end %>
 </div>
 <br />
 <h2><%= @user.doc_name %>'s postings (<%= @posts.size %>)</h2>
@@ -59,10 +55,10 @@
            	</td>
   		</tr>
   		<% for post in @posts %>
-  			<% if post.type == Warning %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == 3 %>
-    				<%= "#bcd2ee" if post.significance == 2 %>
-    				<%= "#cae1ff" if post.significance == 1 %><%= "#6699FF" if post.significance == nil %>;">
+  			<% if post.class == Warning %>
+  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
+    				<%= "#bcd2ee" if post.significance == "2" %>
+    				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'warnings', :id => post.id %></td></b>
     				<td><font size="1"><%= post.created_at %></font></td>   
     				<td><font size="1"><%= post.updated_at %></font></td> 
@@ -98,12 +94,12 @@
            	</td>
   		</tr>
   		<% for post in @posts %>
-  			<% if post.type == Interaction %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == 3 %>
-    				<%= "#bcd2ee" if post.significance == 2 %>
-    				<%= "#cae1ff"if post.significance == 1 %><%= "#6699FF" if post.significance == nil %>;">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.type}s", :id => post.id %></td></b>
-    				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.type}s", :id => post.id %></td></b>
+  			<% if post.class == Interaction %>
+  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
+    				<%= "#bcd2ee" if post.significance == "2" %>
+    				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
+    				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
     				<td><font size="1"><%= post.created_at %></font></td> 
     				<td><font size="1"><%= post.updated_at %></font></td>  
   				</tr>
@@ -140,7 +136,7 @@
            	</td>
   		</tr>
   		<% for post in @posts %>
-  			<% if post.type == Treatment %>
+  			<% if post.class == Treatment %>
   				<tr align="center" bgcolor="#cae1ff">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'treatments', :id => post.id %></td></b>
     				<td><%= post.fldrug1 %>
@@ -175,7 +171,7 @@
            	</td>
   		</tr>
   		<% for post in @posts %>
-  			<% if post.type == Bulletin %>
+  			<% if post.class == Bulletin %>
   				<tr align="center" bgcolor="#cae1ff">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'bulletins', :id => post.id %></td></b>
     				<td><font size="1"><%= post.created_at %></font></td>   
@@ -209,7 +205,7 @@
            	</td>
   		</tr>
   		<% for post in @posts %>
-  			<% if post.type == Product %>
+  			<% if post.class == Product %>
   				<tr align="center" bgcolor="#a2b5cd">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'products', :id => post.id %></td></b>
     				<td><font size="1"><%= post.created_at %></font></td>   
@@ -241,9 +237,9 @@
            	</td>
   		</tr>
   		<% for post in @posts %>
-  			<% if post.type == Price %>
+  			<% if post.class == Price %>
   				<tr align="center" bgcolor="#a2b5cd">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).type}s", :id => post.post_id %></td></b>
+    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).class}s", :id => post.post_id %></td></b>
     				<td><font size="1"><%= post.created_at %></font></td>   
     				<td><font size="1"><%= post.updated_at %></font></td> 
   				</tr>
@@ -268,14 +264,14 @@
            	</td>
   		</tr>
   		<% for post in @posts %>
-  			<% if post.type == Comment %>
+  			<% if post.class == Comment %>
   				<tr align="center" style = "background: 
 					<%= "#B5EAAA" if post.goat == true %>
     				<%= "#EEB4B4" if post.goat != true %>;
 					color: 
 					<%= "green" if post.goat == true %>
 					<%= "#B22222" if post.goat != true %>;">
-    				<td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).type}s", :id => post.post_id %></td></b>
+    				<td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).class}s", :id => post.post_id %></td></b>
     				<td><font size="1"><%= truncate(post.body, 200) %></font></td>   
   				</tr>
   			<% end %>

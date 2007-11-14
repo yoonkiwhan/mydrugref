@@ -19,9 +19,16 @@ class UsersController < ApplicationController
     @edit_on = true
   end
 
+# cut from form view:
+#  <%= f.hidden_field :added_by, :value => "#{@current_user.id}" %>
+
   def create
-    if @user = User.create(params[:user])
+    @hash = params[:user]
+    @hash["added_by"] = @current_user.id
+    if @user = User.create(@hash)
+     # @user.added_by = "#{@current_user.id}"
       flash[:notice] = 'User was successfully saved.'
+   #   @user.creator = @current_user   
       @current_user.friends << @user
       @user.friends << @current_user
       redirect_to user_url(:id => @user)

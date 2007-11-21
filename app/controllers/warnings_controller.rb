@@ -4,7 +4,7 @@ class WarningsController < PostsController
 
   def index
     super
-    @post_pages, @posts = paginate :warnings, :order_by => 'created_at desc', :per_page => 5
+    @post_pages, @posts = paginate :warnings, :order_by => 'name', :per_page => 20
   end
   
    def search

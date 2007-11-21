@@ -10,11 +10,11 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_valid_user
   
   def pages_for(size, options = {})
-  default_options = {:per_page => 10}
-  options = default_options.merge options
-  pages = Paginator.new self, size, options[:per_page], (params[:page]||1)
-  return pages
-end
+    default_options = {:per_page => 10}
+    options = default_options.merge options
+    pages = Paginator.new self, size, options[:per_page], (params[:page]||1)
+    return pages
+  end
 
   private
 

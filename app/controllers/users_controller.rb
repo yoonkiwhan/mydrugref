@@ -19,16 +19,13 @@ class UsersController < ApplicationController
     @edit_on = true
   end
 
-# cut from form view:
-#  <%= f.hidden_field :added_by, :value => "#{@current_user.id}" %>
-
   def create
     @hash = params[:user]
     @hash["added_by"] = @current_user.id
+    user = @hash
     if @user = User.create(@hash)
-     # @user.added_by = "#{@current_user.id}"
-      flash[:notice] = 'User was successfully saved.'
-   #   @user.creator = @current_user   
+      UserMailer.deliver_greeting(user)
+      flash[:notice] = 'User was successfully saved. Login information sent.'
       @current_user.friends << @user
       @user.friends << @current_user
       redirect_to user_url(:id => @user)
@@ -100,13 +97,15 @@ class UsersController < ApplicationController
     @type_options = params[:type_options]
     @author_options = params[:author_options]
     
+    @friend_ids = Array.new
+    
+    for pal in @current_user.friends
+    @friend_ids << pal.id
+    end
+    
     @conditions = ["type = ? and created_by = ?", @type_options, @author_options]
     @query = params[:query]
-    
-    if @author_options != "trusted"
-    #@total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
-     #                                                 { :conditions => "created_by = 1 or created_by = 3" })
-    
+
       if @type_options == "all" and @author_options == "all"
       @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})       
        
@@ -118,43 +117,22 @@ class UsersController < ApplicationController
       @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
                                                            { :conditions => ["type = ?", @type_options]})   
        
+      elsif @type_options == "all" and @author_options == "trusted"
+      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)})
+        
+      elsif @type_options != "all" and @author_options == "trusted"
+      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)},
+                                            { :conditions => ["type = ?", @type_options]})
+      
       else
       @total, @search_by_u = Post.full_text_search(@query,  {:page => (params[:page]||1)},
                                                             {:conditions => @conditions})
       end
     @pages = pages_for(@total)
     render :partial => "search", :layout => true
-    
-    else
-    
-      if @type_options == "all" and @author_options == "trusted"
-     # @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})
-        @array1 = Array.new
-        for pal in @current_user.friends
-        @array2 = Post.find_by_contents(@query,# { :page => (params[:page]||1)},
-                                                { :conditions => ["created_by = ?", pal]})
-        @array1 = @array1 + @array2
-        end
-      @total, @search_by_u = @array1
-       
-        
-      elsif @type_options != "all" and @author_options == "trusted"
-      @array3 = Array.new
-      for user in @current_user.friends
-      @array4 = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                              { :conditions => ["type = ? and created_by = ?", @type_options, user]})
-      @array3 = @array3 + @array4
-      end
-      @total, @search_by_u = Array.new(@array3)
-      end
-    #@pages = pages_for(@total)
-    render :partial => "search", :layout => true
-    #render :partial => "tsearch", :layout => true 
-    end
+   
   end
-  # try: for user in @friends
-  #       @total, @search_by_u = blabla :conditions => created_by = user
-  #       end
+
   private
   
     def post_type; "User"; end

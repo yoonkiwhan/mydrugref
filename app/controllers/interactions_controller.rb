@@ -1,30 +1,30 @@
 class InteractionsController < PostsController
 
-def index
+  def index
     super
-    @post_pages, @posts = paginate :interactions, :order_by => 'created_at desc', :per_page => 10
+    @post_pages, @posts = paginate :interactions, :order_by => 'name', :per_page => 25
   end
-
-def test
-    @interaction = Interaction.find(params[:id])
-end  
   
- def bla
+  def allnewindex
+    super
+    @post_pages, @posts = paginate :interactions, :order_by => '#{order}', :per_page => 25
+  end  
+
+  def test
+    @interaction = Interaction.find(params[:id])
+  end  
+  
+  def bla
     @page_title = "Search Results"
     @query = params[:query]
     @total, @interactions = Interaction.full_text_search(@query, :page => (params[:page]||1))        
     @pages = pages_for(@total)
     render :partial => "bla", :layout => true
   end
- 
- # controller
- auto_complete_for :interaction, :name
-#  auto_complete_responder_for_warnings params[:warning][:name]
-#end
 
-def auto_complete_for_message_cc
-  auto_complete_responder_for_contacts params[:message][:cc]
-end
+  def auto_complete_for_message_cc
+    auto_complete_responder_for_contacts params[:message][:cc]
+  end
 #-- 
  
   private

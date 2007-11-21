@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
     :association_foreign_key => "friend_id",
     :foreign_key => "user_id"
  
+ # belongs_to :creator, :class_name => 'User', :foreign_key => "added_by"
   belongs_to :picture, :class_name => 'Attachment', :foreign_key => 'picture_id', :dependent => :destroy
 
   validates_length_of     :name, :email, :within => 4..100

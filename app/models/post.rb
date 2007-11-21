@@ -24,9 +24,33 @@ class Post < ActiveRecord::Base
    puts options
    puts find_options
   
-   return [results.total_hits + resultsb.total_hits + resultsc.total_hits + resultsd.total_hits, results + resultsb + resultsc + resultsd]
-end
+   [results.total_hits + resultsb.total_hits + resultsc.total_hits + resultsd.total_hits, results + resultsb + resultsc + resultsd]
+  end
  
+  def self.trust_search(q, friendids, options = {}, find_options = {})
+    return nil if q.nil? or q==""
+    default_options = {:limit => 10, :page => 1}
+    options = default_options.merge options
+  
+    # get the offset based on what page we're on
+    options[:offset] = options[:limit] * (options.delete(:page).to_i-1)
+    
+    posts = Post.find_by_contents(q, options, find_options)
+    puts options
+    puts find_options
+    
+    results = Array.new
+    
+    for post in posts
+      if friendids.include?(post.created_by)
+      results << post
+      end
+    end
+    
+    return results
+    
+  end
+
   # Creates an attachment from a file upload
   def file=(file)
     unless file.size == 0

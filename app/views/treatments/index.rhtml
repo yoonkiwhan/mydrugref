@@ -19,9 +19,62 @@
 
   <br>
   <%= link_to "Find by Category", :action => 'index', :controller => 'tags' %>
-<div id="posts">
-  <%= render :partial => "post", :collection => @posts %>
+<br>
+
+
+<table border = "0" cellpadding="3" cellspacing="2"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Condition</b>
+ 			</font>
+            </td>
+            <td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Drug of Choice</b>
+ 			</font>
+           	</td>
+            <td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Category</b>
+ 			</font>
+            </td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="16%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Author</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Last Updated</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Comments</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @posts %>
+  				<tr align="center" <% for tag in post.tags %>style = "background: <%= "#a2b5cd" if ["Cardiovascular", "Dermatology", "Ears Nose and Throat", "Endocrinology"].include?("#{tag}")  %>
+    				<%= "#bcd2ee" if ["Gastroenterology", "Genitourinary System", "HIV", "Hematology"].include?("#{tag}") %>
+    				<%= "#cae1ff" if ["Musculoskeletal System", "Neurology", "Opthalmology", "Obstetrics and Gynecology"].include?("#{tag}") %>
+    				<%= "#6699FF" if ["Palliative Care", "Psychiatry and Behaviour", "Respiratory System"].include?("#{tag}") %>;">
+    				<% end %>
+    				<td><b><%= link_to truncate(post.name, 50), :action => 'show', :controller => "treatments", :id => post.id %></td></b>
+    				<td><font size="1"><%= truncate(post.fldrug1, 50) %></td>
+    				<td><b><% for tag in post.tags %>
+	                       <%= link_to tag.name, :action => 'show', :controller => 'tags', :id => tag.id %>
+	                       <% end %></td></b>
+    				<td><font size="1"><%= link_to User.find(post.created_by).name, :action => 'show', :controller => 'users', :id => post.created_by %></font></td> 
+    				<td><font size="1"><%= post.updated_at %></font></td> 
+    				<td><font size="1"><% if post.comments.count == 0 %>None<% else %>
+	  			<%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", :action => 'show', :id => post %>
+	  			<br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people) </small>
+	  		<% end %></font></td> 
+  				</tr>
+		<% end %>
+	</table>
   <%= link_to 'Previous page', { :page => @post_pages.current.previous} if @post_pages.current.previous %>
   <%= pagination_links @post_pages %>
   <%= link_to 'Next page', { :page => @post_pages.current.next} if @post_pages.current.next %>
-</div>

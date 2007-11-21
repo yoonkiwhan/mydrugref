@@ -97,7 +97,9 @@
   			<% if post.class == Interaction %>
   				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
     				<%= "#bcd2ee" if post.significance == "2" %>
-    				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
+    				<%= "#cae1ff" if post.significance == "1" %>
+    				<%= "#6699FF" if post.significance == nil %>
+    				<%= "#6699FF" if post.significance == " " %>;">
     				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
     				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
     				<td><font size="1"><%= post.created_at %></font></td> 

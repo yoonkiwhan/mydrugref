@@ -61,3 +61,10 @@ end
 
 # Include your application configuration below
   require 'labeling_form_helper'
+  
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    :address => "localhost",
+    :port => 25,
+    :domain => "dev2.mydrugref.org"
+  }

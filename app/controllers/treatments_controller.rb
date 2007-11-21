@@ -2,7 +2,7 @@ class TreatmentsController < PostsController
 
   def index
     super
-    @post_pages, @posts = paginate :treatments, :order_by => 'created_at desc', :per_page => 5
+    @post_pages, @posts = paginate :treatments, :order_by => 'created_at desc', :per_page => 20
   end
   
   def remove_tag

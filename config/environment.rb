@@ -44,6 +44,12 @@ Rails::Initializer.run do |config|
   # config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
+ #  config.action_mailer.delivery_method = :smtp
+ #  config.action_mailer.server_settings = {
+ #     :address => "localhost",
+ #     :port => 25,
+ #     :domain => "localhost"
+ #  }
 end
 
 # Add new inflection rules using the following format 
@@ -63,8 +69,7 @@ end
   require 'labeling_form_helper'
   
   ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = {
-    :address => "localhost",
-    :port => 25,
-    :domain => "dev2.mydrugref.org"
+  ActionMailer::Base.server_settings = {
+    :address => "univmail.cis.mcmaster.ca",
+    :port => 25
   }

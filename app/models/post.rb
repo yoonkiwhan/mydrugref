@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   
   has_many   :comments,  :order => 'id', :dependent => :destroy
   has_many   :prices,  :order => 'cost', :dependent => :destroy
+  has_many :replies, :order => 'id', :dependent => :destroy
   belongs_to :creator, :class_name => 'User', :foreign_key => "created_by"
   belongs_to :attachment, :dependent => :destroy
 
@@ -43,6 +44,32 @@ class Post < ActiveRecord::Base
     
     for post in posts
       if friendids.include?(post.created_by)
+      results << post
+      end
+    end
+    
+    return results
+    
+  end
+  
+  def self.review_search(q, percentage, options = {}, find_options = {})
+    return nil if q.nil? or q==""
+    default_options = {:limit => 10, :page => 1}
+    options = default_options.merge options
+  
+    # get the offset based on what page we're on
+    options[:offset] = options[:limit] * (options.delete(:page).to_i-1)
+    
+    posts = Post.find_by_contents(q, options, find_options)
+    puts options
+    puts find_options
+    
+    results = Array.new
+    
+    for post in posts
+      if post.comments.count == 0
+      #do nothing
+      elsif post.comments.tally2 * (100 / post.comments.count) >= percentage
       results << post
       end
     end

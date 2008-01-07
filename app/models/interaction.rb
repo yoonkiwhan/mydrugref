@@ -24,4 +24,11 @@ class Interaction < Post
     Interaction.find(:all, :order => "created_at DESC", :limit => 5)
  end
  
+ def self.cemois
+    Interaction.find(:all,
+                     :conditions =>["type = 'Interaction' and created_at between ? AND ?", Time.now.at_beginning_of_month, Time.now],
+                     :order => "created_at DESC",
+                     :limit => 10)
+ end
+  
 end

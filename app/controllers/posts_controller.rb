@@ -75,6 +75,10 @@ class PostsController < ApplicationController
     @interactions_today = Interaction.today
     @treatments_today = Treatment.today
     @bulletins_today = Bulletin.today
+    @w_month = Warning.cemois
+    @i_month = Interaction.cemois
+    @t_month = Treatment.cemois
+    @b_month = Bulletin.cemois
     @post_pages, @posts = paginate :posts, :per_page => 5
     @latest_w = Warning.latest
     @latest_i = Interaction.latest

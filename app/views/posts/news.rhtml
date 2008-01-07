@@ -1,118 +1,155 @@
 <% @page_title = "Welcome!" %>
-<div id="posts">
  
+<br>
 <!-- oooh.. change this so it goes into the partial later, yo! -->
-  <h3>Last Five Warnings Added</h3>
-    <% for post in @latest_w %>
-    <div class="post">
-        <%= user_thumb post.creator %>
-        <div class="body">
-            <h4><% if post.significance == 3 %>
-            <img src="/images/red.bmp" alt="High Significance (3)" float="left">
-        <% elsif post.significance == 2 %>
-            <img src="/images/orange.bmp" alt="High Significance (2)" float="left">
-        <% elsif post.significance == 1 %>
-            <img src="/images/yellow.bmp" alt="High Significance (1)" float="left">
-        <% end %>
-            <%= link_to post.name, url_for(:action => 'show', :controller => 'warnings', :id => post) %></h4>
-            <p class="meta">
-               <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'warnings', :id => post %></span>
-               <%= time_ago_in_words post.updated_at %> ago
-            </p>
-            <%= simple_format truncate(post.body, 100) %>
-        </div>
-        <%= clear_div %>
-    </div>
-    <% end %>
+  <h3><%= pluralize(@w_month.size,'warning') %> added so far this month! Last five:</h3>
+    <br>
+    <table border = "0" cellpadding="10" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b> Drug Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Created</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Last Updated</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @latest_w %>
+  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
+    				<%= "#bcd2ee" if post.significance == "2" %>
+    				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => 'warnings', :id => post.id %></td></b>
+    				<td><font size="1"><%= post.created_at %></font></td>   
+    				<td><font size="1"><%= post.updated_at %></font></td> 
+  				</tr>
+		<% end %>
+	</table>
     
   <% unless @warnings_today.size == 0 %>
-  <h3>Warnings Added Today (<%= @warnings_today.size %>)</h3>
-    <ul><% for post in @warnings_today %>
-            <li><%= link_to post.name, url_for(:action => 'show', :controller => 'warnings', :id => post) %></li>
-    <% end %>
-    </ul>
+  <h3><%= pluralize(@warnings_today.size, 'warning') %> added today!</h3>
   <% end %>
 
-  <h3>Last Five Interactions Added</h3>
-  <% for post in @latest_i %>
-                <div class="post">
-                    <%= user_thumb post.creator %>
-                    <div class="body">
-                        <h4><% if post.significance == 3 %>
-                         <img src="/images/red.bmp" alt="High Significance (3)" float="left">
-                           <% elsif post.significance == 2 %>
-                           <img src="/images/orange.bmp" alt="High Significance (2)" float="left">
-                            <% elsif post.significance == 1 %>
-                             <img src="/images/yellow.bmp" alt="High Significance (1)" float="left">
-                               <% end %>
-                        <%= link_to (post.name + " and " + post.drug2), url_for(:action => 'show', :controller => 'interactions', :id => post) %></h4>
-						<p class="meta">
-                            <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'interactions', :id => post %></span>
-                            <%= time_ago_in_words post.updated_at %> ago
-                        </p>
-                        <%= simple_format truncate(post.body, 100) %>
-                    </div>
-                    <%= clear_div %>
-                </div>
-            <% end %>
+  <h3><%= pluralize(@i_month.size, 'interaction') %> added so far this month! Last five:</h3>
+  <br>
+  <table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Affecting Drug</b>
+ 			</font>
+            </td>
+            <td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Affected Drug</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Created</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Last Updated</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @latest_i %>
+  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
+    				<%= "#bcd2ee" if post.significance == "2" %>
+    				<%= "#cae1ff" if post.significance == "1" %>
+    				<%= "#6699FF" if post.significance == nil %>
+    				<%= "#6699FF" if post.significance == " " %>;">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
+    				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
+    				<td><font size="1"><%= post.created_at %></font></td> 
+    				<td><font size="1"><%= post.updated_at %></font></td>  
+  				</tr>
+		<% end %>
+	</table>
             
 <% unless @interactions_today.size == 0 %>
-  <h3>Interactions Added Today (<%= @interactions_today.size %>)</h3>
-          <ul><% for post in @interactions_today %>
-                 <li><%= link_to (post.name + " and " + post.drug2), url_for(:action => 'show', :controller => 'interactions', :id => post) %></li>
-            <% end %>
-            </ul>
+  <h3><%= pluralize(@interactions_today.size, 'interaction') %> added today!</h3>
         <% end %>
  
- <h3>Last Five Treatments Added</h3>
- <% for post in @latest_t %>
-    <div class="post">
-        <%= user_thumb post.creator %>
-        <div class="body">
-            <h4><%= link_to post.name, url_for(:action => 'show', :controller => 'treatments', :id => post) %></h4>
-            <p class="meta">
-               <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'treatments', :id => post %></span>
-               <%= time_ago_in_words post.updated_at %> ago
-	</p>
-	<b><%= post.fldrug1 %></b> . . .
-	<br>
-	<%= simple_format truncate(post.body, 100) %>
-	</div>
-	<%= clear_div %>
-</div>
-    <% end %>
+ <h3><%= pluralize(@t_month.size, 'treatment') %> added so far this month! Last five:</h3>
+ <br>
+ <table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Condition</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Drug of Choice</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Created</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Last Updated</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @latest_t %>
+  				<tr align="center" bgcolor="#cae1ff">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => 'treatments', :id => post.id %></td></b>
+    				<td><%= post.fldrug1 %>
+    				<td><font size="1"><%= post.created_at %></font></td>
+    				<td><font size="1"><%= post.updated_at %></font></td>   
+  				</tr>
+		<% end %>
+	</table>
  
  <% unless @treatments_today.size == 0 %>
-<h3>Treatments Added Today (<%= @treatments_today.size %>)</h3>
-    <ul><% for post in @treatments_today %>
-           <li><%= link_to post.name, url_for(:action => 'show', :controller => 'treatments', :id => post) %></li>
-    <% end %>
-    </ul>
+<h3><%= pluralize(@treatments_today.size, 'treatment') %> added today!</h3>
   <% end %>
  
- <h3>Last Five Bulletins Added</h3>
-    <% for post in @latest_b %>
-    <div class="post">
-        <%= user_thumb post.creator %>
-        <div class="body">
-            <h4>
-            <%= link_to post.name, url_for(:action => 'show', :controller => 'bulletins', :id => post) %></h4>
-            <p class="meta">
-               <span class="comments"><%= link_to pluralize(post.comments_count, 'comment'), :action => 'show', :controller => 'bulletins', :id => post %></span>
-               <%= time_ago_in_words post.updated_at %> ago
-            </p>
-            <%= simple_format truncate(post.body, 100) %>
-        </div>
-        <%= clear_div %>
-    </div>
-    <% end %>
+ <h3><%= pluralize(@b_month.size, 'bulletin') %> added so far this month! Last five:</h3>
+    <br>
+    <table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b> Drug Name</b>
+ 			</font>
+            </td>
+ 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Created</b>
+ 			</font>
+           	</td>
+           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Last Updated</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @latest_b %>
+  				<tr align="center" bgcolor="#cae1ff">
+    				<td><b><%= link_to post.name, :action => 'show', :controller => 'bulletins', :id => post.id %></td></b>
+    				<td><font size="1"><%= post.created_at %></font></td>   
+    				<td><font size="1"><%= post.updated_at %></font></td> 
+  				</tr>
+		<% end %>
+	</table>
     
   <% unless @bulletins_today.size == 0 %>
-  <h3>Bulletins Added Today (<%= @bulletins_today.size %>)</h3>
-    <ul><% for post in @bulletins_today %>
-            <li><%= link_to post.name, url_for(:action => 'show', :controller => 'bulletins', :id => post) %></li>
-    <% end %>
-    </ul>
+  <h3><%= pluralize(@bulletins_today.size, 'bulletin') %> added today!</h3>
   <% end %>
 
 <br />

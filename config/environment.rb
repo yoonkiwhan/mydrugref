@@ -45,7 +45,7 @@ Rails::Initializer.run do |config|
   
   # See Rails::Configuration for more options
  #  config.action_mailer.delivery_method = :smtp
- #  config.action_mailer.server_settings = {
+ #  config.action_mailer.smtp_settings = {
  #     :address => "localhost",
  #     :port => 25,
  #     :domain => "localhost"

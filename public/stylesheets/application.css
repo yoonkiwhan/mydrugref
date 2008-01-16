@@ -206,7 +206,7 @@ ul#nav li {
 }
 html>body ul#nav li { padding: 3px 7px 4px 7px; } /* non-iewin */
 
-body.warnings li#warnings, body.treatments li#treatments, body.products li#products, body.documents li#documents, body.interactions li#interactions, body.bulletins li#bulletins {
+body.warnings li#warnings, body.treatments li#treatments, body.products li#products, body.documents li#documents, body.interactions li#interactions, body.bulletins li#bulletins, body.threaded_discussion_posts li#threaded_discussion_posts {
 	background-color: #fff; border: 1px solid #888; border-bottom: 1px solid #fff;
 }
 
@@ -386,6 +386,45 @@ img.user_picture {
 	border: 1px solid #cc7;
 }
 
+#main div.tdpost {
+	background-color: #E0E6EF;
+	margin-top: 11px;
+	margin-bottom: 25px;
+}
+
+#main div.tdpost div.user {
+	width: 60px;
+	float: left;
+	text-align: center;
+	margin-right: 10px;
+	margin-top: 4px;
+	font-size: 10px;
+}
+
+#main div.tdpost h3 {
+	font-weight: bold;
+	font-size: 11px;
+	padding-top: 2px;
+	padding-left: 1px;
+}
+
+#main div.tdpost h3 span {
+	color: #666;
+	font-weight: normal;
+	margin-left: 8px;
+}
+
+#main div.tdpost p.meta {
+	color: #666;
+	font-size: 10px;
+	margin-bottom: 5px;
+}
+
+#main div.tdpost h3 span a { color: #666; font-weight: normal; }
+#main div.tdpost h3 span a:hover { background-color: #666; color: #fff; }
+#main div.tdpost div.body { margin-left: 70px; }
+#main div.tdpost div.no_user { margin-left: 0px; }
+#main div.tdpost p.meta span.comments { float: right; font-size: 11px; }
 
 /* Comments */
 /* -------------------------------------------------------------------------- */
@@ -518,27 +557,3 @@ div.auto_complete {
       border:1px solid #888;
       cursor:move;
     }
-
-/* Community Styles */
-
-
-.letter, .letter_current {
-  width: 1em;
-  text-align: center;
-  border: 1px solid gray; 
-  background: #fff; 
-  padding: 5px 2px 1px 2px; 
-  float: left; 
-  margin: 2px
-}
-
-.letter:hover {
-  background: #fe4;
-}
-
-.letter_current {
-  background: #fe4;
-  font-weight: bold;
-  border: 1px solid black;
-}
-

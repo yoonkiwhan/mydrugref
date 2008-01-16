@@ -40,16 +40,18 @@
           <li id="products"><%= link_to_unless_current "Prices", products_url %></li>
           <li id="interactions"><%= link_to_unless_current "Interactions", interactions_url %></li>
           <li id="bulletins"><%= link_to_unless_current "Bulletins", bulletins_url %></li>
-
+          <li id="threaded_discussion_posts"><%= link_to_unless_current "Forum", threaded_discussion_posts_url %></li>
         </ul>
       
     </div>
 
     <div id="utility">
       <%= flash_div :notice %>
+        <% if logged_in? and current_user.valid? %>
         <div id="status">
           <%= render :partial => "users/trust" %>
         </div>
+        <% end %>
        <br>
      <%= link_to_unless_current "Users", users_url, :class => 'strong stealth' %> 
     </div>

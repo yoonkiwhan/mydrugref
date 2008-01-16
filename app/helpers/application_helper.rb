@@ -79,7 +79,11 @@ module ApplicationHelper
   def standard_submit name=nil, object=nil
     name = post_type unless name
     object = @post unless object
-    submit_tag("Save #{name}") + (object.new_record? ? "" : (" or " + link_to("Delete", { :action => 'show' }, :method => :delete, :confirm => "Are you sure?", :class => "delete")))
+    if name == "ThreadedDiscussionPost"
+      submit_tag("Save Post") + (object.new_record? ? "" : (" or " + link_to("Delete", { :action => 'show' }, :method => :delete, :confirm => "Are you sure?", :class => "delete")))
+    else
+      submit_tag("Save #{name}") + (object.new_record? ? "" : (" or " + link_to("Delete", { :action => 'show' }, :method => :delete, :confirm => "Are you sure?", :class => "delete")))
+    end
   end
 
 end

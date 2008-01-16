@@ -11,6 +11,13 @@ class ProductsController < PostsController
     redirect_to :back
   end
   
+  def best_value
+    @page_title = "Best Value"
+    #@bestprice, @cvss = Product.math_problem(params[:atc])
+    @results = Product.math_problem(params[:atc])
+    render :partial => "bestvalue", :layout => true
+  end
+  
   def p_search
     @page_title = "Search Results"
     @query = params[:query]

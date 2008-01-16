@@ -5,6 +5,7 @@ acts_as_ferret
 has_many :codes
 has_many :products
 has_many :companies
+has_one :active_ingredient
 validates_numericality_of :drug_code 
 
   def self.full_text_search(q, options = {})

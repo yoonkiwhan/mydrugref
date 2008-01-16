@@ -1,0 +1,34 @@
+<% for item in @tree %>
+<% @parent = item %>
+
+<div class="tdpost" style="margin-left:<%= item.level*2 %>em;">
+  <%= user_thumb User.find(item.created_by) %>
+  <div class="body">
+    <h4>
+        <%= item.name %>
+    </h4>
+    <p class="meta">
+      Updated <%= time_ago_in_words item.updated_at %> ago
+    </p>
+    <%= simple_format item.body %>
+  </div>
+  
+  <% if logged_in? and current_user.valid? %>
+    <div id=<%= item.id.to_s %>>
+      <div id="form_container">
+        <div id="cancel_link">
+        <%= link_to_function "Cancel", "TDPostForm.toggle(#{item.id.to_s})", :class => 'delete small' %>
+        </div>
+        <div id="new_link">
+        <span>&nbsp&nbsp&nbsp+ </span>
+        <%= link_to_function "Reply", "TDPostForm.toggle(#{item.id.to_s})", :class => 'create' %>
+        </div>
+      <%= render :partial => 'replyform' %>
+      </div>
+    </div>
+  <% end %>
+  
+  <%= clear_div %>
+</div>
+
+<% end %>

@@ -3,7 +3,6 @@ class Post < ActiveRecord::Base
   
   has_many   :comments,  :order => 'id', :dependent => :destroy
   has_many   :prices,  :order => 'cost', :dependent => :destroy
-  has_many :replies, :order => 'id', :dependent => :destroy
   belongs_to :creator, :class_name => 'User', :foreign_key => "created_by"
   belongs_to :attachment, :dependent => :destroy
 

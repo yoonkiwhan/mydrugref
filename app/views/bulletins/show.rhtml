@@ -18,6 +18,6 @@
  <%= simple_format(@post.body) if @post.body.any? %></div>
   <% if @post.reference.any? %>
   <h3>Reference</h3>
-   <div id="detail"><%= simple_format(@post.reference) %></div>
+   <div id="detail"><a href="<%= @post.reference %>"><%= truncate(@post.reference, 50) %></a></div>
   <% end %>
 <%= render :partial => "comments/comments", :comments => @post.comments %>

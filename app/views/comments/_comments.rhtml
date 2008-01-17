@@ -10,9 +10,9 @@
   <div class="post">
   <%= user_thumb comment.creator %>
   
-        <p class="meta">Created <%= time_ago_in_words comment.created_at %> ago</p>
+        <p class="meta">Created <%= nice_date comment.created_at %></p>
         <% unless comment.created_at == comment.updated_at %>
-		<p class="meta"><b>Updated <%=time_ago_in_words comment.updated_at %> ago</b></p>
+		<p class="meta"><b>Updated <%= nice_date comment.updated_at %></b></p>
 		<% end %>
 		<% if logged_in? and current_user.valid? and current_user.id == comment.created_by %>
 		<big><strong>

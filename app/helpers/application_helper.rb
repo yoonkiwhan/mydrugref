@@ -61,6 +61,17 @@ module ApplicationHelper
   def clear_div
     '<div class="clear"></div>'
   end
+  
+  # if post is over 30 days old, produces this format: Thursday 25 May 2006 - 1:08 PM
+  def nice_date(date)
+    dt = DateTime.new(date.year, date.month, date.mday)
+    diff = DateTime.now - dt
+    if diff.to_i > 30
+    h date.strftime("%A %d %B %Y - %H:%M %p")
+    else
+    return time_ago_in_words(date)+" ago"
+    end
+  end
 
   # Renders the form used for all post and user creating/editing.
   # Yields an instance of LabelingFormBuilder (see lib/labeling_form_helper.rb).

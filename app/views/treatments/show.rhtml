@@ -9,7 +9,7 @@
     <% end %>
   </div>
   <div id="meta">
-    Posted <%= time_ago_in_words @post.created_at %> ago by <%= link_to @post.creator.name, user_url(:id => @post.creator),
+    Posted <%= nice_date @post.created_at %> by <%= link_to @post.creator.name, user_url(:id => @post.creator),
                                                                  {'class' =>'grey' } %>
   </div>
   <%= render :partial =>'form' %>
@@ -59,7 +59,8 @@
   
   <% if @post.reference.any? %>
   <h3>Reference</h3>
-  <div id="detail"><%= simple_format(@post.reference) %></div>
+  <div id="detail"><a href="<%= @post.reference %>"><%= truncate(@post.reference, 50) %></a></div>
+
   <% end %>
   
   <h3>Comments/Instructions</h3>

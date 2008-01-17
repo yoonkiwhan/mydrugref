@@ -31,7 +31,7 @@
 <% end %>
 </div>
 <br />
-<h2><%= @user.doc_name %>'s postings (<%= @posts.size %>)</h2>
+<h2><%= @user.doc_name %>'s posts (<%= @posts.size %>)</h2>
 
 <% if @warnings.any? %>
 <h4>Warnings</h4>
@@ -54,16 +54,14 @@
  			</font>
            	</td>
   		</tr>
-  		<% for post in @posts %>
-  			<% if post.class == Warning %>
+  		<% for post in @warnings %>
   				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
     				<%= "#bcd2ee" if post.significance == "2" %>
     				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'warnings', :id => post.id %></td></b>
-    				<td><font size="1"><%= post.created_at %></font></td>   
-    				<td><font size="1"><%= post.updated_at %></font></td> 
+    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
+    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
   				</tr>
-  			<% end %>
 		<% end %>
 	</table>
 	
@@ -93,8 +91,7 @@
  			</font>
            	</td>
   		</tr>
-  		<% for post in @posts %>
-  			<% if post.class == Interaction %>
+  		<% for post in @interactions %>
   				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
     				<%= "#bcd2ee" if post.significance == "2" %>
     				<%= "#cae1ff" if post.significance == "1" %>
@@ -102,10 +99,9 @@
     				<%= "#6699FF" if post.significance == " " %>;">
     				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
     				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
-    				<td><font size="1"><%= post.created_at %></font></td> 
-    				<td><font size="1"><%= post.updated_at %></font></td>  
+    				<td><font size="1"><%= nice_date post.created_at %></font></td> 
+    				<td><font size="1"><%= nice_date post.updated_at %></font></td>  
   				</tr>
-  			<% end %>
 		<% end %>
 	</table>
 
@@ -137,15 +133,13 @@
  			</font>
            	</td>
   		</tr>
-  		<% for post in @posts %>
-  			<% if post.class == Treatment %>
+  		<% for post in @treatments %>
   				<tr align="center" bgcolor="#cae1ff">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'treatments', :id => post.id %></td></b>
     				<td><%= post.fldrug1 %>
-    				<td><font size="1"><%= post.created_at %></font></td>
-    				<td><font size="1"><%= post.updated_at %></font></td>   
+    				<td><font size="1"><%= nice_date post.created_at %></font></td>
+    				<td><font size="1"><%= nice_date post.updated_at %></font></td>   
   				</tr>
-  			<% end %>
 		<% end %>
 	</table>
 	
@@ -172,14 +166,12 @@
  			</font>
            	</td>
   		</tr>
-  		<% for post in @posts %>
-  			<% if post.class == Bulletin %>
+  		<% for post in @bulletins %>
   				<tr align="center" bgcolor="#cae1ff">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'bulletins', :id => post.id %></td></b>
-    				<td><font size="1"><%= post.created_at %></font></td>   
-    				<td><font size="1"><%= post.updated_at %></font></td> 
+    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
+    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
   				</tr>
-  			<% end %>
 		<% end %>
 	</table>
 	
@@ -206,14 +198,12 @@
  			</font>
            	</td>
   		</tr>
-  		<% for post in @posts %>
-  			<% if post.class == Product %>
+  		<% for post in @products %>
   				<tr align="center" bgcolor="#a2b5cd">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'products', :id => post.id %></td></b>
-    				<td><font size="1"><%= post.created_at %></font></td>   
-    				<td><font size="1"><%= post.updated_at %></font></td> 
+    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
+    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
   				</tr>
-  			<% end %>
 		<% end %>
 	</table>	
 <% end %>
@@ -238,14 +228,12 @@
  			</font>
            	</td>
   		</tr>
-  		<% for post in @posts %>
-  			<% if post.class == Price %>
+  		<% for post in @prices %>
   				<tr align="center" bgcolor="#a2b5cd">
     				<td><b><%= link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).class}s", :id => post.post_id %></td></b>
-    				<td><font size="1"><%= post.created_at %></font></td>   
-    				<td><font size="1"><%= post.updated_at %></font></td> 
+    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
+    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
   				</tr>
-  			<% end %>
 		<% end %>
 	</table>	
 <% end %>
@@ -265,8 +253,7 @@
  			</font>
            	</td>
   		</tr>
-  		<% for post in @posts %>
-  			<% if post.class == Comment %>
+  		<% for post in @comments %>
   				<tr align="center" style = "background: 
 					<%= "#B5EAAA" if post.goat == true %>
     				<%= "#EEB4B4" if post.goat != true %>;
@@ -276,7 +263,6 @@
     				<td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).class}s", :id => post.post_id %></td></b>
     				<td><font size="1"><%= truncate(post.body, 200) %></font></td>   
   				</tr>
-  			<% end %>
 		<% end %>
 	</table>
 	

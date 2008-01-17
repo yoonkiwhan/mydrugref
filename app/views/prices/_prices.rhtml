@@ -2,9 +2,9 @@
 
 <div class="post">
 <%= user_thumb price.creator %>
-<p class="meta">Created <%= time_ago_in_words price.created_at %> ago</p>
+<p class="meta">Created <%= nice_date price.created_at %></p>
     <% unless price.created_at == price.updated_at %>
-		<p class="meta"><b>   Updated <%=time_ago_in_words price.updated_at %> ago</b></p>
+		<p class="meta"><b>   Updated <%=nice_date price.updated_at %></b></p>
 		<% end %>
 <% if logged_in? and current_user.valid? and current_user.id == price.created_by %>
 		<big><strong>

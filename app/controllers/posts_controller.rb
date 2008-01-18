@@ -75,15 +75,18 @@ class PostsController < ApplicationController
     @interactions_today = Interaction.today
     @treatments_today = Treatment.today
     @bulletins_today = Bulletin.today
+    @tdposts_today = ThreadedDiscussionPost.today
     @w_month = Warning.cemois
     @i_month = Interaction.cemois
     @t_month = Treatment.cemois
     @b_month = Bulletin.cemois
+    @f_month = ThreadedDiscussionPost.cemois
     @post_pages, @posts = paginate :posts, :per_page => 5
     @latest_w = Warning.latest
     @latest_i = Interaction.latest
     @latest_t = Treatment.latest
     @latest_b = Bulletin.latest
+    @latest_f = ThreadedDiscussionPost.latest
   end
   
    def cheese

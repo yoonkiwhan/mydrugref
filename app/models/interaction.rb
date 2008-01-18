@@ -16,8 +16,7 @@ class Interaction < Post
  
  def self.today
     Interaction.find(:all, :conditions => ["type = 'Interaction' and created_at between ? AND ?", Time.today, Time.now],
-                          :order => "created_at DESC",
-                          :limit => 2)
+                          :order => "created_at DESC")
   end
   
  def self.latest
@@ -27,8 +26,7 @@ class Interaction < Post
  def self.cemois
     Interaction.find(:all,
                      :conditions =>["type = 'Interaction' and created_at between ? AND ?", Time.now.at_beginning_of_month, Time.now],
-                     :order => "created_at DESC",
-                     :limit => 10)
+                     :order => "created_at DESC")
  end
   
 end

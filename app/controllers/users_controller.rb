@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @posts = Post.find_all_by_created_by(@user)
+   # @posts = Post.find_all_by_created_by(@user)
     @treatments = Treatment.find_all_by_created_by(@user)
     @comments = Comment.find_all_by_created_by(@user)
     @interactions = Interaction.find_all_by_created_by(@user)

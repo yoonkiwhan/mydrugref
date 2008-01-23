@@ -85,6 +85,18 @@ module ApplicationHelper
     yield LabelingFormBuilder.new(name, object, self, {}, block)
     concat "</fieldset>", block.binding
   end
+
+  #modifying standard_form so that tdpost create works
+  def td_form name, object, &block
+    url  = { :action    => "create" }
+    html = { :class     => "standard",
+             :style     => (@edit_on ? '' : "display: none;"),
+             :multipart => true }
+    concat form_tag(url, html) + "<fieldset>", block.binding
+    concat '<input name="_method" type="hidden" value="put" />', block.binding unless object.new_record?
+    yield LabelingFormBuilder.new(name, object, self, {}, block)
+    concat "</fieldset>", block.binding
+  end
   
   # Standard submit button and delete link for posts and users
   def standard_submit name=nil, object=nil

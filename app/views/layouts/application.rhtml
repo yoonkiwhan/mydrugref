@@ -40,7 +40,7 @@
           <li id="products"><%= link_to_unless_current "Prices", products_url %></li>
           <li id="interactions"><%= link_to_unless_current "Interactions", interactions_url %></li>
           <li id="bulletins"><%= link_to_unless_current "Bulletins", bulletins_url %></li>
-          <li id="threaded_discussion_posts"><%= link_to_unless_current "Forum", threaded_discussion_posts_url %></li>
+          <li id="threaded_discussion_posts"><%= link_to_unless_current "Forum", :action => 'index', :controller => 'threaded_discussion_posts' %></li>
         </ul>
       
     </div>

@@ -3,6 +3,11 @@
 
 <div class="tdpost" style="margin-left:<%= item.level*2 %>em;">
   <%= user_thumb User.find(item.created_by) %>
+
+<% if logged_in? and current_user.valid? and can_edit? item %>
+<%= link_to 'Edit', :action => "edit", :id => item.id %>
+<% end %>
+
   <div class="body">
     <h4>
         <%= item.name %>

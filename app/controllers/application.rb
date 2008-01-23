@@ -32,6 +32,8 @@ class ApplicationController < ActionController::Base
           record.created_by == current_user.id
         when 'Bulletin'
           record.created_by == current_user.id
+	when 'ThreadedDiscussionPost'
+	  record.created_by == current_user.id
         else true # everyone can edit anything else
       end
     end

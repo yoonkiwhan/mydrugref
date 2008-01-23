@@ -29,3 +29,19 @@ var TDPostForm = {
     }
   }
 }
+
+var EditTDPostForm = {
+  toggle: function(itemid) {
+    var container = $$('#edit'+itemid+' div').first();
+    var form = $$('#edit'+itemid+' form').first();
+    if(container.hasClassName('active')) {
+      form.visualEffect('blind_up', { duration: 0.25, afterFinish: function(){
+        container.removeClassName('active');
+      }});
+    } else {
+      form.visualEffect('blind_down', { duration: 0.5, beforeStart: function(){
+        container.addClassName('active');
+      }});
+    }
+  }
+}

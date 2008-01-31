@@ -275,11 +275,11 @@
             <li><%= link_to pal.name, :action => 'show', :controller => "users", :id => pal.id %></li> 
         <% end %></ul>
 <% end %>
+<% unless @trusters.blank? %>
 <br />
 <h4><%= @user.doc_name %> is trusted by:</h4>
 <ul>
-<% for person in @allusers %>
-    <% if person.friends.include?(@user) %>
+<% for person in @trusters %>
         <li><%= link_to person.name, :action => 'show', :controller => "users", :id => person.id %></li>
-    <% end %>
-    <% end %></ul>
+<% end %></ul>
+<% end %>

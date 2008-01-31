@@ -12,7 +12,7 @@
 		</big></strong>
 		<% end %>
 <p>
-<p>Price: $<%= price.cost %>
+<p>Price: <%= number_to_currency(price.cost) %>
 <p>Retailer: <%= price.reference %>
 <%= clear_div %>
 </div>

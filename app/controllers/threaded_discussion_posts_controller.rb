@@ -16,9 +16,15 @@ class ThreadedDiscussionPostsController < ApplicationController
   end
 
   def show
-    @page_title = "#{ThreadedDiscussionPost.find(params[:id]).name}"
-    @tdpost = ThreadedDiscussionPost.new
-    @tree = ThreadedDiscussionPost.find(params[:id]).full_set
+    begin
+      @page_title = "#{ThreadedDiscussionPost.find(params[:id]).name}"
+      @tdpost = ThreadedDiscussionPost.new
+      @tree = ThreadedDiscussionPost.find(params[:id]).full_set
+    rescue ActiveRecord::RecordNotFound
+      logger.error("Attempt to access invalid forum post #{params[:id]}")
+      flash[:notice] = "Forum post does not exist"
+      redirect_to :action => :index
+    end
   end
 
   def create

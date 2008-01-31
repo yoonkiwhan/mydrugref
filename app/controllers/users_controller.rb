@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     @products = Product.find_all_by_created_by(@user)
     @prices = Price.find_all_by_created_by(@user)
     @friends = @user.friends
-    @allusers = User.find(:all)
+    @trusters = @user.trusted_by
     if params[:format]=='jpg'
       if @user.picture
         send_data @user.picture.content, :filename => "#{@user.id}.jpg", :type => 'image/jpeg', :disposition => 'inline'

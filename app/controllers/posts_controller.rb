@@ -40,7 +40,7 @@ class PostsController < ApplicationController
   end
 
   def show
-     
+    
   end
 
   def download
@@ -264,7 +264,13 @@ class PostsController < ApplicationController
     def model; eval model_name; end
   
     def find_post
-      @post = model.find params[:id]
+      begin
+        @post = model.find params[:id]
+      rescue ActiveRecord::RecordNotFound
+        logger.error("Attempt to access invalid post #{params[:id]}")
+        flash[:notice] = "Post does not exist"
+        redirect_to("/#{post_type.pluralize}")
+      end
     end
     
     # Before filter to bail unless the user has permission to edit the post.

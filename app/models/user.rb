@@ -18,6 +18,17 @@ class User < ActiveRecord::Base
   def short_name; name.blank? ? "" : "#{first_name} #{last_name[0,1]}."; end
   def doc_name; name.blank? ? "" : "Dr. #{last_name}"; end
 
+  def trusted_by
+    allusers = User.find(:all)
+    trusters = []
+      for person in allusers
+        if person.friends.include?(self)
+          trusters << person
+        end
+      end
+    trusters
+  end
+
   # Makes an attachment from a thumbnail upload
   def file= file
     unless file.size == 0

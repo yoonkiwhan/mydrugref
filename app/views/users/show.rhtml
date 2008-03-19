@@ -20,7 +20,7 @@
 	  <% unless logged_in? == false or @current_user.friends.include?(@user) or @user == @current_user %>
 <%= link_to "Trust #{@user.name}",
             { :controller => "friendship", :action => "create",
-            :id => @user.id }, :confirm => "Keep tabs on #{@user.name}?" %>
+            :id => @user.id } %>
 <% end %>
     <% if logged_in? and @current_user.friends.include?(@user) %>
 <%= link_to "Untrust", :controller => "friendship", :action => "destroy", :id => @user.id %>

@@ -9,16 +9,16 @@ class BackendController < ApplicationController
      Post.find_all_by_atc(atc)
   end 
      
-  def fetch(method, atcs, username = "")
+  def fetch(method, atcs, email = "")
     
-  default_username = "nobody"
-  if username == nil
-  username = default_username
+  default_email = "none"
+  if email == nil
+  email = default_email
   end
     
-  if username != "nobody"
+  if email != "none"
   
-  @user = User.find_by_name("#{username}")
+  @user = User.find_by_email("#{email}")
   @friend_ids = Array.new
   @friend_ids << @user.id
     

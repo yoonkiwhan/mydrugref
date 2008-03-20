@@ -127,7 +127,7 @@ class BackendController < ApplicationController
       return @finalresults
     end
   
-  elsif username == "nobody"
+  elsif email == "none"
     
     if method == "interactions_byATC"
       @results = Array.new

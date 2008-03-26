@@ -3,7 +3,7 @@ class OscarApi < ActionWebService::API::Base
              :expects => [:string],
              :returns => [[Post]]
   api_method :fetch,
-             :expects => [:string, [:string], :string, :boolean],
+             :expects => [:string, [:string], :string, :bool],
              :returns => [[Post]]
   api_method :find_users_by_name,
              :expects => [:string],

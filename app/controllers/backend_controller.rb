@@ -15,6 +15,10 @@ class BackendController < ApplicationController
   if email == nil
   email = default_email
   end
+
+  if inclusive == nil
+  inclusive = true
+  end
     
      if email != "none"
   
@@ -57,7 +61,7 @@ class BackendController < ApplicationController
       for post in @results
         if @friend_ids.include?(post.created_by)
            if inclusive == true
-             post.attributes["trusted"] = true
+             post[:trusted] = (true)
            elsif inclusive == false
              @finalresults << post
            end
@@ -78,13 +82,16 @@ class BackendController < ApplicationController
         if @friend_ids.include?(c.created_by) and @results_ids.include?(c.post_id)
           @post = Post.find(c.post_id)
           if inclusive == true
-             @post.attributes["trusted"] = true
-          elsif inclusive == false   
-             @finalresults << @post
+             if @finalresults.include?(@post)
+                @finalresults.delete(@post)
+             end
+             @post[:trusted] = (true)
+             @finalresults << @post    
+          elsif inclusive == false 
+             unless @finalresults.include?(@post)
+                @finalresults << @post
+             end
           end
-        end
-        if inclusive == true
-           @finalresults << post
         end
       end 
       return @finalresults
@@ -100,7 +107,7 @@ class BackendController < ApplicationController
         @array = Warning.find_all_by_atc(atc)
         @results = @results + @array
       end
- 
+
        if email == "none"
           return @results
  
@@ -110,7 +117,7 @@ class BackendController < ApplicationController
       for post in @results
         if @friend_ids.include?(post.created_by)
            if inclusive == true
-             post.attributes["trusted"] = true
+             post[:trusted] = (true)
            elsif inclusive == false
              @finalresults << post
            end
@@ -131,13 +138,16 @@ class BackendController < ApplicationController
         if @friend_ids.include?(c.created_by) and @results_ids.include?(c.post_id)
           @post = Post.find(c.post_id)
           if inclusive == true
-             @post.attributes["trusted"] = true
-          elsif inclusive == false   
-             @finalresults << @post
+             if @finalresults.include?(@post)
+                @finalresults.delete(@post)
+             end
+             @post[:trusted] = (true)
+             @finalresults << @post    
+          elsif inclusive == false 
+             unless @finalresults.include?(@post)
+                @finalresults << @post
+             end
           end
-        end
-        if inclusive == true
-           @finalresults << post
         end
       end 
       return @finalresults
@@ -162,7 +172,7 @@ class BackendController < ApplicationController
       for post in @results
         if @friend_ids.include?(post.created_by)
            if inclusive == true
-             post.attributes["trusted"] = true
+             post[:trusted] = (true)
            elsif inclusive == false
              @finalresults << post
            end
@@ -183,13 +193,16 @@ class BackendController < ApplicationController
         if @friend_ids.include?(c.created_by) and @results_ids.include?(c.post_id)
           @post = Post.find(c.post_id)
           if inclusive == true
-             @post.attributes["trusted"] = true
-          elsif inclusive == false   
-             @finalresults << @post
+             if @finalresults.include?(@post)
+                @finalresults.delete(@post)
+             end
+             @post[:trusted] = (true)
+             @finalresults << @post    
+          elsif inclusive == false 
+             unless @finalresults.include?(@post)
+                @finalresults << @post
+             end
           end
-        end
-        if inclusive == true
-           @finalresults << post
         end
       end 
       return @finalresults
@@ -197,8 +210,6 @@ class BackendController < ApplicationController
       end
 
     end
-
-    end     
 
 
     if method == "prices_byATC"
@@ -219,8 +230,8 @@ class BackendController < ApplicationController
       @finalresults = Array.new
       for post in @results
         if @friend_ids.include?(post.created_by)
-	   if inclusive == true
-              post.attributes["trusted"] = true
+           if inclusive == true
+             post[:trusted] = (true)
            elsif inclusive == false
              @finalresults << post
            end

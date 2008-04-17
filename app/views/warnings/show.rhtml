@@ -39,5 +39,11 @@
    <%= @post.evidence %>
   <% end %>  
   <h3>Reference</h3>
-   <div id="detail"><a href="<%= @post.reference %>"><%= truncate(@post.reference, 50) %></a></div>
+   <div id="detail">
+    <% if @post.reference[0..6] == "http://" %>
+     <a href="<%= @post.reference %>"><%= truncate(@post.reference, 50) %></a>
+    <% else %>
+     <%= @post.reference %>
+    <% end %>
+   </div>
 <%= render :partial => "comments/comments", :comments => @post.comments %>

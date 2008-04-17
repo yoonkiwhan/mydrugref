@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     end
 
     # Before filter that insists the current user model is valid -- generally
-    # just used when the first user is craeted.
+    # just used when the first user is created.
     # THIS IS THE PROBLEM.  In what way is the current model, with hashed password and salt, invalid?
     # when will it break?
     def check_for_valid_user

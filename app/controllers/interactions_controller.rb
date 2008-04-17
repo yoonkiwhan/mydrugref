@@ -14,7 +14,7 @@ class InteractionsController < PostsController
     @interaction = Interaction.find(params[:id])
   end  
   
-  def bla
+  def search
     @page_title = "Search Results"
     @query = params[:query]
     @total, @interactions = Interaction.full_text_search(@query, :page => (params[:page]||1))        

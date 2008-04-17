@@ -91,39 +91,23 @@ class PostsController < ApplicationController
   
    def cheese
     @page_title = "Search Results"
+
     @type_options = params[:type_options]
     @date_options = params[:date_options]
     
-    # THIS IS REALLY TERRIBLE UNDER HERE
-              if @date_options == "1"
-                @date_options = Time.now.at_beginning_of_year
-              elsif @date_options == "2"
-                @date_options = Time.now.at_beginning_of_month
-              elsif @date_options == "3"
-                @date_options = Time.now.at_beginning_of_week
-              elsif @date_options == "4"
-                @date_options = Time.today
-              end
-              # FIX IT EVENTUALLY OK???
-    
-    @conditions = ["type = ? and created_at between ? AND ?", @type_options, @date_options, Time.now]
+    @conditions = ["type = ? and created_at between ? AND ?", @type_options.chop, @date_options, Time.now]
     @query = params[:query]
    
-    if @type_options == "all" and @date_options == "all"
-    @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)})       
+    if @type_options == "All Posts" and @date_options == "all"
+    @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)})        
    
-    elsif @type_options == "all" and @date_options == "all" and @author_options != "all"
-    @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                      { :conditions => ["created_by = ?", @author_options]})
-    
-   
-    elsif @type_options == "all" and @date_options != "all"
+    elsif @type_options == "All Posts" and @date_options != "all"
     @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)},
                                                       { :conditions => ["created_at between ? AND ?", @date_options, Time.now]})
     
-    elsif @type_options != "all" and @date_options == "all"
+    elsif @type_options != "All Posts" and @date_options == "all"
     @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                      { :conditions => ["type = ?", @type_options]})   
+                                                      { :conditions => ["type = ?", @type_options.chop]})   
        
     else
     @total, @cheese = Post.full_text_search(@query,  {:page => (params[:page]||1)},
@@ -140,9 +124,9 @@ class PostsController < ApplicationController
   def auto_complete_for_products
     value = params[:post][:name]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:name].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'products'
   end
@@ -150,9 +134,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_name
     value = params[:post][:name]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:name].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -160,9 +144,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_drug2
     value = params[:post][:drug2]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:drug2].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -170,9 +154,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_fldrug1
     value = params[:post][:fldrug1]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:fldrug1].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -180,9 +164,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_fldrug3
     value = params[:post][:fldrug3]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:fldrug3].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -190,9 +174,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_sldrug1
     value = params[:post][:sldrug1]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:sldrug1].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -200,9 +184,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_sldrug2
     value = params[:post][:sldrug2]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:sldrug2].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -210,9 +194,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_sldrug3
     value = params[:post][:sldrug3]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:sldrug3].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -220,9 +204,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_pregdrug1
     value = params[:post][:pregdrug1]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:pregdrug1].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -230,9 +214,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_pregdrug2
     value = params[:post][:pregdrug2]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:pregdrug2].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end
@@ -240,9 +224,9 @@ class PostsController < ApplicationController
   def auto_complete_for_post_pregdrug3
     value = params[:post][:pregdrug3]
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(name) LIKE ?',
+      :conditions => [ 'LOWER(brand_name) LIKE ?',
       '%' + params[:post][:pregdrug3].downcase + '%' ],
-      :order => 'name ASC',
+      :order => 'brand_name ASC',
       :limit => 20)
     render :partial => 'drugs'
   end

@@ -16,7 +16,7 @@
 	 			 No comments
 	  
 	  		<% else %>
-	  			<%= link_to  "#{((post.comments.tally2 / post.comments.count)*100)}% agree", :action => 'show', :id => post %>
+	  			<%= link_to  "#{post.comments.tally2 * (100 / post.comments.count)}% agree", :action => 'show', :id => post %>
 	  			<br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people) </small>
 	  		<% end %>
 		</span>

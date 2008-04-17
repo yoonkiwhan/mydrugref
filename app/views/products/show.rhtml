@@ -35,3 +35,15 @@
   <div id="posts">
   <%= render :partial => "prices/prices", :prices => @post.prices %>
  </div>
+ <h2>Best Value</h2>
+ <% form_tag (:only_path => false, :controller => :products, :action => 'best_value') do %>
+ <h3>Dosage</h3>
+    <%= text_field_tag(:dosage, params[:dosage], :size => 3) %>
+ <h3>Limit number of cuts to:</h3>
+    <%= select_tag(:cuts,
+                   options_for_select(%w{ 0 1 2 },
+                   params[:cuts])) %>
+    <%= hidden_field_tag(:atc, @post.atc) %> 
+<br><br> 
+<%= submit_tag "Find Best Value" %>
+ <% end %>

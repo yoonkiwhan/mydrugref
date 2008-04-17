@@ -75,9 +75,9 @@
   (None)<p>
   <% else %>
     <% for tag in @post.tags %>
-        <ul><li><%= tag.name %>&nbsp;
+        <ul><li><%= tag.name %>
         <% if logged_in? and current_user.valid? and can_edit? @post %>
-        <%= link_to '(Remove)', { :action => 'remove_tag', :id => @post,
+        <%= button_to 'Remove', { :only_path => false, :action => 'remove_tag', :controller => :treatments, :id => @post,
         :which_tag => tag.id }, 
         :confirm => 'Are you sure?' %>
         <% end %>

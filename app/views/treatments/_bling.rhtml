@@ -67,8 +67,10 @@
 <%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
 
 <h4>Search</h4>
-<form method="get" action="bling">
-<input type="text" name="query" size="15" value="" /><br />
+<% form_tag search_treatments_url do %>
+<%= text_field_tag(:query, nil, :size => 15) %>
+<br>
 <input type="submit" name="submit" value="Search" />
+<% end %>
 </form>
 <%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>

@@ -5,7 +5,7 @@ class BulletinsController < PostsController
       @post_pages, @posts = paginate :bulletins, :order_by => 'created_at desc', :per_page => 5
   end
 
-  def b_search
+  def search
     @page_title = "Search Results"
     @query = params[:query]
     @total, @bulletins = Bulletin.full_text_search(@query, :page => (params[:page]||1))        

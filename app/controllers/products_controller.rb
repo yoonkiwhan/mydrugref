@@ -14,11 +14,12 @@ class ProductsController < PostsController
   def best_value
     @page_title = "Best Value"
     #@bestprice, @cvss = Product.math_problem(params[:atc])
-    @results = Product.math_problem(params[:atc])
+    @pieces = params[:cuts].to_f + 1.0
+    @results = Product.math_problem(params[:atc], params[:dosage], @pieces)
     render :partial => "bestvalue", :layout => true
   end
   
-  def p_search
+  def search
     @page_title = "Search Results"
     @query = params[:query]
     @total, @products = Product.full_text_search(@query, :page => (params[:page]||1))        

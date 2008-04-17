@@ -5,7 +5,12 @@
         <ul id="statuses">
    
         <% for pal in @current_user.friends %> 
-            <li><%= link_to pal.short_name, :action => 'show', :controller => "users", :id => pal.id %></li> 
+	<% if pal == @trustee %>
+	<li id="new_trustee">
+	<% else %>           
+	 <li>
+	<% end %>
+<%= link_to pal.short_name, :action => 'show', :controller => "users", :id => pal.id %></li> 
         <% end %></ul>
     <% end %>
    <% end %>

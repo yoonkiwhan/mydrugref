@@ -50,6 +50,14 @@ em { font-style: italic; }
 	height: 100%;
 }
 
+#rightbar {
+        width: 170px;
+        padding: 45px 10px 20px 18px;
+        float: right;
+        height: 100%;
+        text-align: center;
+}
+
 div.clear {
 	clear: both;
 	margin-top: 1px;
@@ -65,6 +73,26 @@ div.clear {
 	border-color: #0D0080;
 	background-color: #FFFFFF;
 }
+
+/* Within Rightbar */
+/* -------------------------------------------------------------------------- */
+
+#box {
+	padding: 10px 10px 10px 10px;
+	background-color: #eee;
+}
+
+#rightbar h2 {
+        font-family: helvetica;
+	font-size: 15px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 0px;
+	width: 150px;
+	padding-bottom: 8px;
+	clear: both;
+}
+
 /* Links */
 /* -------------------------------------------------------------------------- */
 

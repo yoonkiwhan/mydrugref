@@ -1,0 +1,9 @@
+<OL>
+<% @results.each do |ratio, price|%>
+<LI>
+Cost/Strength Ratio: <%= truncate(ratio.to_s, 11) %><br>
+Brand Name: <%= link_to Product.find(price.post_id).name, :action => "show", :id => price.post_id %><br>
+Retailer: <%= price.reference %><br>
+Cost: <%= number_to_currency(price.cost) %><br><br>
+<% end %>
+</OL>

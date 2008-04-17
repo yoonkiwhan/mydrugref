@@ -4,7 +4,7 @@ class OscarApi < ActionWebService::API::Base
              :returns => [[Post]]
   api_method :fetch,
              :expects => [:string, [:string], :string, :bool],
-             :returns => [[Post]]
+             :returns => [[Oscarresult]]
   api_method :find_users_by_name,
              :expects => [:string],
              :returns => [[User]]

@@ -8,6 +8,7 @@ class TagsController < ApplicationController
   def show
     @page_title = Tag.find(params[:id])
     @treatments = Treatment.find_tagged_with("#{@page_title}", :order => 'name')
+    @post_pages, @posts = paginate :treatments, :order_by => 'created_at desc', :per_page => 20
   end
 
 end

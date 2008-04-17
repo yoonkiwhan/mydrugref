@@ -8,8 +8,56 @@ class BackendController < ApplicationController
     @page_title = "did it work?"
      Post.find_all_by_atc(atc)
   end 
+
+  def thumbs_up_from_friend(resultpost, frids)
+     for comment in resultpost.comments
+        if frids.include?(comment.created_by) and comment.goat == true
+           return true
+        end
+     end
+     return false
+  end
+
+  def convert_to_o_r(post)
      
-  def fetch(method, atcs, email = "", inclusive = true)
+     ocult = Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
+                             :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
+                             :name => post.name, :atc => post.atc, :drug2 => post.drug2, :atc2 => post.atc2, 
+                             :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
+                             :significance => post.significance, :news_source => post.news_source, 
+                             :news_date => post.news_date, :trusted => post.trusted, :type => post.class, 
+                             :author => User.find(post.created_by).name, :comments => convert_to_o_com(post.comments))
+  end
+
+  def convert_to_o_com(comray)
+     omray = []    
+        for com in comray
+           ocom = Oscarcom.new(:id => com.id, :created_at => com.created_at, :updated_at => com.updated_at, :created_by => com.created_by, :updated_by => com.updated_by, :body => com.body, :name => com.name, :post_id => com.post_id, :goat => com.goat, :author => User.find(com.created_by).name)
+           omray << ocom  
+        end   
+     omray
+  end
+
+  def trust_sort(results, fids, inclu)
+     
+     fresults = Array.new
+     for post in results
+        if fids.include?(post.created_by) or thumbs_up_from_friend(post, fids) == true
+           if inclu == true
+             post[:trusted] = (true)
+           elsif inclu == false
+             fresults << post
+           end
+        end
+        if inclu == true
+           fresults << post
+        end
+      end
+   return fresults
+  end
+
+     
+  def fetch(methods, atcs, email = "", inclusive = true)
     
   default_email = "none"
   if email == nil
@@ -40,6 +88,14 @@ class BackendController < ApplicationController
 
       end 
 
+methodarray = []
+methods.each(',') {|m| methodarray << m}
+methodarray.each {|meth| meth.delete!(",")}
+methodarray.each {|meth| meth.strip!}
+
+@final_final_array = []
+
+for method in methodarray
     if method == "interactions_byATC"
       @results = Array.new
         for atc in atcs
@@ -52,49 +108,24 @@ class BackendController < ApplicationController
         end
 
        if email == "none"
-          return @results
+
+          @oscarresults = []
+ 
+          for post in @results
+             @osc = convert_to_o_r(post)
+             @oscarresults << @osc
+          end
        
        else
 
-      @finalresults = Array.new
+      @finalresults = trust_sort(@results, @friend_ids, inclusive)
 
-      for post in @results
-        if @friend_ids.include?(post.created_by)
-           if inclusive == true
-             post[:trusted] = (true)
-           elsif inclusive == false
-             @finalresults << post
-           end
-        end
-        if inclusive == true
-           @finalresults << post
-        end
-      end
-
-      @results_ids = Array.new
-
-      for result in @results
-        @results_ids << result.id
-      end
-      
-      @comments = Comment.find_all_by_goat(true)
-      for c in @comments
-        if @friend_ids.include?(c.created_by) and @results_ids.include?(c.post_id)
-          @post = Post.find(c.post_id)
-          if inclusive == true
-             if @finalresults.include?(@post)
-                @finalresults.delete(@post)
-             end
-             @post[:trusted] = (true)
-             @finalresults << @post    
-          elsif inclusive == false 
-             unless @finalresults.include?(@post)
-                @finalresults << @post
-             end
+      @oscarresults = []
+ 
+          for post in @finalresults
+             @osc = convert_to_o_r(post)
+             @oscarresults << @osc
           end
-        end
-      end 
-      return @finalresults
     
       end
 
@@ -109,48 +140,24 @@ class BackendController < ApplicationController
       end
 
        if email == "none"
-          return @results
+          
+          @oscarresults = []
+ 
+          for post in @results
+             @osc = convert_to_o_r(post)
+             @oscarresults << @osc
+          end
  
        else
 
-      @finalresults = Array.new
-      for post in @results
-        if @friend_ids.include?(post.created_by)
-           if inclusive == true
-             post[:trusted] = (true)
-           elsif inclusive == false
-             @finalresults << post
-           end
-        end
-        if inclusive == true
-           @finalresults << post
-        end
-      end
+      @finalresults = trust_sort(@results, @friend_ids, inclusive)
 
-      @results_ids = Array.new
-
-      for result in @results
-        @results_ids << result.id
-      end
-      
-      @comments = Comment.find_all_by_goat(true)
-      for c in @comments
-        if @friend_ids.include?(c.created_by) and @results_ids.include?(c.post_id)
-          @post = Post.find(c.post_id)
-          if inclusive == true
-             if @finalresults.include?(@post)
-                @finalresults.delete(@post)
-             end
-             @post[:trusted] = (true)
-             @finalresults << @post    
-          elsif inclusive == false 
-             unless @finalresults.include?(@post)
-                @finalresults << @post
-             end
+      @oscarresults = []
+ 
+          for post in @finalresults
+             @osc = convert_to_o_r(post)
+             @oscarresults << @osc
           end
-        end
-      end 
-      return @finalresults
     
       end
 
@@ -164,87 +171,34 @@ class BackendController < ApplicationController
       end
 
       if email == "none"
-         return @results
+
+         @oscarresults = []
+ 
+          for post in @results
+             @osc = convert_to_o_r(post)
+             @oscarresults << @osc
+          end
 
       else
 
-      @finalresults = Array.new
-      for post in @results
-        if @friend_ids.include?(post.created_by)
-           if inclusive == true
-             post[:trusted] = (true)
-           elsif inclusive == false
-             @finalresults << post
-           end
-        end
-        if inclusive == true
-           @finalresults << post
-        end
-      end
+      @finalresults = trust_sort(@results, @friend_ids, inclusive)
 
-      @results_ids = Array.new
-
-      for result in @results
-        @results_ids << result.id
-      end
-      
-      @comments = Comment.find_all_by_goat(true)
-      for c in @comments
-        if @friend_ids.include?(c.created_by) and @results_ids.include?(c.post_id)
-          @post = Post.find(c.post_id)
-          if inclusive == true
-             if @finalresults.include?(@post)
-                @finalresults.delete(@post)
-             end
-             @post[:trusted] = (true)
-             @finalresults << @post    
-          elsif inclusive == false 
-             unless @finalresults.include?(@post)
-                @finalresults << @post
-             end
+      @oscarresults = []
+ 
+          for post in @finalresults
+             @osc = convert_to_o_r(post)
+             @oscarresults << @osc
           end
-        end
-      end 
-      return @finalresults
     
       end
 
     end
 
+  @final_final_array = @final_final_array + @oscarresults
 
-    if method == "prices_byATC"
-      @results = Array.new
-      for atc in atcs
-        @products = Product.find_all_by_atc(atc)
-        for product in @products
-          @prices = product.prices
-          @results = @results + @prices
-        end
-      end
+end
 
-      if email == "none"
-         return @results
-
-      else
-
-      @finalresults = Array.new
-      for post in @results
-        if @friend_ids.include?(post.created_by)
-           if inclusive == true
-             post[:trusted] = (true)
-           elsif inclusive == false
-             @finalresults << post
-           end
-        end
-        if inclusive == true
-           @finalresults << post
-        end
-      end
-      return @finalresults
-
-      end
-
-    end
+return @final_final_array
  
   end
   

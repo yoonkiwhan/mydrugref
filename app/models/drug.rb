@@ -1,5 +1,5 @@
 class Drug < ActiveRecord::Base
-set_table_name "cd_drug_search"
+set_table_name "cd_drug_product"
 #set_primary_key "drug_code"
 acts_as_ferret
 has_many :codes

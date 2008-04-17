@@ -1,6 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  
+
   # Returns the name of an icon (in public/images) for the given content type
   def icon_for content_type
     case content_type.to_s.strip
@@ -30,7 +30,7 @@ module ApplicationHelper
       else ""
     end
   end
-  
+
   # Returns the name of the site (for the title and h1 elements)
   def site_title
     ''
@@ -48,7 +48,7 @@ module ApplicationHelper
   def flash_div *keys
     keys.collect { |key| content_tag(:div, flash[key], :class => "flash #{key}") if flash[key] }.join
   end
-  
+
   # Returns a div with the user's thumbnail and name
   def user_thumb user
     img = tag("img", :src => formatted_user_url(:id => user, :format => 'jpg'), :class => 'user_picture', :alt => user.name)
@@ -56,12 +56,12 @@ module ApplicationHelper
     text_link = link_to user.short_name, user_url(:id => user)
     content_tag :div, "#{img_link}<br/>#{text_link}", :class => 'user'
   end
-  
+
   # Returns a div
   def clear_div
     '<div class="clear"></div>'
   end
-  
+
   # if post is over 30 days old, produces this format: Thursday 25 May 2006 - 1:08 PM
   def nice_date(date)
     dt = DateTime.new(date.year, date.month, date.mday)
@@ -97,7 +97,7 @@ module ApplicationHelper
     yield LabelingFormBuilder.new(name, object, self, {}, block)
     concat "</fieldset>", block.binding
   end
-  
+
   # Standard submit button and delete link for posts and users
   def standard_submit name=nil, object=nil
     name = post_type unless name

@@ -14,7 +14,7 @@ class TreatmentsController < PostsController
     redirect_to :action => 'show', :id => @post  
   end
   
-  def bling
+  def search
     @page_title = "Search Results"
     @query = params[:query]
     @total, @treatments = Treatment.full_text_search(@query, :page => (params[:page]||1))        

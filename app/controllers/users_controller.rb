@@ -91,7 +91,7 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
-  def search_by_u
+  def search
     @page_title = "Search Results"
     @users = User.find :all, :order => 'name'
     @type_options = params[:type_options]
@@ -103,26 +103,26 @@ class UsersController < ApplicationController
     @friend_ids << pal.id
     end
     
-    @conditions = ["type = ? and created_by = ?", @type_options, @author_options]
+    @conditions = ["type = ? and created_by = ?", @type_options.chop, @author_options]
     @query = params[:query]
 
-      if @type_options == "all" and @author_options == "all"
-      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})       
+      if @type_options == "All Posts" and @author_options == "all"
+      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})  
+
+      elsif @type_options == "All Posts" and @author_options == "trusted"
+      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)})
+        
+      elsif @type_options != "All Posts" and @author_options == "trusted"
+      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)},
+                                            { :conditions => ["type = ?", @type_options.chop]})     
        
-      elsif @type_options == "all" and @author_options != "all"
+      elsif @type_options == "All Posts" and @author_options != "all"
       @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
                                                            { :conditions => ["created_by = ?", @author_options]})
     
-      elsif @type_options != "all" and @author_options == "all"
+      elsif @type_options != "All Posts" and @author_options == "all"
       @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                           { :conditions => ["type = ?", @type_options]})   
-       
-      elsif @type_options == "all" and @author_options == "trusted"
-      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)})
-        
-      elsif @type_options != "all" and @author_options == "trusted"
-      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)},
-                                            { :conditions => ["type = ?", @type_options]})
+                                                           { :conditions => ["type = ?", @type_options.chop]})   
       
       else
       @total, @search_by_u = Post.full_text_search(@query,  {:page => (params[:page]||1)},

@@ -14,7 +14,7 @@ def self.full_text_search(q, options = {})
    return [results.total_hits, results]
 end
 
-def self.math_problem(atc)
+def self.math_problem(atc, dosage, pieces)
   allcodes = Code.find_all_by_tc_atc_number(atc)
   alldins = Array.new
     for code in allcodes
@@ -26,9 +26,11 @@ def self.math_problem(atc)
       if Product.find_by_din(din) != nil
             prod = Product.find_by_din(din)
             strength = ActiveIngredient.find_by_drug_code(din).strength
-              for price in prod.prices
-                vvsp[price.cost/strength.to_f] = price
-              end 
+              if strength.to_f/pieces <= dosage.to_f
+                 for price in prod.prices
+                   vvsp[price.cost/strength.to_f] = price
+                 end 
+              end
       end
     end
  #newmin = 9999999

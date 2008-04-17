@@ -15,8 +15,8 @@ xml.rss("version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/") do
         xml.class(post.class)
         xml.description(post.body)
         if post.class == Comment
-        xml.link "http://dev2.mydrugref.org/" + "#{Post.find_by_id(post.post_id).type}".downcase + "s/" + post.post_id.to_s
-        xml.guid "http://dev2.mydrugref.org/" + "#{Post.find_by_id(post.post_id).type}".downcase + "s/" + post.post_id.to_s
+        xml.link "http://dev2.mydrugref.org/" + "#{Post.find_by_id(post.post_id).class}".downcase + "s/" + post.post_id.to_s
+        xml.guid "http://dev2.mydrugref.org/" + "#{Post.find_by_id(post.post_id).class}".downcase + "s/" + post.post_id.to_s
         elsif post.class == Price
         xml.link "http://dev2.mydrugref.org/products/" + post.post_id.to_s
         xml.guid "http://dev2.mydrugref.org/products/" + post.post_id.to_s

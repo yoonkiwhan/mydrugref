@@ -14,7 +14,7 @@
 	<% if fromage.effect == nil %>
     <h4><%= link_to fromage.name, url_for(:action => 'show', :id => fromage, :controller => "#{fromage.type}s" ) %></h4>
     <% else %>
-	<h4><%= link_to fromage.name + " and " + fromage.drug2, url_for(:action => 'show', :id => fromage, :controller => "#{fromage.type}s" ) %></h4>
+	<h4><%= link_to fromage.name + " and " + fromage.drug2, interaction_url(:id => fromage) %></h4>
 	<% end %>
 	<p class="meta">
       
@@ -36,9 +36,6 @@
 
 <% end %>
 
-<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query, :type_options => @type_options, :date_options => @date_options} if @pages.current.previous %>
 <%= pagination_links(@pages, :params => { :query=> @query }) %>
-<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
-
-<h4>Search</h4>
-<%= render :partial => 'searchform' %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query, :type_options => @type_options, :date_options => @date_options} if @pages.current.next %>

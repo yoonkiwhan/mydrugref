@@ -6,6 +6,7 @@
     <title><%= site_title + (page_title.blank? ? '' : " - #{page_title}") %></title>
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag :defaults %>
+    <%= auto_discovery_link_tag(:rss, :action => :rss, :controller => :feed) %>
   </head>
              
   <body class="<%= params[:controller] %>">
@@ -13,11 +14,7 @@
     <div id="header">
       <h1><div id="imagelink"><%= link_to(image_tag("mydrugref.gif", :border => "0"), home_url) %></div></h1>
          <div id="account"> 
-       
-	   <% if @page_title == 'Warnings' or @page_title == 'Interactions' or @page_title == 'Users' or @page_title == 'Treatments' or @page_title == 'Bulletins' %>  
-        <%= render :partial => 'posts/searchform' %>
-		<% end %>
-		
+       	
 		<% if logged_in? and current_user.valid? %> 
 		
 		 Signed in as <%= link_to current_user.first_name, user_url(:id => current_user), :class => 'strong stealth' %>
@@ -60,6 +57,18 @@
       <%= flash_div :warning %>
       <%= content_tag :h2, page_title %>
       <%= yield %>
+    </div>
+
+    <div id="rightbar">
+      <div id="box">
+      <%= render :partial => 'posts/searchform' %>
+      </div>
+      <br><br>
+      <div id="box">
+      <h2>Get RSS Feeds!</h2>
+      MyDrugRef now offers RSS Feeds. 
+      <%= link_to "Click here", :action => 'rss', :controller => 'feed' %> for more info!
+      </div>
     </div>
 	</body>
 	</html>

@@ -36,30 +36,26 @@
 
 <% end %>
 
-<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query} if @pages.current.previous %>
+<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query, :type_options => @type_options, :author_options => @author_options } if @pages.current.previous %>
 <%= pagination_links(@pages, :params => { :query=> @query }) %>
-<%= link_to 'Next page', { :page => @pages.current.next, :query => @query} if @pages.current.next %>
+<%= link_to 'Next page', { :page => @pages.current.next, :query => @query,  :type_options => @type_options, :author_options => @author_options } if @pages.current.next %>
 <br>
-<form method="get" action="search_by_u">
-             &nbsp; <input type="text" name="query" size="15" value="" />
-            <input type="submit" name="submit" value="Search" />
-            <select name="type_options">
-                <option value="all">All Posts</option>
-                <option value="Warning">Warnings</option>
-                <option value="Interaction">Interactions</option>
-                <option value="Treatment">Treatments</option>
-                <option value="Bulletin">Bulletins</option>
-            </select>
-            <select name="author_options">
-                <option value="all">All Users</option>
-                <% if logged_in? and current_user.valid? %>
-                <% unless @current_user.friends.blank? %> 
-                <option value="trusted">Trusted Users</option>
-                <% end %>
-                <% end %>
-                <% for user in @users %>
-               <option value="<%= user.id %>"><%= user.name %></option>
-                <% end %>
-            </select>
-         <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
-        </form>
+<% form_tag search_users_url do %>
+ &nbsp; <input type="text" name="query" size="15" value="" />
+    <input type="submit" name="submit" value="Search" />
+     <%= select_tag("type_options", 
+                           options_for_select(%w{ All\ Posts Warnings Interactions Treatments Bulletins }) ) %>
+     <select name="author_options">
+       <option value="all">All Users</option>
+       <% if logged_in? and current_user.valid? %>
+       <% unless @current_user.friends.blank? %> 
+       <option value="trusted">Trusted Users</option>
+       <% end %>
+       <% end %>
+       <% for user in @users %>
+       <option value="<%= user.id %>"><%= user.name %></option>
+       <% end %>
+     </select>
+  <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
+</form>
+<% end %>

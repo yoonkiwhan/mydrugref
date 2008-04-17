@@ -3,7 +3,7 @@
 <% @drugs.each do |la| %>
 	<% if la.valid? %>
     <%  @drug_code = la.drug_code %>
-     <%  @drug_name = la.name %>
+     <%  @drug_name = la.brand_name %>
     <%  @atc = Code.find_by_drug_code(@drug_code) %><% end %>
 	<% if @atc != nil %>
     <li class="post">

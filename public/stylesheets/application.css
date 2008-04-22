@@ -167,7 +167,7 @@ a:hover.create { background-color: #009900; color: #fff; }
 #header #navigat {
 	float: left;
 	position: relative;
-	top: 35px;
+	top: 68px;
 	left: 15px;
 }
 
@@ -235,7 +235,7 @@ h4 {
 /* Navigation */
 /* -------------------------------------------------------------------------- */
 
-ul#nav { margin: 0px; width: 700px; }
+ul#nav { margin: 0px; width: 473px; }
 
 ul#nav li {
   display: inline;

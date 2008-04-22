@@ -134,13 +134,11 @@ a:hover.create { background-color: #009900; color: #fff; }
 	padding-top: 20px;
 	width: 120px;
 	padding-left: 60px;
-	
 }
 
 #header #imagelink {
-    float: left;
-    padding-top: 39px;
-    z-index: 10;
+	float: left;
+	padding-top: 39px;
 }
 
 #header h1 a { text-decoration: none; }
@@ -154,6 +152,13 @@ a:hover.create { background-color: #009900; color: #fff; }
 	margin-right: 8px;
 	margin-top: 5px;
 	line-height: 14px;
+}
+
+#header #navigat {
+	float: left;
+	position: relative;
+	top: 35px;
+	left: 15px;
 }
 
 #main h2 {
@@ -220,8 +225,7 @@ h4 {
 /* Navigation */
 /* -------------------------------------------------------------------------- */
 
-ul#nav { margin: 0; position: relative; left: 15px; top: 67px; }
-html>body ul#nav { top: 68px; } /* non-iewin */
+ul#nav { margin: 0px; width: 700px; }
 
 ul#nav li {
   display: inline;
@@ -255,7 +259,7 @@ ul#nav li:hover { text-decoration: underline; }
 #status ul li span {
 	font-weight: normal;
 	display: block;
-  font-style: italic;
+	font-style: italic;
 }
 
 #status ul { margin-left: 0; }

@@ -31,6 +31,7 @@
 		<% end %>
 		
 		</div>
+      <div id="navigat">
         <ul id="nav">
           <li id="warnings"><%= link_to_unless_current "Warnings", warnings_url %></li>
           <li id="treatments"><%= link_to_unless_current "Treatments", treatments_url %></li>
@@ -39,7 +40,7 @@
           <li id="bulletins"><%= link_to_unless_current "Bulletins", bulletins_url %></li>
           <li id="threaded_discussion_posts"><%= link_to_unless_current "Forum", :action => 'index', :controller => 'threaded_discussion_posts' %></li>
         </ul>
-      
+      </div>  
     </div>
 
     <div id="utility">

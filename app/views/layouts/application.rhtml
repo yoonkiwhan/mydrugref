@@ -12,7 +12,7 @@
   <body class="<%= params[:controller] %>">
     <%= flash_div :system_announcement %>
     <div id="header">
-      <h1><div id="imagelink"><%= link_to(image_tag("mydrugref.gif", :border => "0"), home_url) %></div></h1>
+      <h1><div id="imagelink"><%= link_to image_tag("mydrugref.gif", :border => "0"), home_url %></div></h1>
          <div id="account"> 
        	
 		<% if logged_in? and current_user.valid? %> 
@@ -70,6 +70,19 @@
       MyDrugRef now offers RSS Feeds. 
       <%= link_to "Click here", :action => 'rss', :controller => 'feed' %> to get them!
       </div>
+	<% if page_title == "Warnings" or page_title == "Treatments" or page_title == "Interactions" or page_title == "Welcome!" %>
+	<br><br>
+	<div id="leg">
+	<h2>Legend</h2>
+	<table border = "0" cellpadding="3" cellspacing="2"  width = "100%">
+	   <th>Color</th><th>Significance</th>
+	   <tr><td bgcolor="#a2b5cd"></td><td> High </td></tr>
+	   <tr><td bgcolor="#bcd2ee"></td><td> Medium </td></tr>
+	   <tr><td bgcolor="#cae1ff"></td><td> Low </td></tr>
+	   <tr><td bgcolor="#6699FF"></td><td> Not Specified </td></tr>
+	</table>
+	</div>
+	<% end %>
     </div>
 	</body>
 	</html>

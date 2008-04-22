@@ -82,6 +82,11 @@ div.clear {
 	background-color: #eee;
 }
 
+#leg {
+	padding: 10px 10px 10px 10px;
+	border: 2px solid black;
+}
+
 #rightbar h2 {
         font-family: helvetica;
 	font-size: 15px;
@@ -91,6 +96,11 @@ div.clear {
 	width: 150px;
 	padding-bottom: 8px;
 	clear: both;
+}
+
+#leg th {
+	font-weight: bold;
+	text-decoration: underline;
 }
 
 /* Links */

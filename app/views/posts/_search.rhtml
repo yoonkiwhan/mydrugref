@@ -8,13 +8,14 @@
 <% end %>
 
  <% @cheese.each do |fromage| %>
+
 <div class="post">
     <%= user_thumb fromage.creator %>
 <div class="body">
-	<% if fromage.effect == nil %>
-    <h4><%= link_to fromage.name, url_for(:action => 'show', :id => fromage, :controller => "#{fromage.type}s" ) %></h4>
+	<% if fromage.class != Interaction %>
+<h4><%= link_to fromage.name, :action => 'show', :id => fromage.id, :controller => fromage.class.to_s.downcase + "s" %></h4>
     <% else %>
-	<h4><%= link_to fromage.name + " and " + fromage.drug2, interaction_url(:id => fromage) %></h4>
+	<h4><%= link_to fromage.name + " and " + fromage.drug2, interaction_url(:id => fromage.id) %></h4>
 	<% end %>
 	<p class="meta">
       

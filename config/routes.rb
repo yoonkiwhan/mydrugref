@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   # A resource for each post type
-  map.resources :warnings, :interactions, :treatments, :bulletins, :products, 
+  map.resources :warnings, :interactions, :treatments, :bulletins, :products, :threaded_discussion_posts,
     :collection => { :search => :get },
     :member => { :download => :get }
   # A comments resource under every post type ex. warnings/comments

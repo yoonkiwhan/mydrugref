@@ -1,7 +1,7 @@
 class TagsController < ApplicationController
 
   def index
-    @page_title = 'Tags'
+    @page_title = 'Find By Category'
     @tags = Treatment.tag_counts(:order => 'name')
   end
   

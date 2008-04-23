@@ -18,22 +18,22 @@
  		<tr>
 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b> Drug Name</b>
+  				<b><%= link_to "Drug Name", :action => :index %></b>
  			</font>
             </td>
  			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>ATC Code</b>
+  				<b><%= link_to "ATC Code", :action => :index, :sort_by => :ATC %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>DIN Code</b>
+  				<b><%= link_to "DIN Code", :action => :index, :sort_by => :DIN %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Manufacturer</b>
+  				<b><%= link_to "Manufacturer", :action => :index, :sort_by => :manufacturer %></b>
  			</font>
            	</td>
   		</tr>

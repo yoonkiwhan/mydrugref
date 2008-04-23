@@ -77,6 +77,16 @@ class Post < ActiveRecord::Base
     
   end
 
+  def self.latest
+    Post.find(:all, :order => "created_at DESC", :limit => 10)
+  end
+
+  def self.cemois
+    Post.find(:all,
+                 :conditions =>["created_at between ? AND ?", Time.now.at_beginning_of_month, Time.now],
+                 :order => "created_at DESC")
+  end
+
   # Creates an attachment from a file upload
   def file=(file)
     unless file.size == 0

@@ -2,7 +2,18 @@ class TreatmentsController < PostsController
 
   def index
     super
-    @post_pages, @posts = paginate :treatments, :order_by => 'created_at desc', :per_page => 20
+    @sort_by = params[:sort_by]
+       if @sort_by == "condition"
+	  @post_pages, @posts = paginate :treatments, :order_by => 'name', :per_page => 20
+       elsif @sort_by == "drug_of_choice"
+	  @post_pages, @posts = paginate :treatments, :order_by => 'fldrug1', :per_page => 20	
+       elsif @sort_by == "author"
+	  @post_pages, @posts = paginate :treatments, :order_by => 'created_by', :per_page => 20
+       elsif @sort_by == "date"
+	  @post_pages, @posts = paginate :treatments, :order_by => 'updated_at desc', :per_page => 20
+       else
+ 	  @post_pages, @posts = paginate :treatments, :order_by => 'created_at desc', :per_page => 20
+       end
   end
   
   def remove_tag

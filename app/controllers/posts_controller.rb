@@ -70,25 +70,46 @@ class PostsController < ApplicationController
   end
  
   def news
-    @page_title = "Recent Updates"
-    @warnings_today = Warning.today
-    @interactions_today = Interaction.today
-    @treatments_today = Treatment.today
-    @bulletins_today = Bulletin.today
-    @tdposts_today = ThreadedDiscussionPost.today
+    @page_title = "Welcome!"
+    @latest_p = Post.latest
     @w_month = Warning.cemois
     @i_month = Interaction.cemois
     @t_month = Treatment.cemois
     @b_month = Bulletin.cemois
     @f_month = ThreadedDiscussionPost.cemois
-    @post_pages, @posts = paginate :posts, :per_page => 5
-    @latest_w = Warning.latest
-    @latest_i = Interaction.latest
-    @latest_t = Treatment.latest
-    @latest_b = Bulletin.latest
-    @latest_f = ThreadedDiscussionPost.latest
+    @p_month = Post.cemois
   end
   
+   def p_five
+      @latest_p = Post.latest
+      render :partial => 'p_five'
+   end
+
+   def w_five
+      @latest_w = Warning.latest
+      render :partial => 'w_five'
+   end
+
+   def i_five
+      @latest_i = Interaction.latest
+      render :partial => 'i_five'
+   end
+
+   def t_five
+      @latest_t = Treatment.latest
+      render :partial => 't_five'
+   end
+
+   def b_five
+      @latest_b = Bulletin.latest
+      render :partial => 'b_five'
+   end
+
+   def f_five
+      @latest_f = ThreadedDiscussionPost.latest
+      render :partial => 'f_five'
+   end
+
    def cheese
     @page_title = "Search Results"
 

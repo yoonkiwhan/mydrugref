@@ -15,7 +15,7 @@ class ThreadedDiscussionPost < ActiveRecord::Base
   end
  
   def self.latest
-    ThreadedDiscussionPost.find(:all, :order => "created_at DESC", :limit => 5)
+    ThreadedDiscussionPost.find(:all, :order => "created_at DESC", :limit => 10)
   end
  
 end

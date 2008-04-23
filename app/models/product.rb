@@ -16,16 +16,25 @@ end
 
 def self.math_problem(atc, dosage, pieces)
   allcodes = Code.find_all_by_tc_atc_number(atc)
-  alldins = Array.new
+  alldcs = Array.new
+
     for code in allcodes
-      alldins << code.drug_code
+      alldcs << code.drug_code
+    end
+
+  alldins = Array.new
+    
+    for dc in alldcs
+       alldins << Drug.find_by_drug_code(dc).drug_identification_number
     end
     
     vvsp = Hash.new
+
     for din in alldins
       if Product.find_by_din(din) != nil
-            prod = Product.find_by_din(din)
-            strength = ActiveIngredient.find_by_drug_code(din).strength
+            prod = Product.find_by_din(din)        
+	    @drug = Drug.find_by_drug_identification_number(din)
+            strength = ActiveIngredient.find_by_drug_code(@drug.drug_code).strength
               if strength.to_f/pieces <= dosage.to_f
                  for price in prod.prices
                    vvsp[price.cost/strength.to_f] = price

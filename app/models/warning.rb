@@ -27,7 +27,7 @@ class Warning < Post
   end
  
  def self.latest
-    Warning.find(:all, :order => "created_at DESC", :limit => 5)
+    Warning.find(:all, :order => "created_at DESC", :limit => 10)
  end
  
 end

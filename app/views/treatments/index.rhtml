@@ -22,18 +22,18 @@
   <br>
   <%= link_to "Find by Category", :action => 'index', :controller => 'tags' %>
 <br>
-
+<br>
 
 <table border = "0" cellpadding="3" cellspacing="2"  width = "100%">
  		<tr>
 			<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Condition</b>
+  				<b><%= link_to "Condition", :action => :index, :sort_by => :condition %></b>
  			</font>
             </td>
             <td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Drug of Choice</b>
+  				<b><%= link_to "Drug of Choice", :action => :index, :sort_by => :drug_of_choice %></b>
  			</font>
            	</td>
             <td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
@@ -43,12 +43,12 @@
             </td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="16%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Author</b>
+  				<b><%= link_to "Author", :action => :index, :sort_by => :author %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
+  				<b><%= link_to "Last Updated", :action => :index, :sort_by => :date %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>

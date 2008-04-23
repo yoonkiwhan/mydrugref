@@ -20,27 +20,27 @@
  		<tr>
 			<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Affecting Drug</b>
+  				<b><%= link_to "Affecting Drug", :action => :index %></b>
  			</font>
             </td>
             <td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Effect</b>
+  				<b><%= link_to "Effect", :action => :index, :sort_by => :effect %></b>
  			</font>
            	</td>
             <td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Affected Drug</b>
+  				<b><%= link_to "Affected Drug", :action => :index, :sort_by => :affected %></b>
  			</font>
             </td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="16%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Author</b>
+  				<b><%= link_to "Author", :action => :index, :sort_by => :author %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
+  				<b><%= link_to "Last Updated", :action => :index, :sort_by => :date %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>

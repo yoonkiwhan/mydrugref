@@ -1,195 +1,70 @@
-<% @page_title = "Welcome!" %>
-<br>
-<!-- oooh.. change this so it goes into the partial later, yo! -->
-  <h3><%= pluralize(@w_month.size,'warning') %> added so far this month! Last five:</h3>
-    <br>
-    <table border = "0" cellpadding="10" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b> Drug Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @latest_w %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
-    				<%= "#bcd2ee" if post.significance == "2" %>
-    				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'warnings', :id => post.id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-  				</tr>
-		<% end %>
-	</table>
-    
-  <% unless @warnings_today.size == 0 %>
-  <h3><%= pluralize(@warnings_today.size, 'warning') %> added today!</h3>
-  <% end %>
-
-  <h3><%= pluralize(@i_month.size, 'interaction') %> added so far this month! Last five:</h3>
+<table cellspacing="10" width="100%">
+  <tr align="center">
+    <td><%= pluralize(@w_month.size,'warning') %> added this month.</td>
+    <td><%= pluralize(@i_month.size,'interaction') %> added this month.</td>
+    <td><%= pluralize(@t_month.size,'treatment') %> added this month.</td>
+  </tr>
+  <tr align="center">
+    <td><%= button_to_function "Last 10 Warnings",
+       remote_function(
+       :update => "display",
+       :url    => { :action => :w_five },
+       :before => "$('display').update('Loading...')",
+       :success => "$('display').hide()",
+       :complete => visual_effect(:blind_down, :display)), :style => "width: 115px;" %>
+    </td>
+    <td><%= button_to_function "Last 10 Interactions",
+	remote_function(
+       :update => "display",
+       :url    => { :controller => :posts, :action => :i_five },
+       :before => "$('display').update('Loading...')",
+       :success => "$('display').hide()",
+       :complete => visual_effect(:blind_down, :display)), :style => "width: 125px;" %>
+    </td>
+    <td><%= button_to_function "Last 10 Treatments",
+	remote_function(
+       :update => "display",
+       :url    => { :controller => :posts, :action => :t_five },
+       :before => "$('display').update('Loading...')",
+       :success => "$('display').hide()",
+       :complete => visual_effect(:blind_down, :display)), :style => "width: 125px;" %>
+    </td>
+  </tr>
+</table>
   <br>
-  <table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Affecting Drug</b>
- 			</font>
-            </td>
-            <td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Affected Drug</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @latest_i %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
-    				<%= "#bcd2ee" if post.significance == "2" %>
-    				<%= "#cae1ff" if post.significance == "1" %>
-    				<%= "#6699FF" if post.significance == nil %>
-    				<%= "#6699FF" if post.significance == " " %>;">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
-    				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td> 
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td>  
-  				</tr>
-		<% end %>
-	</table>
-            
-<% unless @interactions_today.size == 0 %>
-  <h3><%= pluralize(@interactions_today.size, 'interaction') %> added today!</h3>
-        <% end %>
- 
- <h3><%= pluralize(@t_month.size, 'treatment') %> added so far this month! Last five:</h3>
- <br>
- <table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Condition</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Drug of Choice</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @latest_t %>
-  				<tr align="center" bgcolor="#cae1ff">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'treatments', :id => post.id %></td></b>
-    				<td><%= post.fldrug1 %>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td>   
-  				</tr>
-		<% end %>
-	</table>
- 
- <% unless @treatments_today.size == 0 %>
-<h3><%= pluralize(@treatments_today.size, 'treatment') %> added today!</h3>
-  <% end %>
- 
- <h3><%= pluralize(@b_month.size, 'bulletin') %> added so far this month! Last five:</h3>
-    <br>
-    <table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b> Drug Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @latest_b %>
-  				<tr align="center" bgcolor="#cae1ff">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'bulletins', :id => post.id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-  				</tr>
-		<% end %>
-	</table>
-    
-  <% unless @bulletins_today.size == 0 %>
-  <h3><%= pluralize(@bulletins_today.size, 'bulletin') %> added today!</h3>
-  <% end %>
-  
-  <h3><%= pluralize(@f_month.size, 'forum post') %> added so far this month! Last five:</h3>
-    <br>
-    <table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Author</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @latest_f %>
-  				<tr align="center" bgcolor="#cae1ff">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'threaded_discussion_posts', :id => post.root.id %></td></b>
-    				<td><font size="1"><%= link_to User.find(post.created_by).name, :action => 'show', :controller => 'users', :id => post.created_by %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-  				</tr>
-		<% end %>
-	</table>
-    
-  <% unless @tdposts_today.size == 0 %>
-  <h3><%= pluralize(@tdposts_today.size, 'forum post') %> added today!</h3>
-  <% end %>
-
-<br />
-<br />
-<% unless logged_in? == false or @current_user.friends.blank? %>
-    <h2>You trust: </h2>
-        <ul><% for pal in @current_user.friends %> 
-            <li><%= link_to pal.name, :action => 'show', :controller => "users", :id => pal.id %></li> 
-        <% end %></ul>
-<% end %>
+<table cellspacing="10" width="100%">
+  <tr align="center">
+    <td><%= pluralize(@b_month.size, 'bulletin') %> added this month.</td>
+    <td><%= pluralize(@f_month.size, 'forum post') %> added this month.</td>
+    <td><%= pluralize(@p_month.size, 'post') %> added this month.</td>
+  </tr>
+  <tr align="center">
+    <td><%= button_to_function "Last 10 Bulletins",
+	remote_function(
+       :update => "display",
+       :url    => { :controller => :posts, :action => :b_five },
+       :before => "$('display').update('Loading...')",
+       :success => "$('display').hide()",
+       :complete => visual_effect(:blind_down, :display)), :style => "width: 115px;" %>
+    </td>
+    <td><%= button_to_function "Last 10 Forum Posts",
+	remote_function(
+       :update => "display",
+       :url    => { :controller => :posts, :action => :f_five },
+       :before => "$('display').update('Loading...')",
+       :success => "$('display').hide()",
+       :complete => visual_effect(:blind_down, :display)), :style => "width: 130px;" %>
+    </td>
+    <td><%= button_to_function "Last 10 Posts",
+	remote_function(
+       :update => "display",
+       :url    => { :controller => :posts, :action => :p_five },
+       :before => "$('display').update('Loading...')",
+       :success => "$('display').hide()",
+       :complete => visual_effect(:blind_down, :display)), :style => "width: 115px;" %>
+    </td>
+  </tr>
+</table>
+<br>
+<div id="display"><%= render :partial => 'p_five' %></div>
 

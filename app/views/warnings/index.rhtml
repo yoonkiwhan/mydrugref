@@ -9,7 +9,8 @@
 <% if logged_in? and current_user.valid? %>
 <div id="form_container">
   <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %></div>
+  <div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %>
+  </div>
   <%= render :partial => 'form' %>
 </div>
 <% end %>
@@ -20,7 +21,7 @@
  		<tr>
 			<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Drug</b>
+  				<b><%= link_to "Drug", :action => :index %></b>
  			</font>
             </td>
             <td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
@@ -30,12 +31,12 @@
             </td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="16%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Author</b>
+  				<b><%= link_to "Author", :action => :index, :sort_by => :author %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
+  				<b><%= link_to "Last Updated", :action => :index, :sort_by => :date %></b>
  			</font>
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>

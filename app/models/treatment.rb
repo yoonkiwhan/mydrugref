@@ -29,7 +29,7 @@ def self.cemois
 end
   
 def self.latest
-    Treatment.find(:all, :order => "created_at DESC", :limit => 5)
+    Treatment.find(:all, :order => "created_at DESC", :limit => 10)
  end
 
 end

@@ -20,7 +20,7 @@ class Interaction < Post
   end
   
  def self.latest
-    Interaction.find(:all, :order => "created_at DESC", :limit => 5)
+    Interaction.find(:all, :order => "created_at DESC", :limit => 10)
  end
  
  def self.cemois

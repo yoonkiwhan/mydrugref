@@ -8,7 +8,7 @@ class Comment < Post
   end
   
   def self.tally2
-    count("goat=true")
+    count(:conditions => "goat=true")
   end
   
   def self.tally3

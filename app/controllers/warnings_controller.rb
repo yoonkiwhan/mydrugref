@@ -4,7 +4,14 @@ class WarningsController < PostsController
 
   def index
     super
-    @post_pages, @posts = paginate :warnings, :order_by => 'name', :per_page => 20
+       @sort_by = params[:sort_by]
+       if @sort_by == "date"
+	  @post_pages, @posts = paginate :warnings, :order_by => 'updated_at DESC', :per_page => 20
+       elsif @sort_by == "author"
+	  @post_pages, @posts = paginate :warnings, :order_by => 'created_by', :per_page => 20
+       else
+    	  @post_pages, @posts = paginate :warnings, :order_by => 'name', :per_page => 20
+       end	
   end
   
    def search

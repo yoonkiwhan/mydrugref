@@ -2,7 +2,16 @@ class ProductsController < PostsController
   
   def index
     super
-    @post_pages, @posts = paginate :products, :order_by => 'name', :per_page => 20
+    @sort_by = params[:sort_by]
+       if @sort_by == "ATC"
+	  @post_pages, @posts = paginate :products, :order_by => 'atc', :per_page => 20
+       elsif @sort_by == "DIN"
+	  @post_pages, @posts = paginate :products, :order_by => 'din', :per_page => 20
+       elsif @sort_by == "manufacturer"
+	  @post_pages, @posts = paginate :products, :order_by => 'news_source', :per_page => 20
+       else
+    	  @post_pages, @posts = paginate :products, :order_by => 'name', :per_page => 20
+       end
   end
 
   def add_price
@@ -14,7 +23,14 @@ class ProductsController < PostsController
   def best_value
     @page_title = "Best Value"
     #@bestprice, @cvss = Product.math_problem(params[:atc])
-    @pieces = params[:cuts].to_f + 1.0
+       if params[:cuts] == "0"
+          @pieces = 1.0
+       elsif params[:cuts] == "1"
+          @pieces = 2.0
+       elsif params[:cuts] == "2"
+          @pieces = 4.0
+       end
+    #@pieces = params[:cuts].to_f + 1.0
     @results = Product.math_problem(params[:atc], params[:dosage], @pieces)
     render :partial => "bestvalue", :layout => true
   end

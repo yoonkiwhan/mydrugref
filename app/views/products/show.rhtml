@@ -42,7 +42,7 @@
  <h3>Limit number of cuts to:</h3>
     <%= select_tag(:cuts,
                    options_for_select(%w{ 0 1 2 },
-                   params[:cuts])) %>
+                   params[:cuts]), :style => "width: 40px;") %>
     <%= hidden_field_tag(:atc, @post.atc) %> 
 <br><br> 
 <%= submit_tag "Find Best Value" %>

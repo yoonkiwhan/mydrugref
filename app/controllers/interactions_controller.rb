@@ -2,7 +2,18 @@ class InteractionsController < PostsController
 
   def index
     super
-    @post_pages, @posts = paginate :interactions, :order_by => 'name', :per_page => 25
+    @sort_by = params[:sort_by]
+       if @sort_by == "affected"
+	  @post_pages, @posts = paginate :interactions, :order_by => 'drug2', :per_page => 25
+       elsif @sort_by == "effect"
+	  @post_pages, @posts = paginate :interactions, :order_by => 'effect', :per_page => 25
+       elsif @sort_by == "author"
+	  @post_pages, @posts = paginate :interactions, :order_by => 'created_by', :per_page => 25
+       elsif @sort_by == "date"
+	  @post_pages, @posts = paginate :interactions, :order_by => 'updated_at DESC', :per_page => 25
+       else
+    	  @post_pages, @posts = paginate :interactions, :order_by => 'name', :per_page => 25
+       end
   end
   
   def allnewindex

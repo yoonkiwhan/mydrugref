@@ -55,11 +55,11 @@
     				<%= "#cae1ff" if post.significance == "1" %>
     				<%= "#6699FF" if post.significance == nil %>
     				<%= "#6699FF" if post.significance == " " %>;">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "interactions", :id => post.id %></td></b>
-    				<td><font size="1"><%= "Augments" if post.effect == "A" %><%= "Inhibits" if post.effect == "I" %>
+    		<td><b><%= link_to post.name, :action => 'show', :controller => "interactions", :id => post.id %></td></b>
+ 			<td><font size="1"><%= "Augments" if post.effect == "A" %><%= "Inhibits" if post.effect == "I" %>
     				                   <%= "No Effect" if post.effect == "N" %></td>
-    				<td><b><%= link_to post.drug2, :action => 'show', :controller => "interactions", :id => post.id %></td></b>
-    				<td><font size="1"><%= link_to User.find(post.created_by).name, :action => 'show', :controller => 'users', :id => post.created_by %></font></td> 
+    		<td><b><%= link_to post.drug2, :action => 'show', :controller => "interactions", :id => post.id %></td></b>
+    		<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td> 
     				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
     				<td><font size="1"><% if post.comments.count == 0 %>None<% else %>
 	  			<%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", :action => 'show', :id => post %>

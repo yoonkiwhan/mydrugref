@@ -2,7 +2,6 @@
 <br>
 <table border = "0" cellpadding="10" cellspacing="3"  width = "100%">
  		<tr align="center" valign="top" bgcolor="#e1e1e1" nowrap>
-		    <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
 			<td>
   				<b>Title</b>
             </td>
@@ -21,7 +20,6 @@
 		<td>
 				<b>Comments</b>
 		</td>
-		      </font>
   		</tr>
   		<% for post in @latest_p %>
   				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
@@ -39,7 +37,7 @@
 				<td><font size="1"><%= post.class %></font></td>
     				<td><font size="1"><%= nice_date post.created_at %></font></td>   
     				<td><font size="1"><%= truncate(post.body, 50) %></font></td> 
-	<td><font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font></td>
+	<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td>
 				<td>
 	<% if post.comments.count == 0 %>None<% else %>
 <%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>

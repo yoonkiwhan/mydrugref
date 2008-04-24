@@ -14,7 +14,7 @@
         <% unless comment.created_at == comment.updated_at %>
 		<p class="meta"><b>Updated <%= nice_date comment.updated_at %></b></p>
 		<% end %>
-		<% if logged_in? and current_user.valid? and current_user.id == comment.created_by %>
+		<% if logged_in? and current_user.valid? and current_user == comment.creator %>
 		<big><strong>
 		<%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
             <!-- Only allow user to vote once -->

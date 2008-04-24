@@ -9,9 +9,9 @@ class BackendController < ApplicationController
      Post.find_all_by_atc(atc)
   end 
 
-  def thumbs_up_from_friend(resultpost, frids)
+  def thumbs_up_from_friend(resultpost, friends)
      for comment in resultpost.comments
-        if frids.include?(comment.created_by) and comment.goat == true
+        if friends.include?(comment.creator) and comment.goat == true
            return true
         end
      end
@@ -26,23 +26,23 @@ class BackendController < ApplicationController
                              :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
                              :significance => post.significance, :news_source => post.news_source, 
                              :news_date => post.news_date, :trusted => post.trusted, :type => post.class, 
-                             :author => User.find(post.created_by).name, :comments => convert_to_o_com(post.comments))
+                             :author => post.creator.name, :comments => convert_to_o_com(post.comments))
   end
 
   def convert_to_o_com(comray)
      omray = []    
         for com in comray
-           ocom = Oscarcom.new(:id => com.id, :created_at => com.created_at, :updated_at => com.updated_at, :created_by => com.created_by, :updated_by => com.updated_by, :body => com.body, :name => com.name, :post_id => com.post_id, :goat => com.goat, :author => User.find(com.created_by).name)
+           ocom = Oscarcom.new(:id => com.id, :created_at => com.created_at, :updated_at => com.updated_at, :created_by => com.created_by, :updated_by => com.updated_by, :body => com.body, :name => com.name, :post_id => com.post_id, :goat => com.goat, :author => com.creator.name)
            omray << ocom  
         end   
      omray
   end
 
-  def trust_sort(results, fids, inclu)
+  def trust_sort(results, buds, inclu)
      
      fresults = Array.new
      for post in results
-        if fids.include?(post.created_by) or thumbs_up_from_friend(post, fids) == true
+        if buds.include?(post.creator) or thumbs_up_from_friend(post, buds) == true
            if inclu == true
              post[:trusted] = (true)
            elsif inclu == false
@@ -77,12 +77,8 @@ class BackendController < ApplicationController
 
         else
 
-           @friend_ids = Array.new
-           @friend_ids << @user.id
-    
-           for pal in @user.friends
-              @friend_ids << pal.id
-           end
+           @friends_n_me = @user.friends
+           @friends_n_me << @user
     
          end     
 
@@ -118,7 +114,7 @@ for method in methodarray
        
        else
 
-      @finalresults = trust_sort(@results, @friend_ids, inclusive)
+      @finalresults = trust_sort(@results, @friends_n_me, inclusive)
 
       @oscarresults = []
  
@@ -150,7 +146,7 @@ for method in methodarray
  
        else
 
-      @finalresults = trust_sort(@results, @friend_ids, inclusive)
+      @finalresults = trust_sort(@results, @friends_n_me, inclusive)
 
       @oscarresults = []
  
@@ -181,7 +177,7 @@ for method in methodarray
 
       else
 
-      @finalresults = trust_sort(@results, @friend_ids, inclusive)
+      @finalresults = trust_sort(@results, @friends_n_me, inclusive)
 
       @oscarresults = []
  

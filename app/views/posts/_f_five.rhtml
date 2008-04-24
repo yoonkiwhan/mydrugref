@@ -27,7 +27,7 @@
       <%= truncate(post.body, 50) %>
     </td>
     <td>
-      <font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font>
+      <font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font>
     </td>
   </tr>
   <% end %>

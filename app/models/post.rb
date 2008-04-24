@@ -27,7 +27,7 @@ class Post < ActiveRecord::Base
    [results.total_hits + resultsb.total_hits + resultsc.total_hits + resultsd.total_hits, results + resultsb + resultsc + resultsd]
   end
  
-  def self.trust_search(q, friendids, options = {}, find_options = {})
+  def self.trust_search(q, friends, options = {}, find_options = {})
     return nil if q.nil? or q==""
     default_options = {:limit => 10, :page => 1}
     options = default_options.merge options
@@ -42,7 +42,7 @@ class Post < ActiveRecord::Base
     results = Array.new
     
     for post in posts
-      if friendids.include?(post.created_by)
+      if friends.include?(post.creator)
       results << post
       end
     end

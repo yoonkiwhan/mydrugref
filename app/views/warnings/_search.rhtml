@@ -44,7 +44,7 @@
     				<%= "#6699FF" if post.significance == " " %>;">
     				<td><b><%= link_to post.name, :action => 'show', :controller => "warnings", :id => post.id %></td></b>
     				<td><%= truncate(post.body, 50) %></td>
-    				<td><font size="1"><%= link_to User.find(post.created_by).name, :action => 'show', :controller => 'users', :id => post.created_by %></font></td> 
+    				<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td> 
     				<td><font size="1"><%= post.updated_at %></font></td> 
     				<td><font size="1"><% if post.comments.count == 0 %>None<% else %>
 	  			<%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", :action => 'show', :id => post %>

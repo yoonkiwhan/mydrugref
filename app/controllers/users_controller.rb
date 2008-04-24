@@ -97,12 +97,6 @@ class UsersController < ApplicationController
     @type_options = params[:type_options]
     @author_options = params[:author_options]
     
-    @friend_ids = Array.new
-    
-    for pal in @current_user.friends
-    @friend_ids << pal.id
-    end
-    
     @conditions = ["type = ? and created_by = ?", @type_options.chop, @author_options]
     @query = params[:query]
 
@@ -110,10 +104,10 @@ class UsersController < ApplicationController
       @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})  
 
       elsif @type_options == "All Posts" and @author_options == "trusted"
-      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)})
+      @search_by_u = Post.trust_search(@query, @current_user.friends, { :page => (params[:page]||1)})
         
       elsif @type_options != "All Posts" and @author_options == "trusted"
-      @search_by_u = Post.trust_search(@query, @friend_ids, { :page => (params[:page]||1)},
+      @search_by_u = Post.trust_search(@query, @current_user.friends, { :page => (params[:page]||1)},
                                             { :conditions => ["type = ?", @type_options.chop]})     
        
       elsif @type_options == "All Posts" and @author_options != "all"

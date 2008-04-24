@@ -22,8 +22,8 @@
   		</tr>
   		<% for post in @topics %>
   				<tr align="center" bgcolor="<%= cycle("#a2b5cd", "#6699FF") %>">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "threaded_discussion_posts", :id => post.id %></td></b>
-    				<td><font size="1"><%= link_to User.find(post.created_by).name, :action => 'show', :controller => 'users', :id => post.created_by %></font></td> 
+    <td><b><%= link_to post.name, :action => 'show', :controller => "threaded_discussion_posts", :id => post.id %></td></b>
+    	<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td> 
   				</tr>
 		<% end %>
 	</table>

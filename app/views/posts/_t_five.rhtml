@@ -39,7 +39,7 @@
     				<td><%= post.fldrug1 %>
     				<td><font size="1"><%= nice_date post.created_at %></font></td>
     				<td><font size="1"><%= truncate post.body, 50 %></font></td>   
-	<td><font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font></td>
+	<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td>
 		<td><% if post.comments.count == 0 %>None<% else %>
 <%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", treatment_url(:id => post.id) %>
 	 <br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people) </small>

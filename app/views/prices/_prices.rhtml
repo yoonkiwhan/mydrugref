@@ -6,7 +6,7 @@
     <% unless price.created_at == price.updated_at %>
 		<p class="meta"><b>   Updated <%=nice_date price.updated_at %></b></p>
 		<% end %>
-<% if logged_in? and current_user.valid? and current_user.id == price.created_by %>
+<% if logged_in? and current_user.valid? and current_user == price.creator %>
 		<big><strong>
 		<%= link_to 'Edit', :controller => "prices", :action => "edit", :post_id => @post, :id => price.id %>
 		</big></strong>

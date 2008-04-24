@@ -1,11 +1,10 @@
 class Drug < ActiveRecord::Base
 set_table_name "cd_drug_product"
-#set_primary_key "drug_code"
+set_primary_key "drug_code"
 acts_as_ferret
-has_many :codes
-has_many :products
-has_many :companies
-has_one :active_ingredient
+has_one :code, :foreign_key => "drug_code"
+has_one :company, :foreign_key => "drug_code"
+has_one :active_ingredient, :foreign_key => "drug_code"
 validates_numericality_of :drug_code 
 
   def self.full_text_search(q, options = {})

@@ -14,7 +14,7 @@
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
+  				<b>Body</b>
  			</font>
            	</td>
 		<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
@@ -27,7 +27,7 @@
   				<tr align="center" bgcolor="#cae1ff">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'bulletins', :id => post.id %></td></b>
     				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
+    				<td><font size="1"><%= truncate(post.body, 50) %></font></td> 
 				<td><font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font></td>
   				</tr>
 		<% end %>

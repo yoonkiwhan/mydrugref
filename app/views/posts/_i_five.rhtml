@@ -19,12 +19,17 @@
            	</td>
            	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
+  				<b>Body</b>
  			</font>
            	</td>
 		<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
  			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
   				<b>Author</b>
+ 			</font>
+           	</td>
+		<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Comments</b>
  			</font>
            	</td>
   		</tr>
@@ -34,11 +39,15 @@
     				<%= "#cae1ff" if post.significance == "1" %>
     				<%= "#6699FF" if post.significance == nil %>
     				<%= "#6699FF" if post.significance == " " %>;">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
-    				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
+    				<td><b><%= link_to post.name, interaction_url(:id => post.id) %></td></b>
+    				<td><b><%= link_to post.drug2, interaction_url(:id => post.id) %></td></b>
     				<td><font size="1"><%= nice_date post.created_at %></font></td> 
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td>  
+    				<td><font size="1"><%= truncate post.body, 50 %></font></td>  
 	<td><font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font></td>
+		<td><% if post.comments.count == 0 %>None<% else %>
+<%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", interaction_url(:id => post.id) %>
+	 <br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people) </small>
+	 <% end %></td>
   				</tr>
 		<% end %>
 	</table>

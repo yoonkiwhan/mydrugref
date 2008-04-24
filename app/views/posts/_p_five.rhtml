@@ -1,32 +1,27 @@
 <h2>Last Ten Posts</h2>
 <br>
 <table border = "0" cellpadding="10" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+ 		<tr align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+		    <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+			<td>
   				<b>Title</b>
- 			</font>
             </td>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+			<td>
   				<b>Type</b>
- 			</font>
            	</td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+ 			<td>
   				<b>Created</b>
- 			</font>
            	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
+           	<td>
+  				<b>Body</b
            	</td>
-		<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+		<td>
   				<b>Author</b>
- 			</font>
            	</td>
+		<td>
+				<b>Comments</b>
+		</td>
+		      </font>
   		</tr>
   		<% for post in @latest_p %>
   				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
@@ -43,8 +38,13 @@
 </td></b>
 				<td><font size="1"><%= post.class %></font></td>
     				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
+    				<td><font size="1"><%= truncate(post.body, 50) %></font></td> 
 	<td><font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font></td>
+				<td>
+	<% if post.comments.count == 0 %>None<% else %>
+<%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	 <br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people) </small>
+	 <% end %></td>
   				</tr>
 		<% end %>
 	</table>

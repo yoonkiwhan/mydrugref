@@ -22,6 +22,11 @@
   				<b>Last Updated</b>
  			</font>
            	</td>
+		<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Author</b>
+ 			</font>
+           	</td>
   		</tr>
   		<% for post in @latest_t %>
   				<tr align="center" bgcolor="#cae1ff">
@@ -29,6 +34,7 @@
     				<td><%= post.fldrug1 %>
     				<td><font size="1"><%= nice_date post.created_at %></font></td>
     				<td><font size="1"><%= nice_date post.updated_at %></font></td>   
+	<td><font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font></td>
   				</tr>
 		<% end %>
 	</table>

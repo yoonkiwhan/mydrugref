@@ -21,7 +21,7 @@
   		<% for post in @latest_f %>
   				<tr align="center" bgcolor="#cae1ff">
     				<td><b><%= link_to post.name, :action => 'show', :controller => 'threaded_discussion_posts', :id => post.root.id %></td></b>
-    				<td><font size="1"><%= link_to User.find(post.created_by).name, :action => 'show', :controller => 'users', :id => post.created_by %></font></td>   
+    				<td><font size="1"><%= link_to User.find(post.created_by).name, user_url(:id => post.created_by) %></font></td>   
     				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
   				</tr>
 		<% end %>

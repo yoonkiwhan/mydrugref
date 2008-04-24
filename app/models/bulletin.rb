@@ -27,7 +27,7 @@ class Bulletin < Post
   end
  
  def self.latest
-    Bulletin.find(:all, :order => "created_at DESC", :limit => 5)
+    Bulletin.find(:all, :order => "created_at DESC", :limit => 10)
  end
   
 end

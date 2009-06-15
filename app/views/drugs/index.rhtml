@@ -1,0 +1,6 @@
+<h4>Narrow Drug Table by Brand Name (Livesearch)</h4>
+<%= text_field_tag 'drugtext' %>
+<%= render :partial => 'table' %>
+</table>
+<%= observe_field 'drugtext', :url => { :action => :index }, :method => 'get', 
+                              :with => 'drugtext', :frequency => 0.7 %>

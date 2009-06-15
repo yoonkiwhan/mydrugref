@@ -1,0 +1,65 @@
+<% @page_title = proper_noun(@drug.brand_name) %>
+<h3>ATC Code</h3>
+<%= @drug.code.tc_atc_number %>
+<h3>DIN</h3>
+<%= @drug.drug_identification_number %>
+<h3>Active Ingredients</h3>
+<% for ai in @drug.active_ingredients %>
+<%= proper_noun(ai.ingredient) %><br>
+<% end %>
+<h3>Manufacturer</h3>
+<%= @drug.company.company_name %>
+<br><br>
+<% if @drug.drug_refs.any? %>
+<h2>Posts</h2>
+<ul>
+  <% for dr in @drug.drug_refs %>
+    <% if dr.post.class.to_s == 'Warning' %>
+      <li><%= link_to 'Warning', warning_url(dr.post_id) %> by 
+        <%= link_to dr.post.creator.name, user_url(dr.post.created_by) %> -- <%= truncate(dr.post.body, 50) %>
+      </li>
+    <% elsif dr.post.class.to_s == 'Interaction' %>
+      <% if dr.label == 'int_drug1' %>
+	<% @other_dr = DrugRef.find_by_post_id_and_label(dr.post_id, 'int_drug2') %>
+      <% elsif dr.label == 'int_drug2' %>
+        <% @other_dr = DrugRef.find_by_post_id_and_label(dr.post_id, 'int_drug1') %>
+      <% end %>
+      <li><%= link_to 'Interaction with ' + @other_dr.drug.brand_name, interaction_url(dr.post_id) %> by 
+          <%= link_to dr.post.creator.name, user_url(dr.post.created_by) %>
+      </li>
+    <% elsif dr.post.class.to_s == 'Treatment' %>
+      <li><%= link_to 'Treatment of ' + dr.post.name, treatment_url(dr.post_id) %> by 
+        <%= link_to dr.post.creator.name, user_url(dr.post.created_by) %>
+      </li>
+    <% elsif dr.post.class.to_s == 'Bulletin' %>
+      <li><%= link_to 'Bulletin', bulletin_url(dr.post_id) %> by 
+        <%= link_to dr.post.creator.name, user_url(dr.post.created_by) %> -- <%= truncate(dr.post.body, 50) %>
+      </li>
+    <% end %>
+<% end %>
+</ul>
+<% end %>
+<br>
+<% if @prices.any? %>
+<h2>Prices</h2>
+  <div id="posts">
+  <%= render :partial => "prices/prices", :prices => @prices %>
+ </div>
+<% end %>
+
+<% if logged_in? %>
+  <div id="comments">
+    <h2>Post a Price</h2>
+    <% form_for :price, @price, :url => { :action => "create", :drug_identification_number => @drug, :controller => 'prices' } do |f| %>
+
+        <b>Price (Enter numbers only. Omit dollar signs):</b>
+            <%= f.text_field :cost %>
+                <br><br><br>
+        <b>Retailer:</b>
+            <%= f.text_field :reference %>
+                <br><br><br>
+    <%= submit_tag "Post Price" %>
+  <% end %>
+</form> 
+<% end %> 
+</div> 

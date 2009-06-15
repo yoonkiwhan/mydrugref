@@ -1,42 +1,45 @@
-<% if @total == 0 %>
-
-<p align="center">No items found...</p>
-
-<% else %>
-
-<p align="center">for query <strong><%= @query %></strong>:</p>
+<p align="center"><strong><%= @results.length %></strong> posts matched <strong>"<%= @query %>"</strong>:</p>
+<% if @results.length > 0 %>
+<table id="posts">
+  <tr>
+	<th>Title</th>
+	<th>Type</th>
+ 	<th>Created</th>
+    <th>Body</th>
+	<th>Author</th>
+	<th>Comments</th>
+  </tr>
+  <% @results.each do |post| %>
+  <tr class=<%= (post.significance == ' ' or post.significance.nil?) ? 'none' : post.significance.downcase %>>
+    				<td><b>
+<% if post.class == Warning or post.class == Bulletin %>
+<%= link_to post.drugs[0].brand_name, :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post.id %>
+<% elsif post.class == Treatment %>
+<%= link_to post.name, treatment_url(:id => post.id) %>
+<% elsif post.class == Interaction %>
+<% for dr in post.drug_refs %>
+     <% if dr.label == 'int_drug2' then @drug2 = dr.drug.brand_name %>
+     <% else %>
+     <% @drug1 = dr.drug.brand_name %>
+     <% end %>
 <% end %>
-
- <% @cheese.each do |fromage| %>
-
-<div class="post">
-    <%= user_thumb fromage.creator %>
-<div class="body">
-	<% if fromage.class != Interaction %>
-<h4><%= link_to fromage.name, :action => 'show', :id => fromage.id, :controller => fromage.class.to_s.downcase + "s" %></h4>
-    <% else %>
-	<h4><%= link_to fromage.name + " and " + fromage.drug2, interaction_url(:id => fromage.id) %></h4>
-	<% end %>
-	<p class="meta">
-      
-	<span class="comments">
-	<% if fromage.comments.count == 0 %>
-	No comments
-	<% else %>
-<%= link_to  "#{fromage.comments.tally2 * (100 / fromage.comments.count)}% agree", :action => 'show', :id => fromage, :controller => "#{fromage.type}s" %>
-	  <br><small> (<%= fromage.comments.tally2 %> / <%= fromage.comments.count %> people)</small>
-	  <% end %>
-	  </span>	
-
-      Updated <%= time_ago_in_words fromage.updated_at %> ago
-    </p>
-    <%= simple_format truncate(fromage.body, 100) %>
-  </div>
-<%= clear_div %>
-</div>
-
+<%= link_to @drug1 + " and " + @drug2, interaction_url(:id => post.id) %>
+<% elsif post.class == Comment %>
+<%= link_to post.name, :action => 'show', :controller => Post.find(post.post_id).class.to_s.downcase + "s", :id => post.post_id %>
+<% elsif post.class == Price %>
+<%= link_to post.name, :action => 'show', :controller => 'drugs', :id => post.drug_refs[0].drug_identification_number %>
 <% end %>
-
-<%= link_to 'Previous page', { :page => @pages.current.previous, :query => @query, :type_options => @type_options, :date_options => @date_options} if @pages.current.previous %>
-<%= pagination_links(@pages, :params => { :query=> @query }) %>
-<%= link_to 'Next page', { :page => @pages.current.next, :query => @query, :type_options => @type_options, :date_options => @date_options} if @pages.current.next %>
+</td></b>
+				<td><%= post.class %></td>
+    			<td><%= nice_date post.created_at %></td>   
+    			<td><%= truncate(post.body, 50) %></td> 
+	            <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td>
+				<td>
+	<% if post.comments.count == 0 %>None<% else %>
+<%= link_to  "#{(post.comments.tally*100)/post.comments.count}% agree", :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	 <br><small> (<%= post.comments.tally %> / <%= post.comments.count %> people) </small>
+	 <% end %></td>
+  				</tr>
+		<% end %>
+	</table>
+<% end %>

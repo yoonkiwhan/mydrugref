@@ -1,0 +1,29 @@
+<li>
+  <span class="atc_code"><%= @post_atc[:atc_code] %></span> &nbsp 
+  <span class="atc_class"><%= proper_noun(@post_atc[:atc_class]) %></span>  
+  <input id=<%= "post_drug_refs_attributes_" + @post_atc[:atc_code] + "_tc_atc_number"%>
+         name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][tc_atc_number]"%>
+         type="hidden" value=<%= @post_atc[:atc_code] %> class="hide_me" />
+  <% if @post_atc[:con_name] == 'warnings' %>
+    <input id=<%= "post_drug_refs_attributes_" + @post_atc[:atc_code] + "_label"%>
+           name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]"%> 
+           type="hidden" value="Warning" class="hide_me" />
+  <% elsif @post_atc[:con_name] == 'treatments' %>
+  <span class="options">
+    First Line Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]"%> value="FLD" checked="checked" />
+    Second Line Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]"%> value="SLD" />
+    Suggest for Pregnant Women
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]"%> value="Preg" />
+  </span>
+  <% elsif @post_atc[:con_name] == 'interactions' %>
+  <span class="options">
+    <b>Affecting</b> Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]"%> value="int_drug1" checked="checked" />
+    <b>Affected</b> Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]"%> value="int_drug2" />
+  </span>
+  <% end %>
+<%= link_to_function 'Remove from post', "$(this).up('li').remove()" %>
+</li>

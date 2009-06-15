@@ -1,15 +1,14 @@
 <h2> Search Posts </h2>
-<% form_tag :only_path => false, :controller => :posts, :action => :cheese do %>
+<% form_tag :only_path => false, :controller => :posts, :action => :search do %>
             <input type="text" name="query" size="15" value="" /><br><br>
             <%= select_tag("type_options", 
                            options_for_select(%w{ All\ Posts Warnings Interactions Treatments Bulletins }) ) %><br><br>
             <%= select_tag ("date_options",
-                           options_for_select( [[ 'All Dates', "all"],
+                           options_for_select( [[ 'All Dates', Time.at(0)],
                                                 [ 'This year', Time.now.at_beginning_of_year ],
                                                 [ 'This month', Time.now.at_beginning_of_month ],
                                                 [ 'This week', Time.now.at_beginning_of_week ],
-                                                [ 'Today', Time.today]] ) ) %><br>
-         <br><input type="submit" name="submit" value="Search" />
-         <%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
+                                                [ 'Today', Time.now.at_beginning_of_day]] ) ) %><br>
+         <br><input type="submit" name="submit" value="Search" />  
         </form> 
         <% end %>

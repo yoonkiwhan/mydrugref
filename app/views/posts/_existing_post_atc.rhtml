@@ -1,0 +1,54 @@
+<li>
+  <span class="atc_code"><%= @post_atc[:atc_code] %></span> &nbsp 
+  <span class="atc_class"><%= proper_noun(@post_atc[:atc_class]) %></span>  
+  <input id=<%= "post_drug_refs_attributes_" + @post_atc[:id].to_s + "_tc_atc_number"%>
+         name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][tc_atc_number]"%>
+         type="hidden" value=<%= @post_atc[:atc_code] %>>
+         
+  <% if @post_atc[:con_name] == 'warnings' %>
+    <input id=<%= "post_drug_refs_attributes_" + @post_atc[:id].to_s + "_label"%>
+           name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> 
+           type="hidden" value="Warning" class="hide_me" />
+  <% elsif @post_atc[:con_name] == 'treatments' %>
+  <span class="options">
+    First Line Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="FLD"
+    <% if @post_atc[:label] == 'FLD' %> 
+    checked="checked"
+    <% end %> 
+    />
+    Second Line Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="SLD" 
+    <% if @post_atc[:label] == 'SLD' %> 
+    checked="checked"
+    <% end %>
+    />
+    Suggest for Pregnant Women
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="Preg" 
+    <% if @post_atc[:label] == 'Preg' %> 
+    checked="checked"
+    <% end %>
+    />
+  </span>
+  <% elsif @post_atc[:con_name] == 'interactions' %>
+  <span class="options">
+    <b>Affecting</b> Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="int_drug1" 
+    <% if @post_atc[:label] == 'int_drug1' %> 
+    checked="checked"
+    <% end %> 
+    />
+    <b>Affected</b> Drug
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="int_drug2" 
+    <% if @post_atc[:label] == 'int_drug2' %> 
+    checked="checked"
+    <% end %>
+    />
+  </span>
+  <% end %>
+         
+  <input id=<%= "post_drug_refs_attributes_" + @post_atc[:id].to_s + "_id"%>
+         name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][id]"%>
+         type="hidden" value=<%= @post_atc[:id] %>>
+<%= link_to_function "Remove from post", "PostForm.deleteDrugRef($(this.up('li')), " + @post_atc[:id].to_s + ")" %>
+</li>

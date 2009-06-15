@@ -1,47 +1,43 @@
-<h2>Last Ten Posts</h2>
-<br>
-<table border = "0" cellpadding="10" cellspacing="3"  width = "100%">
- 		<tr align="center" valign="top" bgcolor="#e1e1e1" nowrap>
-			<td>
-  				<b>Title</b>
-            </td>
-			<td>
-  				<b>Type</b>
-           	</td>
- 			<td>
-  				<b>Created</b>
-           	</td>
-           	<td>
-  				<b>Body</b
-           	</td>
-		<td>
-  				<b>Author</b>
-           	</td>
-		<td>
-				<b>Comments</b>
-		</td>
-  		</tr>
+<table id="posts">
+  <tr>
+    <th>Title</th>
+    <th>Type</th>
+    <th>Created</th>
+    <th>Body</th>
+    <th>Author</th>
+    <th>Comments</th>
+  </tr>
   		<% for post in @latest_p %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
-    				<%= "#bcd2ee" if post.significance == "2" %>
-    				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
+  <tr class=<%= (post.significance == ' ' or post.significance.nil?) ? 'none' : post.significance.downcase %>>
     				<td><b>
-<% if post.class == Warning or post.class == Bulletin or post.class == Treatment or post.class == Product %>
-<%= link_to post.name, :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post.id %>
+<% if post.class == Warning %>
+<%= link_to proper_noun(post.drug_refs[0].code.tc_atc), warning_url(:id => post.id) %>
+<% elsif post.class == Bulletin %>
+<%= link_to proper_noun(post.drug_refs[0].drug.brand_name), bulletin_url(:id => post.id) %>
+<% elsif post.class == Treatment or post.class == Guideline %>
+<%= link_to post.name, :action => 'show', :controller => post.class.to_s + 's', :id => post.id %>
 <% elsif post.class == Interaction %>
-<%= link_to post.name + " and " + post.drug2, interaction_url(:id => post.id) %>
-<% elsif post.class == Comment or post.class == Price %>
+<% for dr in post.drug_refs %>
+     <% if dr.label == 'int_drug2' then drug2 = dr.code.tc_atc %>
+     <% else %>
+     <% drug1 = dr.code.tc_atc %>
+     <% end %>
+<% end %>
+<%= link_to proper_noun(drug1) + " and " + proper_noun(drug2), interaction_url(:id => post.id) %>
+<% elsif post.class == Comment %>
 <%= link_to post.name, :action => 'show', :controller => Post.find(post.post_id).class.to_s.downcase + "s", :id => post.post_id %>
+<% elsif post.class == Price %>
+<%= link_to post.name, :action => 'show', :controller => 'drugs', :id => post.drug_refs[0].drug_identification_number %>
 <% end %>
 </td></b>
-				<td><font size="1"><%= post.class %></font></td>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= truncate(post.body, 50) %></font></td> 
-	<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td>
+				<td><%= post.class %></td>
+    			<td><%= nice_date post.created_at %></td>   
+    			<td><%= truncate(post.body, 50) %></td> 
+	            <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td>
 				<td>
 	<% if post.comments.count == 0 %>None<% else %>
-<%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
-	 <br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people) </small>
+<%= link_to  "#{(post.comments.tally*100)/post.comments.count}% agree", :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	 <br><small> (<%= post.comments.tally %> / <%= post.comments.count %> people) </small>
 	 <% end %></td>
   				</tr>
 		<% end %>

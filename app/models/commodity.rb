@@ -1,3 +1,0 @@
-class Commodity < Post
-  
-end

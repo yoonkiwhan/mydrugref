@@ -1,19 +1,15 @@
 class Code < ActiveRecord::Base
 set_table_name "cd_therapeutic_class"
-acts_as_ferret
-belongs_to :drug, :foreign_key => "drug_code"
+set_primary_key "tc_atc_number"
 
-  def self.full_text_search(q, options = {})
-   return nil if q.nil? or q==""
-   default_options = {:limit => 10, :page => 1}
-   options = default_options.merge options
- 
-   # get the offset based on what page we're on
-   options[:offset] = options[:limit] * (options.delete(:page).to_i-1)
- 
-   # now do the query with our options
-   results = Code.find_by_contents(q, options)
-   return [results.total_hits, results]
+# belongs_to :drug, :foreign_key => "drug_code"
+
+  def drug
+    Drug.find_by_drug_code(self.drug_code)
+  end
+  
+  def active_ingredients
+    ActiveIngredient.find_all_by_drug_code(self.drug_code)
   end
  
 end

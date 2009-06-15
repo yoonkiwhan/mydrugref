@@ -18,5 +18,7 @@ class Oscarresult < ActionWebService::Struct
   member :news_date,  :string
   member :trusted,    :bool
   member :author, :string
-  member :comments,  [Oscarcom]
+  member :agree,      :bool
+  member :comments,  [Oscarresult]
+  member :drugs,      [OscarDrug]
 end

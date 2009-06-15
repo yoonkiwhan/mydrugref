@@ -1,17 +1,19 @@
 class Interaction < Post
-  acts_as_ferret
+
+ def affecting_dr
+   self.drug_refs.detect {|d| d.label == 'int_drug1'}
+ end
  
- def self.full_text_search(q, options = {})
-   return nil if q.nil? or q==""
-   default_options = {:limit => 10, :page => 1}
-   options = default_options.merge options
+ def affected_dr
+   self.drug_refs.detect {|d| d.label == 'int_drug2'}
+ end
+
+ def affecting_drug
+   self.drug_refs.detect {|d| d.label == 'int_drug1'}.drug
+ end
  
-   # get the offset based on what page we're on
-   options[:offset] = options[:limit] * (options.delete(:page).to_i-1)
- 
-   # now do the query with our options
-   results = Interaction.find_by_contents(q, options)
-   return [results.total_hits, results]
+ def affected_drug
+   self.drug_refs.detect {|d| d.label == 'int_drug2'}.drug
  end
  
  def self.today

@@ -1,5 +1,4 @@
 class Product < Post
-  acts_as_ferret
 
 def self.full_text_search(q, options = {})
    return nil if q.nil? or q==""

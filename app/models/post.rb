@@ -1,80 +1,28 @@
 class Post < ActiveRecord::Base
- acts_as_ferret
   
   has_many   :comments,  :order => 'id', :dependent => :destroy
-  has_many   :prices,  :order => 'cost', :dependent => :destroy
+  has_many   :drug_refs, :dependent => :destroy
+  has_many   :drugs, :through => :drug_refs
+  has_many   :codes, :through => :drug_refs
   belongs_to :creator, :class_name => 'User', :foreign_key => "created_by"
   belongs_to :attachment, :dependent => :destroy
-
-  validates_presence_of :name, :created_by
-
-  def self.full_text_search(q, options = {},find_options = {})
-   return nil if q.nil? or q==""
-   default_options = {:limit => 10, :page => 1}
-   options = default_options.merge options
+#  validates_associated :drug_refs, :message => "Must contain valid DIN code"
+  accepts_nested_attributes_for :drug_refs, :allow_destroy => true
   
-   # get the offset based on what page we're on
-   options[:offset] = options[:limit] * (options.delete(:page).to_i-1) 
-  
-   # now do the query with our options
-   results = Warning.find_by_contents(q, options,  find_options)
-   resultsb = Interaction.find_by_contents(q, options,  find_options)
-   resultsc = Treatment.find_by_contents(q, options, find_options)
-   resultsd = Bulletin.find_by_contents(q, options, find_options)
-   puts options
-   puts find_options
-  
-   [results.total_hits + resultsb.total_hits + resultsc.total_hits + resultsd.total_hits, results + resultsb + resultsc + resultsd]
-  end
- 
-  def self.trust_search(q, friends, options = {}, find_options = {})
-    return nil if q.nil? or q==""
-    default_options = {:limit => 10, :page => 1}
-    options = default_options.merge options
-  
-    # get the offset based on what page we're on
-    options[:offset] = options[:limit] * (options.delete(:page).to_i-1)
-    
-    posts = Post.find_by_contents(q, options, find_options)
-    puts options
-    puts find_options
-    
-    results = Array.new
-    
-    for post in posts
-      if friends.include?(post.creator)
-      results << post
-      end
+  def self.search(q, date, type)
+    if type.nil?
+      by_drug_name = Post.find(:all, :include => :drugs, 
+                     :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND created_at > ?', 
+                                     q.downcase, date])
+      by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND created_at > ?', q.downcase, date])
+    else
+      by_drug_name = Post.find(:all, :include => :drugs, 
+                     :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND type = ? AND created_at > ?', 
+                                     q.downcase, type, date])
+      by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND type = ? AND created_at > ?', 
+                                                q.downcase, type, date])
     end
-    
-    return results
-    
-  end
-  
-  def self.review_search(q, percentage, options = {}, find_options = {})
-    return nil if q.nil? or q==""
-    default_options = {:limit => 10, :page => 1}
-    options = default_options.merge options
-  
-    # get the offset based on what page we're on
-    options[:offset] = options[:limit] * (options.delete(:page).to_i-1)
-    
-    posts = Post.find_by_contents(q, options, find_options)
-    puts options
-    puts find_options
-    
-    results = Array.new
-    
-    for post in posts
-      if post.comments.count == 0
-      #do nothing
-      elsif post.comments.tally2 * (100 / post.comments.count) >= percentage
-      results << post
-      end
-    end
-    
-    return results
-    
+    by_drug_name | by_body
   end
 
   def self.latest

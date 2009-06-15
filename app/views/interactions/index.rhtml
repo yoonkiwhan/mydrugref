@@ -1,74 +1,36 @@
-<h4>Search Interactions Only</h4>
-<% form_tag search_interactions_url do %>
- <%= text_field_tag(:query, nil, :size => 15) %>
-<br>
-<input type="submit" name="submit" value="Search" />
-<% end %>
-</form>
-
 <% if logged_in? and current_user.valid? %>
-<div id="form_container">
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %></div>
-  <%= render :partial => 'form' %>
-</div>
+    <%= link_to 'Add New Interaction', new_interaction_url, :class => 'new_post' %>
 <% end %>
 <br>
 
 
-<table border = "0" cellpadding="3" cellspacing="2"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b><%= link_to "Affecting Drug", :action => :index %></b>
- 			</font>
-            </td>
-            <td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b><%= link_to "Effect", :action => :index, :sort_by => :effect %></b>
- 			</font>
-           	</td>
-            <td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b><%= link_to "Affected Drug", :action => :index, :sort_by => :affected %></b>
- 			</font>
-            </td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="16%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b><%= link_to "Author", :action => :index, :sort_by => :author %></b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b><%= link_to "Last Updated", :action => :index, :sort_by => :date %></b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="12%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Comments</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @posts %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
-    				<%= "#bcd2ee" if post.significance == "2" %>
-    				<%= "#cae1ff" if post.significance == "1" %>
-    				<%= "#6699FF" if post.significance == nil %>
-    				<%= "#6699FF" if post.significance == " " %>;">
-    		<td><b><%= link_to post.name, :action => 'show', :controller => "interactions", :id => post.id %></td></b>
- 			<td><font size="1"><%= "Augments" if post.effect == "A" %><%= "Inhibits" if post.effect == "I" %>
-    				                   <%= "No Effect" if post.effect == "N" %></td>
-    		<td><b><%= link_to post.drug2, :action => 'show', :controller => "interactions", :id => post.id %></td></b>
-    		<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td> 
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-    				<td><font size="1"><% if post.comments.count == 0 %>None<% else %>
-	  			<%= link_to  "#{(post.comments.tally2*100)/post.comments.count}% agree", :action => 'show', :id => post %>
-	  			<br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people) </small>
-	  		<% end %></font></td> 
-  				</tr>
-		<% end %>
-	</table>
+<table id="posts">
+    <tr>
+	<th>Affecting Drug</th>
+        <th><%= link_to "Effect", :action => :index, :sort_by => :effect %></th>
+        <th>Affected Drug</th>
+        <th><%= link_to "Author", :action => :index, :sort_by => :author %></th>
+        <th><%= link_to "Last Updated", :action => :index %></th>
+        <th>Comments</th>
+    </tr>
+    <% for post in @posts %>
+       <% for dr in post.drug_refs %>
+  	     <% if dr.label == 'int_drug2' then drug2 = dr.code.tc_atc %>
+  	     <% elsif dr.label == 'int_drug1' then drug1 = dr.code.tc_atc %>
+         <% end %>
+       <% end %>
+       <tr class=<%= post.significance.downcase %>>
+           <td><b><%= link_to proper_noun(drug1), interaction_url(:id => post.id) %></td></b>
+ 	   <td><%= post.effect %></td>
+    	   <td><b><%= link_to proper_noun(drug2), interaction_url(:id => post.id) %></td></b>
+    	   <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
+    	   <td><%= nice_date post.updated_at %></td> 
+    	   <td><% if post.comments.count == 0 %>None<% else %>
+	   <%= link_to  "#{(post.comments.tally*100)/post.comments.count}% agree", :action => 'show', :id => post %>
+	  			<br><small> (<%= post.comments.tally %> / <%= post.comments.count %> people) </small>
+	  	<% end %></td> 
+       </tr>
+    <% end %>
+</table>
 
-<%= link_to 'Previous page', { :page => @post_pages.current.previous} if @post_pages.current.previous %>
-  <%= pagination_links @post_pages %>
-  <%= link_to 'Next page', { :page => @post_pages.current.next} if @post_pages.current.next %>
+<%= will_paginate @posts %>

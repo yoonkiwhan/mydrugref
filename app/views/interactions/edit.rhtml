@@ -1,5 +1,5 @@
 <div id='form_wrapper'>
-<span id='controller_name' class='interactions'></span>  
+<span id='controller_name' class='interactions'></span>
 <% standard_form :post, @post do |f| %>
 
 <%= render :partial => 'posts/helptext' %>
@@ -20,6 +20,12 @@
    
   <label>Drugs of Choice ATCs</label>
   <ul id='post_atcs'>
+    <% for d in @post.drug_refs %>
+    <% c = Code.find_by_tc_atc_number(d.tc_atc_number) %>
+    <% @post_atc = {:atc_code => d.tc_atc_number, :atc_class => c.tc_atc, :id => d.id, :con_name => 'interactions',
+                    :label => d.label } %>
+    <%= render :partial => '/posts/existing_post_atc', :object => @post_atc %>
+  <% end %>
   </ul>
   
   <label for="post_effect">Effect</label>

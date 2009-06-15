@@ -1,53 +1,25 @@
-<% @page_title = (@post.name + "&nbsp;and&nbsp;" + @post.drug2 ) %>
-<div id="form_container" <% if @edit_on %>class="active"<% end %>>
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @post %><span>&nbsp;&nbsp;</span>
-  <%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
-  <div id="meta">Posted <%= time_ago_in_words @post.created_at %> ago by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
-  (
-  	
-	<% if @post.significance == "3" %>
-            
-			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-           		<b>HIGH</b> 			
-			</font>
-   	<% elsif @post.significance == "2" %>
-           <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-           	<b>MEDIUM</b> 			
-			</font>
-    <% elsif @post.significance == "1" %>
-           <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-           	<b>LOW</b> 			
-			</font>
-    <% end %>significance )</div>
-  <%= render :partial => 'form' %>
-</div>
-  <h3>Respective ATC Codes</h3>
-   <div id="detail"><%= @post.atc %>&nbsp;and&nbsp;<%= @post.atc2 %></div>
+<% @page_title = ( @drug1 + "&nbsp;and&nbsp;" + @drug2 ) %>
+
+<% if logged_in? and can_edit? @post %>
+    <%= link_to 'Edit', edit_interaction_url(@post), :class => 'new_post' %>
+<% end %>
+
+  <div id="meta">Posted <%= time_ago_in_words @post.created_at %> ago by 
+  <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
+  (<b><%= @post.significance.upcase %></b> significance )</div>
+
+  <h3><%= proper_noun(@drug1) %>'s ATC Code</h3>
+   <div id="detail"><%= @atc1 %></div>
+  <h3><%= proper_noun(@drug2) %>'s ATC Code</h3>
+   <div id="detail"><%= @atc2 %></div>
   <% if @post.body.any? %>
   <h3>Details</h3>
   <div id="detail"><%= simple_format(@post.body) %></div>
   <% end %>
   <h3>Effect</h3>
-  <% if @post.effect == "A" %>
-  Augments
-  <% elsif @post.effect == "I" %>
-  Inhibits
-  <% elsif @post.effect == "N" %>
-  No Effect
-  <% else %>
    <%= @post.effect %>
-  <% end %>
   <h3>Evidence</h3>
-  <% if @post.evidence == "G" %>
-  Good
-  <% elsif @post.evidence == "F" %>
-  Fair
-  <% elsif @post.evidence == "P" %>
-  Poor
-  <% else %>
    <%= @post.evidence %>
-  <% end %>
   <% if @post.reference != nil %>
   <h3>Reference</h3>
    <div id="detail">
@@ -59,4 +31,3 @@
    </div>
   <% end %>
 <%= render :partial => "comments/comments", :comments => @post.comments %>
-

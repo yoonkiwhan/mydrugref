@@ -1,5 +1,5 @@
 <div id='form_wrapper'>
-<span id='controller_name' class='warnings'></span>  
+<span id='controller_name' class='warnings'></span>
 <%= render :partial => 'posts/helptext' %>
 <div class='search'>
     <label>
@@ -7,7 +7,7 @@
     </label>
     <input id='drugtext' name='drugtext' type='text'>
     <%= button_to_function "Search", "SearchDiv.searchForResults('brandname')", :id => 'search_button' %>
-    <img id="spinner" style="display: none;" src="/images/spinner.gif" />
+<img id="spinner" style="display: none;" src="/images/spinner.gif" />
     <span id='helptext'>Click the search button with your mouse -- hitting enter may cause your browser to submit 
     an unfinished form.</span>
     <span id='alt_search_link'>
@@ -19,6 +19,11 @@
 <% standard_form :post, @post do |f| %>  
   <label>Drug ATCs</label>
   <ul id='post_atcs'>
+  <% for d in @post.drug_refs %>
+    <% c = Code.find_by_tc_atc_number(d.tc_atc_number) %>
+    <% @post_atc = {:atc_code => d.tc_atc_number, :atc_class => c.tc_atc, :id => d.id, :con_name => 'warnings' } %>
+    <%= render :partial => '/posts/existing_post_atc', :object => @post_atc %>
+  <% end %>
   </ul>
 
   <%= f.text_area :body, :label => "Warning" %>

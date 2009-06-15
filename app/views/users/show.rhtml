@@ -1,14 +1,26 @@
 <div id="form_container" <% if @edit_on %>class="active"<% end %>>
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @user and @current_user.name != "Guest" %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+  <div id="cancel_link">
+    <%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %>
+  </div>
+  <div id="new_link">
+    <% if logged_in? and can_edit? @user and @current_user.name != "Guest" %>
+        <span>&nbsp;&nbsp;</span>
+        <%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %>
+    <% end %>
+  </div>
   <%= render :partial => 'form' %>
 </div><br />
+ 
  <div id="detail">
     <div id="change_picture">
-      <%= image_tag formatted_user_url(:id => @user, :format => 'jpg'), :class => 'user_picture', :alt => @user.name %>
-      <% if logged_in? and current_user.valid? and can_edit? @user %>
-	  
-      <form id="picture_form" style="display: none;" method="post" enctype="multipart/form-data" action="<%= url_for(:action => 'show') %>">
+      <%= image_tag formatted_user_url(:id => @user, 
+            :format => 'jpg'), 
+            :class => 'user_picture', 
+            :alt => @user.name %>
+      <% if logged_in? and can_edit? @user %>
+      <form id="picture_form" style="display: none;" 
+            method="post" enctype="multipart/form-data" 
+            action="<%= url_for(:action => 'show') %>">
         <fieldset>
           <input type="hidden" name="_method" value="put" />
           <input type="file" name="user[file]" /> 
@@ -21,12 +33,12 @@
 <%= link_to "Trust #{@user.name}",
             { :controller => "friendship", :action => "create",
             :id => @user.id } %>
-<% end %>
+        <% end %>
     <% if logged_in? and @current_user.friends.include?(@user) %>
 <%= link_to "Untrust", :controller => "friendship", :action => "destroy", :id => @user.id %>
     <% end %>
     </div>
-<% if logged_in? and current_user.valid? and can_edit? @user and @current_user.name != "Guest" %>
+<% if logged_in? and can_edit? @user and @current_user.name != "Guest" %>
 <B>E-mail:</b> <%= @user.email %>
 <% end %>
 </div>
@@ -35,236 +47,105 @@
 
 <% if @warnings.any? %>
 <h4>Warnings</h4>
-	
-	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b> Drug Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @warnings %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
-    				<%= "#bcd2ee" if post.significance == "2" %>
-    				<%= "#cae1ff" if post.significance == "1" %><%= "#6699FF" if post.significance == nil %>;">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'warnings', :id => post.id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-  				</tr>
-		<% end %>
-	</table>
-	
+    <table id="posts">
+ 	<tr>
+	    <th>Drug Name</th>
+ 	    <th>Created</th>
+            <th>Last Updated</th>
+  	</tr>
+  	<% for post in @warnings %>
+  	<tr class=<%= post.significance.downcase %>>
+    	    <td><b><%= link_to post.drug_refs[0].drug.brand_name, warning_url(:id => post.id) %></td></b>
+    	    <td><%= nice_date post.created_at %></td>   
+    	    <td><%= nice_date post.updated_at %></td> 
+  	</tr>
+	<% end %>
+</table>
 <% end %>
+
 <% if @interactions.any? %>
 <h4>Interactions</h4>
-<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Affecting Drug</b>
- 			</font>
-            </td>
-            <td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Affected Drug</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @interactions %>
-  				<tr align="center" style = "background: <%= "#a2b5cd" if post.significance == "3" %>
-    				<%= "#bcd2ee" if post.significance == "2" %>
-    				<%= "#cae1ff" if post.significance == "1" %>
-    				<%= "#6699FF" if post.significance == nil %>
-    				<%= "#6699FF" if post.significance == " " %>;">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
-    				<td><b><%= link_to post.drug2, :action => 'show', :controller => "#{post.class}s", :id => post.id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td> 
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td>  
-  				</tr>
-		<% end %>
-	</table>
-
+    <table id="posts">
+        <tr>
+	    <th>Affecting Drug</th>
+            <th>Affected Drug</th>
+ 	    <th>Created</th>
+            <th>Last Updated</th>
+  	</tr>
+  	<% for post in @interactions %>
+  	    <% for dr in post.drug_refs %>
+  	        <% @drug1 = dr.drug.brand_name if dr.label == 'int_drug1' %>
+  	        <% @drug2 = dr.drug.brand_name if dr.label == 'int_drug2' %>
+  	    <% end %>
+  	<tr class=<%= post.significance.downcase %>>
+    	   <td><b><%= link_to @drug1, interaction_url(:id => post.id) %></td></b>
+    	   <td><b><%= link_to @drug2, interaction_url(:id => post.id) %></td></b>
+    	   <td><%= nice_date post.created_at %></td> 
+    	   <td><%= nice_date post.updated_at %></td>  
+  	</tr>
+	<% end %>
+</table>
 <% end %>
 
 <% if @treatments.any? %>
-<h4>Treatments</h4>
-	
-	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Condition</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Drug of Choice</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" width="25%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @treatments %>
-  				<tr align="center" bgcolor="#cae1ff">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'treatments', :id => post.id %></td></b>
-    				<td><%= post.fldrug1 %>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td>   
-  				</tr>
-		<% end %>
-	</table>
+<h4>Treatments</h4>	
+    <table id="posts">
+ 	<tr>
+     	    <th>Condition</th>
+     	    <th>Drug of Choice</th>
+            <th>Created</th>
+            <th>Last Updated</th>
+  	</tr>
+  	<% for post in @treatments %>
+  	<tr class="no_sig">
+    	    <td><b><%= link_to post.name, treatment_url(:id => post.id) %></b></td>
+    	    <% for dr in post.drug_refs %>
+    	        <% @fld1 = dr.drug.brand_name if dr.label == 'FLD1' %>
+    	    <% end %>
+    	        <td><%= @fld1 %></td>
+    	        <td><%= nice_date post.created_at %></td>
+    	        <td><%= nice_date post.updated_at %></td>   
+  	</tr>
+	<% end %>
+    </table>
 	
 <% end %>
 
 <% if @bulletins.any? %>
 <h4>Bulletins</h4>
 	
-	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b> Drug Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @bulletins %>
-  				<tr align="center" bgcolor="#cae1ff">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'bulletins', :id => post.id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-  				</tr>
-		<% end %>
-	</table>
+    <table id="posts">
+ 	<tr>
+	    <th> Drug Name</th>
+ 	    <th>Created</th>
+            <th>Last Updated</th>
+  	</tr>
+    <% for post in @bulletins %>
+  	<tr class="no_sig">
+    	    <td><b><%= link_to post.name, bulletin_url(:id => post.id) %></td></b>
+   	    <td><%= nice_date post.created_at %></td>   
+    	    <td><%= nice_date post.updated_at %></td> 
+        </tr>
+    <% end %>
+    </table>
 	
-<% end %>
-
-<% if @products.any? %>
-<h4>Drug Products</h4>
-	
-	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b> Drug Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @products %>
-  				<tr align="center" bgcolor="#a2b5cd">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => 'products', :id => post.id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-  				</tr>
-		<% end %>
-	</table>	
-<% end %>
-
-<% if @prices.any? %>
-<h4>Drug Prices</h4>	
-	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Created</b>
- 			</font>
-           	</td>
-           	<td align="center" valign="top" bgcolor="#e1e1e1" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Last Updated</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @prices %>
-  				<tr align="center" bgcolor="#a2b5cd">
-    				<td><b><%= link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).class}s", :id => post.post_id %></td></b>
-    				<td><font size="1"><%= nice_date post.created_at %></font></td>   
-    				<td><font size="1"><%= nice_date post.updated_at %></font></td> 
-  				</tr>
-		<% end %>
-	</table>	
 <% end %>
 
 <% if @comments.any? %>
 <h4>Comments</h4>	
-	<table border = "0" cellpadding="5" cellspacing="3"  width = "100%">
- 		<tr>
-			<td align="center" valign="top" bgcolor="#e1e1e1" width="64%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Name</b>
- 			</font>
-            </td>
- 			<td align="center" valign="top" bgcolor="#e1e1e1" width="36%" nowrap>
- 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-  				<b>Body</b>
- 			</font>
-           	</td>
-  		</tr>
-  		<% for post in @comments %>
-  				<tr align="center" style = "background: 
-					<%= "#B5EAAA" if post.goat == true %>
-    				<%= "#EEB4B4" if post.goat != true %>;
-					color: 
-					<%= "green" if post.goat == true %>
-					<%= "#B22222" if post.goat != true %>;">
-    				<td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find_by_id(post.post_id).class}s", :id => post.post_id %></td></b>
-    				<td><font size="1"><%= truncate(post.body, 200) %></font></td>   
-  				</tr>
-		<% end %>
-	</table>
+    <table id="posts">
+ 	<tr>
+	    <th>Name</th>
+ 	    <th>Body</th>
+  	</tr>
+    <% for post in @comments %>
+  	<tr class = <%= comment_class(post.agree) %>>
+    	    <td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find(post.post_id).class}s", 
+					 :id => post.post_id %></td></b>
+    	    <td><%= truncate(post.body, 200) %></td>   
+  	</tr>
+    <% end %>
+    </table>
 	
 <% end %>	
 
@@ -272,7 +153,7 @@
 <% unless @user.friends.blank? %>
     <h2><%= @user.doc_name %> trusts: </h2>
         <ul><% for pal in @friends %> 
-            <li><%= link_to pal.name, :action => 'show', :controller => "users", :id => pal.id %></li> 
+            <li><%= link_to pal.name, user_url(:id => pal.id) %></li> 
         <% end %></ul>
 <% end %>
 <% unless @trusters.blank? %>
@@ -280,6 +161,6 @@
 <h4><%= @user.doc_name %> is trusted by:</h4>
 <ul>
 <% for person in @trusters %>
-        <li><%= link_to person.name, :action => 'show', :controller => "users", :id => person.id %></li>
+        <li><%= link_to person.name, user_url(:id => person.id) %></li>
 <% end %></ul>
 <% end %>

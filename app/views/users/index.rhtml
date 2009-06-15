@@ -11,33 +11,10 @@
   <%= render :partial =>'form' %>
 </div>
 
-<table id="posts" style="margin-top: 20px;">
+<table id="users" style="margin-top: 20px;">
   <% for user in @users %>
     <tr>
       <td><strong><%= link_to user.name, user_url(:id => user) %></strong></td>
     </tr>
   <% end %>
 </table>
-<br>
-<br>
-<h2>Search Posts by User</h2>
-<br>
-<% form_tag search_users_url do %>
- &nbsp; <input type="text" name="query" size="15" value="" />
-    <input type="submit" name="submit" value="Search" />
-     <%= select_tag("type_options", 
-                           options_for_select(%w{ All\ Posts Warnings Interactions Treatments Bulletins }) ) %>
-     <select name="author_options">
-       <option value="all">All Users</option>
-       <% if logged_in? and current_user.valid? %>
-       <% unless @current_user.friends.blank? %> 
-       <option value="trusted">Trusted Users</option>
-       <% end %>
-       <% end %>
-       <% for user in @users %>
-       <option value="<%= user.id %>"><%= user.name %></option>
-       <% end %>
-     </select>
-  <br><%= link_to "Search Tips", {:action => 'popup', :controller => 'posts'}, :popup => ['height=325,width=600'] %>  
-</form>
-<% end %>

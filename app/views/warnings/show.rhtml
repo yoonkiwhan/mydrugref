@@ -1,47 +1,23 @@
-
-<div id="form_container" <% if @edit_on %>class="active"<% end %>>
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @post %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+<% if logged_in? and can_edit? @post %>
+    <%= link_to 'Edit', edit_warning_url(@post), :class => 'new_post' %>
+<% end %>
   <div id="meta">
-  	Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b> (
-  	
-	<% if @post.significance == "3" %>
-            
-			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-           		<b>HIGH</b> 			
-			</font>
-   	<% elsif @post.significance == "2" %>
-           <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-           	<b>MEDIUM</b> 			
-			</font>
-    <% elsif @post.significance == "1" %>
-           <font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
-           	<b>LOW</b> 			
-			</font>
-    <% end %>significance )
+  	Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b> 
+  	(<b><%= @post.significance.upcase %></b> significance )
 	
   </div>
-  <%= render :partial => 'form' %>
- </div>
-  <h3>ATC Code</h3>
-   <div id="detail"><%= simple_format(@post.atc) if @post.atc.any? %></div>
+  <% for dr in @post.drug_refs%>
+    <h3><%= proper_noun(dr.code.tc_atc) %></h3>
+    <b>ATC Code: </b><%= dr.code.tc_atc_number %>
+  <% end %>
   <h3>Warning</h3>
-  <div id="detail">
- <%= simple_format(@post.body) if @post.body.any? %></div>
+ <%= @post.body unless @post.body.nil? %>
   <h3>Evidence</h3>
-  <% if @post.evidence == "G" %>
-  Good
-  <% elsif @post.evidence == "F" %>
-  Fair
-  <% elsif @post.evidence == "P" %>
-  Poor
-  <% else %>
-   <%= @post.evidence %>
-  <% end %>  
+  <%= @post.evidence %>  
   <h3>Reference</h3>
    <div id="detail">
     <% if @post.reference[0..6] == "http://" %>
-     <a href="<%= @post.reference %>"><%= truncate(@post.reference, 50) %></a>
+     <a href=<%= @post.reference %>><%= truncate(@post.reference, 50) %></a>
     <% else %>
      <%= @post.reference %>
     <% end %>

@@ -1,4 +1,4 @@
-<% for price in @post.prices %>
+<% for price in @prices %>
 
 <div class="post">
 <%= user_thumb price.creator %>
@@ -6,9 +6,10 @@
     <% unless price.created_at == price.updated_at %>
 		<p class="meta"><b>   Updated <%=nice_date price.updated_at %></b></p>
 		<% end %>
-<% if logged_in? and current_user.valid? and current_user == price.creator %>
+<% if logged_in? and current_user == price.creator %>
 		<big><strong>
-		<%= link_to 'Edit', :controller => "prices", :action => "edit", :post_id => @post, :id => price.id %>
+		<%= link_to 'Edit', :controller => "prices", :action => "edit", 
+		:drug_identification_number => @drug.drug_identification_number, :id => price.id %>
 		</big></strong>
 		<% end %>
 <p>

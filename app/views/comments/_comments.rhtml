@@ -1,10 +1,10 @@
 <div id="comments">
-  <h2><% if @post.comments.any? %> <%= @post.comments.tally2 %> out of <%= @post.comments.size %> people agree 
+  <h2><% if @post.comments.any? %> <%= @post.comments.tally %> out of <%= @post.comments.size %> people agree 
       <% elsif logged_in? and current_user.valid? %>Be the first to post a comment
       <% else %>No comments so far<% end %></h2>
-	<!--yo_goat keeps track of whether the user has already left one review to prevent 
+	<!--no_vote keeps track of whether the user has already left one review to prevent 
 	multiple reviews and thus multiple votes. -->
-	<% yo_goat = 0 %>
+	<% no_vote = 0 %>
 	<% for comment in @post.comments %>
 
   <div class="post">
@@ -18,12 +18,12 @@
 		<big><strong>
 		<%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
             <!-- Only allow user to vote once -->
-            <% yo_goat = yo_goat + 1 %>
+            <% no_vote += 1 %>
         <% end %></big></strong>
   <%= simple_format comment.body %>
- <% if comment.goat? %> 
+ <% if comment.agree? %> 
 	<img src="/images/smallthumbup.bmp" alt="Agree" float="left">
-	 <% elsif comment.goat == false %> 
+	 <% elsif comment.agree == false %> 
 	 <img src="/images/smallthumbdown.bmp" alt="Disagree" float="left">
 	 <% else %>
 	 
@@ -33,7 +33,7 @@
 </div>
 <% end %>
   
-  <% if logged_in? and current_user.valid? and yo_goat == 0 %>
+  <% if logged_in? and current_user.valid? and no_vote == 0 %>
   
   <% remote_form_for :comment,
                      :url => comments_url(:post_type => "Comment", :post_id => @post),
@@ -45,8 +45,8 @@
 <%= form_tag :controller => "comments", :action => "create", :post_id => @post %>
 <h3><%= current_user.name %> said...</h3>
 <%= text_area "comment", "body", "rows" => 5 %><br>
-    <p><b><label for="comment_goat">Vote:</label></b><br/>
-    <select id="comment_goat" name="comment[goat]"><option value="true">Agree</option>
+    <p><b><label for="comment_agree">Vote:</label></b><br/>
+    <select id="comment_agree" name="comment[agree]"><option value="true">Agree</option>
         <option value="false">Disagree</option></select></p>
 	<%= submit_tag "Post New Comment" %> <%= image_tag "spinner.gif", :style => "display: none;", :id => "spinner" %>
 <% end %>

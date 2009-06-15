@@ -6,9 +6,9 @@
             <% no_vote = no_vote + 1 %>
         <% end %></big></strong>
   <%= simple_format comment.body %>
- <% if comment.goat == true %> 
+ <% if comment.agree %> 
 	<img src="/images/thumbsup copy.bmp" alt="Agree" float="left">
- <% elsif comment.goat == false %>
+ <% else %>
  	 <img src="/images/thumbs down.bmp" alt="Disagree" float="left">
  <% else %>
 	 <% end %>

@@ -44,6 +44,6 @@ test:
 
 production:
   adapter: postgresql
-  database: lofty_production
-  username: lofty
-  password:
+  database: drugref2
+  username: ruby
+  password: ruby

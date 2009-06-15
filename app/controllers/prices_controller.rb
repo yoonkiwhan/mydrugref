@@ -4,36 +4,33 @@ def index
 end
 
 def create    
-    @post = Post.find(params[:post_id])
-    @price = Price.new params[:price]
-    @price.post_id = @post.id
-    @price.name = "Price of #{@post.name}"
+    @drug = Drug.find(params[:drug_identification_number])
+    @price = Price.new(params[:price])
+    @price.name = "Price of #{@drug.brand_name}"
     @price.creator = current_user
-    @price.save
-    respond_to do |format|
-      format.html {
-        flash[:notice] = "Price saved."
-        redirect_to :back
-      }
-      format.js {
-        render :update do |page|
-          page[:prices].reload
-        end
-      }
+    if @price.save
+    @dr = DrugRef.new({:drug_identification_number => @drug.drug_identification_number, 
+		       :post_id => @price.id, :label => 'Price'})
+    @dr.save
+    flash[:notice] = "Price saved."
+    redirect_to :back
+    else
+	flash[:notice] = "Price could not be saved."
+	redirect_to :back
     end
 end
 
-def edit
-    @post = Post.find params[:post_id]
-    @price = Price.find_by_id(params[:id])
+  def edit
+    @drug = Drug.find params[:drug_identification_number]
+    @price = Price.find(params[:id])
   end
   
   def update
-      @post = Post.find params[:post_id]
+      @drug = Drug.find params[:drug_identification_number]
       @price = Price.find_by_id(params[:id])
       if @price.update_attributes(params[:price])
           flash[:notice] = "Your changes were saved."
-          redirect_to :action => 'show', :controller => "products", :id => @post.id        
+          redirect_to drug_url(:id => @drug)        
       
       else
       render  :action => 'edit'
@@ -41,16 +38,16 @@ def edit
     end
   
   def destroy
-    @post = Post.find params[:post_id]
+    @drug = Drug.find params[:drug_identification_number]
     @price = Price.find_by_id(params[:id])
     @price.destroy
     flash[:notice] = "Price deleted."
-    redirect_to :action => 'show', :controller => "products", :id => @post.id
+    redirect_to drug_url(:id => @drug)
   end
   
   def show
-    @post = Post.find(params[:post_id])
-    @price = @post.prices.find params[:id]
+    @drug = Drug.find(params[:drug_identification_number])
+    @price = Price.find params[:id]
   end
   
 end

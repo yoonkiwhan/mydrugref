@@ -2,15 +2,13 @@ class BulletinsController < PostsController
 
   def index
       super
-      @post_pages, @posts = paginate :bulletins, :order_by => 'created_at desc', :per_page => 5
+      @posts = Bulletin.paginate :page => params[:page], :order => 'created_at DESC', :per_page => 5
   end
-
-  def search
-    @page_title = "Search Results"
-    @query = params[:query]
-    @total, @bulletins = Bulletin.full_text_search(@query, :page => (params[:page]||1))        
-    @pages = pages_for(@total)
-    render :partial => "search", :layout => true
+  
+  def show
+    @page_title = @post.drugs[0].brand_name
+    @code = @post.drugs[0].code
+    @atc = @code.tc_atc_number
   end
 
   private

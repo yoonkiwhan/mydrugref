@@ -6,7 +6,9 @@ class ApplicationController < ActionController::Base
 #  session :session_key => '_lofty_session_id'
 
   include Authentication
-  before_filter :require_login, :except => [ :index, :show, :search, :news, :cheese, :popup, :rss, :invoke, :invoke_method_params, :invoke_submit, :api, :fetch, :best_value, :w_five, :i_five, :t_five, :p_five, :b_five, :f_five ]
+  before_filter :require_login, :except => [ :index, :show, :search, :news, :cheese, :popup, :rss, :invoke, 
+  :invoke_method_params, :invoke_submit, :api, :fetch, :best_value, :w_five, :i_five, :t_five, :p_five, :b_five, 
+  :f_five, :update_table ]
   before_filter :check_for_valid_user
   
   def pages_for(size, options = {})
@@ -55,6 +57,20 @@ class ApplicationController < ActionController::Base
       unless admin?
         flash[:warning] = "Sorry, only administrators can do that."
         redirect_to Warnings_url
+      end
+    end
+    
+    # Replacing spaces in a string with '%' so that, for example, a search for "tylenol 3" can return 
+    # 'tylenol with codeine no. 3'
+    def add_percents(s)
+      s.insert(0, '%')
+      s.insert(-1, '%')
+      count = 0 
+      while count < s.length
+        if s[count, 1] == ' '
+          s[count] = '%'
+        end
+        count += 1
       end
     end
 

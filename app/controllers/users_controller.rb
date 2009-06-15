@@ -57,7 +57,6 @@ class UsersController < ApplicationController
 
   def edit
     @edit_on = true
-    @posts = Post.find_all_by_created_by(@user)
     @treatments = Treatment.find_all_by_created_by(@user)
     @comments = Comment.find_all_by_created_by(@user)
     @interactions = Interaction.find_all_by_created_by(@user)
@@ -89,42 +88,6 @@ class UsersController < ApplicationController
     @user.destroy
     flash[:notice] = "User deleted."
     redirect_to users_url
-  end
-
-  def search
-    @page_title = "Search Results"
-    @users = User.find :all, :order => 'name'
-    @type_options = params[:type_options]
-    @author_options = params[:author_options]
-    
-    @conditions = ["type = ? and created_by = ?", @type_options.chop, @author_options]
-    @query = params[:query]
-
-      if @type_options == "All Posts" and @author_options == "all"
-      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)})  
-
-      elsif @type_options == "All Posts" and @author_options == "trusted"
-      @search_by_u = Post.trust_search(@query, @current_user.friends, { :page => (params[:page]||1)})
-        
-      elsif @type_options != "All Posts" and @author_options == "trusted"
-      @search_by_u = Post.trust_search(@query, @current_user.friends, { :page => (params[:page]||1)},
-                                            { :conditions => ["type = ?", @type_options.chop]})     
-       
-      elsif @type_options == "All Posts" and @author_options != "all"
-      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                           { :conditions => ["created_by = ?", @author_options]})
-    
-      elsif @type_options != "All Posts" and @author_options == "all"
-      @total, @search_by_u = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                           { :conditions => ["type = ?", @type_options.chop]})   
-      
-      else
-      @total, @search_by_u = Post.full_text_search(@query,  {:page => (params[:page]||1)},
-                                                            {:conditions => @conditions})
-      end
-    @pages = pages_for(@total)
-    render :partial => "search", :layout => true
-   
   end
 
   private

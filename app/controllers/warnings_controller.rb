@@ -1,28 +1,27 @@
 class WarningsController < PostsController
-   
-  # Default action for the app; might be changed to show a dashboard-like view
 
   def index
     super
        @sort_by = params[:sort_by]
        if @sort_by == "date"
-	  @post_pages, @posts = paginate :warnings, :order_by => 'updated_at DESC', :per_page => 20
+	     @posts = Warning.paginate :page => params[:page], :order => 'updated_at DESC', :per_page => 20
        elsif @sort_by == "author"
-	  @post_pages, @posts = paginate :warnings, :order_by => 'created_by', :per_page => 20
+	     @posts = Warning.paginate :page => params[:page], :order => 'created_by', :per_page => 20
        else
-    	  @post_pages, @posts = paginate :warnings, :order_by => 'name', :per_page => 20
+    	 @posts = Warning.paginate :page => params[:page], :include => :codes,
+    	                           :order => 'cd_therapeutic_class.tc_atc', :per_page => 20
        end	
   end
   
-   def search
-    @page_title = "Search Results"
-    @query = params[:query]
-    @total, @warnings = Warning.full_text_search(@query, :page => (params[:page]||1))        
-    @pages = pages_for(@total)
-    render :partial => "search", :layout => true
+  def show
+    @page_title = @post.name.nil? ? @post.drug_refs[0].code.tc_atc : @post.name
   end
-
-
+  
+  def edit
+    @edit_on = true
+    @page_title = 'Edit Warning'
+  end
+  
   private
     def model_name; 'Warning'; end
     

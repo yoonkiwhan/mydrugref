@@ -1,19 +1,30 @@
 class DrugsController < ApplicationController
-   def hcdb
+
+   def index
     @page_title = "Health Canada Database"
+    value = params[:drugtext]
+    if value.nil?
+      conditions = nil
+    else
+      add_percents(value)
+      conditions = 'LOWER(brand_name) LIKE ?', value.downcase
+    end
+    @drugs = Drug.paginate :page => params[:page], :conditions => conditions, :order => 'brand_name ASC', 
+                           :per_page => 20
+    if request.xhr?
+      render :update do |page|
+        page[:drugtable].replace :partial => 'table'
+      end
+    end
    end
-  
-   def search
-    @query = params[:query]
-    @total, @drugs = Drug.full_text_search(@query, :page => (params[:page]||1))
-    @pages = pages_for(@total)       
-    render :partial => "search", :layout => true
-  end
- 
-  def findatc
-    @rue = params[:name]
-    @total, @drugs = Drug.full_text_search(@rue)
-    render :partial => "atc"
-  end
+   
+   def show
+    @drug = Drug.find(params[:id])
+    @price_drs = DrugRef.find(:all, :conditions => {:label => 'Price', :drug_identification_number => @drug.id})
+    @prices = []
+    for dr in @price_drs
+      @prices << dr.post
+    end
+   end
  
 end

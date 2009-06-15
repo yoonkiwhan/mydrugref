@@ -11,6 +11,7 @@ class PostsController < ApplicationController
   def index
     @page_title = post_type.pluralize
     @post = model.new
+    @post.drug_refs.build
     @posts = model.find :all
   end
   
@@ -18,6 +19,7 @@ class PostsController < ApplicationController
     @page_title = "New #{post_type}"
     @edit_on = true
     @post = model.new
+    @post.drug_refs.build
   end
   
   def add_price
@@ -50,10 +52,10 @@ class PostsController < ApplicationController
   
   def edit
     @edit_on = true
-    render :action => 'show'
   end
   
   def update
+  
     if @post.update_attributes params[:post].merge(:updated_by => current_user)
       flash[:notice] = 'Your changes were saved.'
       redirect_to :action => 'show'
@@ -70,14 +72,8 @@ class PostsController < ApplicationController
   end
  
   def news
-    @page_title = "Welcome!"
+    @page_title = "Last Ten Posts"
     @latest_p = Post.latest
-    @w_month = Warning.cemois
-    @i_month = Interaction.cemois
-    @t_month = Treatment.cemois
-    @b_month = Bulletin.cemois
-    @f_month = ThreadedDiscussionPost.cemois
-    @p_month = Post.cemois
   end
   
    def p_five
@@ -85,175 +81,67 @@ class PostsController < ApplicationController
       render :partial => 'p_five'
    end
 
-   def w_five
-      @latest_w = Warning.latest
-      render :partial => 'w_five'
-   end
-
-   def i_five
-      @latest_i = Interaction.latest
-      render :partial => 'i_five'
-   end
-
-   def t_five
-      @latest_t = Treatment.latest
-      render :partial => 't_five'
-   end
-
-   def b_five
-      @latest_b = Bulletin.latest
-      render :partial => 'b_five'
-   end
-
-   def f_five
-      @latest_f = ThreadedDiscussionPost.latest
-      render :partial => 'f_five'
-   end
-
-   def cheese
+   def search
     @page_title = "Search Results"
-
-    @type_options = params[:type_options]
-    @date_options = params[:date_options]
-    
-    @conditions = ["type = ? and created_at between ? AND ?", @type_options.chop, @date_options, Time.now]
-    @query = params[:query]
-   
-    if @type_options == "All Posts" and @date_options == "all"
-    @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)})        
-   
-    elsif @type_options == "All Posts" and @date_options != "all"
-    @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                      { :conditions => ["created_at between ? AND ?", @date_options, Time.now]})
-    
-    elsif @type_options != "All Posts" and @date_options == "all"
-    @total, @cheese = Post.full_text_search(@query, { :page => (params[:page]||1)},
-                                                      { :conditions => ["type = ?", @type_options.chop]})   
-       
+    @query = String.new(params[:query])
+    add_percents(params[:query])
+    if params[:type_options] == "All Posts"
+      @results = Post.search(params[:query], params[:date_options], nil)
     else
-    @total, @cheese = Post.full_text_search(@query,  {:page => (params[:page]||1)},
-                                                        {:conditions => @conditions})
+      @results = Post.search(params[:query], params[:date_options], params[:type_options].chop)
     end
-    @pages = pages_for(@total)
     render :partial => "posts/search", :layout => true
-  end
+   end
   
-  def advanced_search
-    @page_title = 'Advanced Search'
-  end
-  
-  def auto_complete_for_products
-    value = params[:post][:name]
+  def auto_complete
+    value = ('%' + params[:drugtext] + '%').gsub(' ', '%')
+
     @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:name].downcase + '%' ],
+      :conditions => [ 'LOWER(brand_name) LIKE ?', value.downcase],
       :order => 'brand_name ASC',
       :limit => 20)
-    render :partial => 'products'
+    render :partial => 'drugs' 
   end
   
-  def auto_complete_for_post_name
-    value = params[:post][:name]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:name].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
+  def get_results
+    params[:atcs].nil? ? existing_atcs = [] : existing_atcs = params[:atcs]
+    if params[:drugtext].length > 2
+      value = ('%' + params[:drugtext] + '%').gsub(' ', '%')
+      
+      if params[:by] == 'brandname' # originally two functions (get_brandname_results and get_ingredient_results)
+        objs = Drug.find(:all, :conditions => [ 'class_1=? AND LOWER(brand_name) LIKE ?', 'HUMAN', value.downcase], 
+                         :select => 'brand_name, drug_code')
+      else
+        objs = ActiveIngredient.find(:all, :conditions => [ 'LOWER(ingredient) LIKE ?', value.downcase],
+                                     :select => 'ingredient, drug_code')
+        objs.delete_if{|a| a.code.nil?}
+      end  
+        
+      atc_objs = objs.group_by { |ob| Code.find_by_drug_code(ob.drug_code, :select => 'tc_atc, tc_atc_number') }
+      @results = []
+      atc_objs.each do |code, obj_array|
+        atc_code = code.tc_atc_number
+        h = {:atc_code => atc_code, :atc_class => code.tc_atc, 
+                     :added => existing_atcs.include?(atc_code),
+                     :ais => ActiveIngredient.find(:all, 
+                                                   :conditions => {:drug_code => obj_array[0].drug_code }, 
+                                                   :select => 'ingredient') }
+        if params[:by] == 'brandname'
+          h[:brand_name] = obj_array[0].brand_name
+        else
+          h[:brand_name] = Drug.find_by_drug_code(obj_array[0].drug_code, :select => 'brand_name').brand_name
+        end
+        @results << h
+      end
+    else
+      @results = []
+    end
+      render :partial => 'results', :object => @results 
   end
   
-  def auto_complete_for_post_drug2
-    value = params[:post][:drug2]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:drug2].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_fldrug1
-    value = params[:post][:fldrug1]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:fldrug1].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_fldrug3
-    value = params[:post][:fldrug3]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:fldrug3].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_sldrug1
-    value = params[:post][:sldrug1]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:sldrug1].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_sldrug2
-    value = params[:post][:sldrug2]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:sldrug2].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_sldrug3
-    value = params[:post][:sldrug3]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:sldrug3].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_pregdrug1
-    value = params[:post][:pregdrug1]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:pregdrug1].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_pregdrug2
-    value = params[:post][:pregdrug2]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:pregdrug2].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def auto_complete_for_post_pregdrug3
-    value = params[:post][:pregdrug3]
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?',
-      '%' + params[:post][:pregdrug3].downcase + '%' ],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs'
-  end
-  
-  def popup
-    render :layout => false
+  def add_post_atc
+    @post_atc = { :atc_code => params[:atc_code], :atc_class => params[:atc_class], :con_name => params[:con_name]}
+    render :partial => 'post_atc', :object => @post_atc
   end
   
   private

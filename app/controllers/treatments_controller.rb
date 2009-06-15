@@ -4,16 +4,21 @@ class TreatmentsController < PostsController
     super
     @sort_by = params[:sort_by]
        if @sort_by == "condition"
-	  @post_pages, @posts = paginate :treatments, :order_by => 'name', :per_page => 20
-       elsif @sort_by == "drug_of_choice"
-	  @post_pages, @posts = paginate :treatments, :order_by => 'fldrug1', :per_page => 20	
+	  @posts = Treatment.paginate :page => params[:page], :order => 'name', :per_page => 20
        elsif @sort_by == "author"
-	  @post_pages, @posts = paginate :treatments, :order_by => 'created_by', :per_page => 20
+	  @posts = Treatment.paginate :page => params[:page], :order => 'created_by', :per_page => 20
        elsif @sort_by == "date"
-	  @post_pages, @posts = paginate :treatments, :order_by => 'updated_at desc', :per_page => 20
+	  @posts = Treatment.paginate :page => params[:page], :order => 'updated_at desc', :per_page => 20
        else
- 	  @post_pages, @posts = paginate :treatments, :order_by => 'created_at desc', :per_page => 20
+ 	  @posts = Treatment.paginate :page => params[:page], :order => 'created_at desc', :per_page => 20
        end
+  end
+  
+  def show
+    super
+    @flds = @post.drug_refs.find_all { |d| d.label.include?('FLD')}
+    @slds = @post.drug_refs.find_all { |d| d.label.include?('SLD')}
+    @pregs = @post.drug_refs.find_all { |d| d.label.include?('Preg')}
   end
   
   def remove_tag
@@ -25,14 +30,7 @@ class TreatmentsController < PostsController
     redirect_to :action => 'show', :id => @post  
   end
   
-  def search
-    @page_title = "Search Results"
-    @query = params[:query]
-    @total, @treatments = Treatment.full_text_search(@query, :page => (params[:page]||1))        
-    @pages = pages_for(@total)
-    render :partial => "bling", :layout => true
-  end
-  
+
   private
     def model_name; 'Treatment'; end
     

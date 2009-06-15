@@ -1,215 +1,191 @@
-require 'time'
-
 class BackendController < ApplicationController
   web_service_api OscarApi
   web_service_scaffold :invoke
 
-  def find_posts_by_atc(atc)
-    @page_title = "did it work?"
-     Post.find_all_by_atc(atc)
-  end 
+  def fetch(methods, atcs, email="none", inclusive=true)
+   
+    email == "none" ? user = nil : user = User.find_by_email(email)
+    
+    unless user.nil?
+      trusted_ids = ([user] + user.friends).collect {|u| u.id}
+    end
+    
+    drug_refs = DrugRef.find_all_by_tc_atc_number(atcs.slice!(0))
+    for atc in atcs
+      drug_refs += DrugRef.find_all_by_tc_atc_number(atc)
+    end
 
-  def thumbs_up_from_friend(resultpost, friends)
-     for comment in resultpost.comments
-        if friends.include?(comment.creator) and comment.goat == true
-           return true
+    results = []
+
+    if methods.include?("interactions_byATC")
+      for dr in drug_refs.find_all {|d| d.label == 'int_drug1'}
+        for dr2 in drug_refs.find_all { |d| d.label == 'int_drug2'}
+          if dr.post == dr2.post
+            user.nil? ? trusted = false : trusted = mark_trusted(dr.post, trusted_ids)
+            unless !trusted and !inclusive
+              results << make_oscar_interaction(dr.post, trusted)
+            end
+          end
         end
+      end
+    end
+
+    if methods.include?("warnings_byATC")
+      for dr in drug_refs.find_all {|d| d.label == 'Warning'}
+        user.nil? ? trusted = false : trusted = mark_trusted(dr.post, trusted_ids)
+        unless !trusted and !inclusive
+          results << make_oscar_warning(dr.post, trusted)
+        end
+      end
+    end
+
+    if methods.include?("bulletins_byATC")
+      for dr in drug_refs.find_all {|d| d.label == 'Bulletin'}
+        user.nil? ? trusted = false : trusted = mark_trusted(dr.post, trusted_ids)
+        unless !trusted and !inclusive
+          results << make_oscar_bulletin(dr.post, trusted)
+        end
+      end
+    end
+    
+    if methods.include?("prices_byATC")
+      for dr in drug_refs.find_all {|d| d.label == 'Price'}
+        user.nil? ? trusted = false : trusted = mark_trusted(dr.post, trusted_ids)
+        unless !trusted and !inclusive
+          results << make_oscar_price(dr.post, trusted)
+        end
+      end
+    end
+  
+#    if methods.include?("get_guidelines")
+#      for g in Guideline.all
+#        user.nil? ? trusted = false : trusted = mark_trusted(g, trusted_ids)
+#        unless !trusted and !inclusive
+#          results << make_oscar_guideline(g, trusted)
+#        end
+#      end
+#    end
+
+    results
+
+  end
+
+  
+  def get_treatments(query, email="none", inclusive=true)
+    
+    # Had to add this, because Oscar passes in (query, email, nil)
+    inclusive.nil? ? inclusive = true : inclusive = inclusive
+    
+    email == "none" ? user = nil : user = User.find_by_email(email)
+    
+    unless user.nil?
+      trusted_ids = ([user] + user.friends).collect {|u| u.id}
+    end
+    
+    results = []
+  
+    query = ('%' + query + '%').gsub(' ', '%')
+    for treatment in Treatment.find(:all, :conditions => [ 'LOWER(name) LIKE ?', query.downcase])
+      user.nil? ? trusted = false : trusted = mark_trusted(treatment, trusted_ids)
+      unless !trusted and !inclusive
+        results << make_oscar_treatment(treatment, trusted)
+      end
+    end
+    results
+  end
+  
+  
+  def thumbs_up_from_friend(post, trusted_ids)
+     unless post.comments.nil?
+       for comment in post.comments
+          if trusted_ids.include?(comment.created_by) and comment.agree
+             return true
+          end
+       end
      end
      return false
   end
-
-  def convert_to_o_r(post)
-     
-     ocult = Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
-                             :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
-                             :name => post.name, :atc => post.atc, :drug2 => post.drug2, :atc2 => post.atc2, 
-                             :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
-                             :significance => post.significance, :news_source => post.news_source, 
-                             :news_date => post.news_date, :trusted => post.trusted, :type => post.class, 
-                             :author => post.creator.name, :comments => convert_to_o_com(post.comments))
-  end
-
-  def convert_to_o_com(comray)
-     omray = []    
-        for com in comray
-           ocom = Oscarcom.new(:id => com.id, :created_at => com.created_at, :updated_at => com.updated_at, :created_by => com.created_by, :updated_by => com.updated_by, :body => com.body, :name => com.name, :post_id => com.post_id, :goat => com.goat, :author => com.creator.name)
-           omray << ocom  
-        end   
-     omray
-  end
-
-  def trust_sort(results, buds, inclu)
-     
-     fresults = Array.new
-     for post in results
-        if buds.include?(post.creator) or thumbs_up_from_friend(post, buds) == true
-           if inclu == true
-             post[:trusted] = (true)
-           elsif inclu == false
-             fresults << post
-           end
-        end
-        if inclu == true
-           fresults << post
-        end
-      end
-   return fresults
-  end
-
-     
-  def fetch(methods, atcs, email = "", inclusive = true)
-    
-  default_email = "none"
-  if email == nil
-  email = default_email
-  end
-
-  if inclusive == nil
-  inclusive = true
-  end
-    
-     if email != "none"
   
-     @user = User.find_by_email("#{email}")
   
-        if @user == nil
-        email = "none"
-
-        else
-
-           @friends_n_me = @user.friends
-           @friends_n_me << @user
-    
-         end     
-
-      end 
-
-methodarray = []
-methods.each(',') {|m| methodarray << m}
-methodarray.each {|meth| meth.delete!(",")}
-methodarray.each {|meth| meth.strip!}
-
-@final_final_array = []
-
-for method in methodarray
-    if method == "interactions_byATC"
-      @results = Array.new
-        for atc in atcs
-        @copy = Array.new(atcs)
-        @copy.delete(atc)
-          for code in @copy
-          @array = Interaction.find(:all, :conditions => ["atc = ? and atc2 = ?", atc, code])
-          @results = @results + @array
-          end
-        end
-
-       if email == "none"
-
-          @oscarresults = []
- 
-          for post in @results
-             @osc = convert_to_o_r(post)
-             @oscarresults << @osc
-          end
-       
-       else
-
-      @finalresults = trust_sort(@results, @friends_n_me, inclusive)
-
-      @oscarresults = []
- 
-          for post in @finalresults
-             @osc = convert_to_o_r(post)
-             @oscarresults << @osc
-          end
-    
-      end
-
+  def mark_trusted(post, trusted_ids)
+     (trusted_ids.include?(post.created_by) or thumbs_up_from_friend(post, trusted_ids)) ? true : false
+  end
+  
+  
+  def make_oscar_treatment(post, trusted)
+    Oscarresult.new(:name => post.name, :author => post.creator.name, :created_at => post.created_at,
+                    :updated_at => post.updated_at, :body => post.body, :type => 'Treatment', :trusted => trusted,
+                    :drugs => make_oscar_drugs(post.drug_refs), :comments => make_oscar_comments(post.comments))
+  end
+  
+  
+  def make_oscar_drugs(drug_refs)
+    results = []
+    for dr in drug_refs
+      results << OscarDrug.new(:brand_name => dr.drug.brand_name, 
+                               :drug_identification_number => dr.drug_identification_number,
+                               :atc => dr.tc_atc_number, :label => dr.label)
     end
-    
+    results
+  end
 
-    if method == "warnings_byATC"
-      @results = Array.new
-      for atc in atcs
-        @array = Warning.find_all_by_atc(atc)
-        @results = @results + @array
-      end
 
-       if email == "none"
-          
-          @oscarresults = []
- 
-          for post in @results
-             @osc = convert_to_o_r(post)
-             @oscarresults << @osc
-          end
- 
-       else
+  def make_oscar_interaction(post, trusted)
+    Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
+                    :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
+                    :name => post.affecting_drug.brand_name, :atc => post.affecting_dr.tc_atc_number, 
+                    :drug2 => post.affected_drug.brand_name, :atc2 => post.affected_dr.tc_atc_number, 
+                    :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
+                    :significance => post.significance, :type => 'Interaction', :trusted => trusted, 
+                    :author => post.creator.name, :comments => make_oscar_comments(post.comments))
+  end
 
-      @finalresults = trust_sort(@results, @friends_n_me, inclusive)
-
-      @oscarresults = []
- 
-          for post in @finalresults
-             @osc = convert_to_o_r(post)
-             @oscarresults << @osc
-          end
-    
-      end
-
-    end
-
-    if method == "bulletins_byATC"
-      @results = Array.new
-      for atc in atcs
-        @array = Bulletin.find_all_by_atc(atc)
-        @results = @results + @array
-      end
-
-      if email == "none"
-
-         @oscarresults = []
- 
-          for post in @results
-             @osc = convert_to_o_r(post)
-             @oscarresults << @osc
-          end
-
-      else
-
-      @finalresults = trust_sort(@results, @friends_n_me, inclusive)
-
-      @oscarresults = []
- 
-          for post in @finalresults
-             @osc = convert_to_o_r(post)
-             @oscarresults << @osc
-          end
-    
-      end
-
-    end
-
-  @final_final_array = @final_final_array + @oscarresults
-
-end
-
-return @final_final_array
- 
+  
+  def make_oscar_warning(post, trusted)
+    Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
+                    :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
+                    :name => post.drugs[0].brand_name, :atc => post.drug_refs[0].tc_atc_number, 
+                    :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
+                    :significance => post.significance, :trusted => trusted, :type => 'Warning', 
+                    :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end
   
 
-  def find_users_by_name(name)
-    @page_title = "did it work?"
-     User.find_all_by_name(name)
+  def make_oscar_bulletin(post, trusted)
+    Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
+                    :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
+                    :name => post.drugs[0].brand_name, :atc => post.drug_refs[0].tc_atc_number, 
+                    :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
+                    :significance => post.significance, :trusted => trusted, :type => 'Bulletin',
+                    :news_source => post.news_source, :news_date => post.news_date, 
+                    :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end
   
-  def find_post_by_id(id)
-    return Post.find(id)
+  def make_oscar_price(post, trusted)
+    Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
+                    :created_by => post.created_by, :updated_by => post.updated_by, 
+                    :name => post.name, :reference => post.reference, :cost => post.cost, :trusted => trusted, 
+                    :type => 'Price', :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end
   
-  def get_time(gmt)
-    (gmt)?(Time.now.getgm) : (Time.now)
+
+  def make_oscar_guideline(post, trusted)
+    Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
+                    :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
+                    :name => post.name, :author => post.creator.name, :type => 'Guideline',
+                    :comments => make_oscar_comments(post.comments), :trusted => trusted)
+  end
+  
+
+  def make_oscar_comments(comments)
+     results = []    
+     for comment in comments
+       results << Oscarresult.new(:id => comment.id, :created_at => comment.created_at, 
+                                  :updated_at => comment.updated_at, :created_by => comment.created_by, 
+                                  :updated_by => comment.updated_by, :body => comment.body, 
+                                  :name => comment.name, :agree => comment.agree, :author => comment.creator.name)
+     end   
+     results
   end
   
 end

@@ -15,4 +15,11 @@ class SessionsControllerTest < Test::Unit::TestCase
   def test_truth
     assert true
   end
+  
+  def test_login
+    deb = User.find(3)
+    post :create, :email => 'dont_mugyourself@hotmail.com', :password => 'cheese'
+    assert_equal deb.id, session[:user_id]
+  end
+  
 end

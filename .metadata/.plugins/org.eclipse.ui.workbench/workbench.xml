@@ -1,60 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench version="2.0">
 <workbenchAdvisor/>
-<window maximized="true" x="112" y="84" width="800" height="600">
-<fastViewData fastViewLocation="16384"/>
+<window height="600" maximized="true" width="800" x="112" y="84">
+<fastViewData fastViewLocation="16384">
+<orientation position="512" view="org.radrails.rails.ui.ViewRailsNavigator"/>
+</fastViewData>
 <perspectiveBar>
 <itemSize x="160"/>
 </perspectiveBar>
 <coolbarLayout locked="0">
 <coolItem id="group.application" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="118" y="28"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.annotationNavigation" itemType="typeToolBarContribution" x="82" y="28"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.navigation" itemType="typeToolBarContribution" x="38" y="28"/>
-<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="38" y="28"/>
-<coolItem id="org.radrails.rails.ui.railsActions" itemType="typeToolBarContribution" x="144" y="28"/>
-<coolItem id="org.eclipse.ui.WorkingSetActionSet" itemType="typeToolBarContribution" x="46" y="28"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="106" y="24"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.annotationNavigation" itemType="typeToolBarContribution" x="74" y="24"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.navigation" itemType="typeToolBarContribution" x="34" y="24"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="34" y="24"/>
+<coolItem id="org.radrails.rails.ui.railsActions" itemType="typeToolBarContribution" x="128" y="24"/>
+<coolItem id="org.eclipse.ui.WorkingSetActionSet" itemType="typeToolBarContribution" x="42" y="24"/>
+<coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.radrails.rails.ui.editors.Javascript" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.radrails.rails.ui.editors.CSS" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.radrails.rails.ui.editors.RHTML" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.rubypeople.rdt.ui.EditorRubyFile" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="34" y="24"/>
 </coolbarLayout>
-<page label="&lt;Unknown Label&gt; - Rails" focus="true">
+<page focus="true" label="&lt;Unknown Label&gt; - Rails">
 <editors>
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
-<folder expanded="2" appearance="1">
+<folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </editorArea>
 </editors>
 <views>
-<view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
-<viewState/>
-</view>
+<view id="org.radrails.rails.ui.ViewGenerators" partName="Generators"/>
 <view id="org.radrails.server.ui.ViewServers" partName="Servers">
 <viewState/>
 </view>
-<view id="org.rubypeople.rdt.ui.views.RIView" partName="RI"/>
 <view id="org.radrails.rails.ui.ViewRailsPlugins" partName="Rails Plugins"/>
-<view id="org.radrails.rails.ui.ViewGenerators" partName="Generators"/>
-<view id="org.radrails.rails.ui.ViewRakeTasks" partName="Rake Tasks"/>
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console"/>
-<view id="org.radrails.rails.ui.ViewRailsNavigator" partName="Rails Navigator">
-<viewState sorter="1" LINK_NAVIGATOR_TO_EDITOR="0">
-<filters>
-<filter element=".*" isEnabled="true"/>
-<filter element="*.xml" isEnabled="false"/>
-<filter element="*.yml" isEnabled="false"/>
-<filter element="*.gem" isEnabled="false"/>
-<filter element="*.so" isEnabled="false"/>
-<filter element=".*" isEnabled="true"/>
-</filters>
-</viewState>
-</view>
-<view id="org.rubypeople.rdt.testunit.views.TestUnitView" partName="Test::Unit"/>
+<view id="org.radrails.rails.ui.ViewRakeTasks" partName="Rake Tasks"/>
+<view id="org.rubypeople.rdt.ui.views.RIView" partName="RI"/>
 </views>
-<perspectives activePerspective="org.radrails.rails.ui.PerspectiveRails" activePart="org.radrails.rails.ui.ViewRailsNavigator">
-<perspective version="0.016" editorAreaVisible="1" fixed="0">
-<descriptor id="org.radrails.rails.ui.PerspectiveRails" label="Rails" class="org.radrails.rails.internal.ui.RailsPerspectiveFactory"/>
+<perspectives activePart="org.radrails.server.ui.ViewServers" activePerspective="org.radrails.rails.ui.PerspectiveRails">
+<perspective editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="org.radrails.rails.internal.ui.RailsPerspectiveFactory" id="org.radrails.rails.ui.PerspectiveRails" label="Rails"/>
 <alwaysOnActionSet id="org.rubypeople.rdt.debug.ui.RDTDebugActionSet"/>
 <alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
 <alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.openExternalFile"/>
@@ -79,43 +72,37 @@
 <new_wizard_action id="org.eclipse.ui.wizards.new.file"/>
 <new_wizard_action id="org.eclipse.ui.wizards.new.folder"/>
 <perspective_action id="org.radrails.db.ui.PerspectiveData"/>
-<view id="org.radrails.rails.ui.ViewRailsNavigator"/>
-<view id="org.rubypeople.rdt.testunit.views.TestUnitView"/>
 <view id="org.radrails.server.ui.ViewServers"/>
 <view id="org.radrails.rails.ui.ViewGenerators"/>
 <view id="org.radrails.rails.ui.ViewRakeTasks"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.rubypeople.rdt.ui.views.RIView"/>
 <view id="org.radrails.rails.ui.ViewRailsPlugins"/>
-<view id="org.eclipse.ui.views.ContentOutline"/>
 <layout>
 <mainWindow>
-<info part="topLeft" folder="true">
-<folder activePageID="org.radrails.rails.ui.ViewRailsNavigator" expanded="2" appearance="2">
-<page label="Rails Navigator" content="org.radrails.rails.ui.ViewRailsNavigator"/>
-<page label="Test::Unit" content="org.rubypeople.rdt.testunit.views.TestUnitView"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-</presentation>
+<info folder="true" part="topLeft">
+<folder appearance="2" expanded="2">
+<page content="org.radrails.rails.ui.ViewRailsNavigator" label="LabelNotFound"/>
+<page content="org.rubypeople.rdt.testunit.views.TestUnitView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info part="stickyFolderRight" relative="topLeft" relationship="2" ratioLeft="588" ratioRight="196" ratio="0.75" folder="true">
-<folder expanded="2" appearance="2">
-<page label="LabelNotFound" content="org.eclipse.help.ui.HelpView"/>
-<page label="LabelNotFound" content="org.eclipse.ui.internal.introview"/>
-<page label="LabelNotFound" content="org.eclipse.ui.cheatsheets.views.CheatSheetView"/>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="588" ratioRight="196" relationship="2" relative="topLeft">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+<page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" relative="topLeft" relationship="2" ratioLeft="156" ratioRight="628" ratio="0.19897959"/>
-<info part="consoleArea" relative="org.eclipse.ui.editorss" relationship="4" ratioLeft="406" ratioRight="136" ratio="0.7490775" folder="true">
-<folder activePageID="org.radrails.server.ui.ViewServers" expanded="2" appearance="2">
-<page label="Servers" content="org.radrails.server.ui.ViewServers"/>
-<page label="Generators" content="org.radrails.rails.ui.ViewGenerators"/>
-<page label="Rake Tasks" content="org.radrails.rails.ui.ViewRakeTasks"/>
-<page label="Console" content="org.eclipse.ui.console.ConsoleView"/>
-<page label="RI" content="org.rubypeople.rdt.ui.views.RIView"/>
-<page label="Rails Plugins" content="org.radrails.rails.ui.ViewRailsPlugins"/>
+<info part="org.eclipse.ui.editorss" ratio="0.25531915" ratioLeft="252" ratioRight="735" relationship="2" relative="topLeft"/>
+<info folder="true" part="consoleArea" ratio="0.7490775" ratioLeft="406" ratioRight="136" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.radrails.server.ui.ViewServers" appearance="2" expanded="2">
+<page content="org.radrails.server.ui.ViewServers" label="Servers"/>
+<page content="org.radrails.rails.ui.ViewGenerators" label="Generators"/>
+<page content="org.radrails.rails.ui.ViewRakeTasks" label="Rake Tasks"/>
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<page content="org.rubypeople.rdt.ui.views.RIView" label="RI"/>
+<page content="org.radrails.rails.ui.ViewRailsPlugins" label="Rails Plugins"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
@@ -126,12 +113,10 @@
 </presentation>
 </folder>
 </info>
-<info part="topRight" relative="org.eclipse.ui.editorss" relationship="2" ratioLeft="471" ratioRight="157" ratio="0.75" folder="true">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" expanded="2" appearance="2">
-<page label="Outline" content="org.eclipse.ui.views.ContentOutline"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<info folder="true" part="topRight" ratio="0.75" ratioLeft="471" ratioRight="157" relationship="2" relative="org.eclipse.ui.editorss">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </mainWindow>

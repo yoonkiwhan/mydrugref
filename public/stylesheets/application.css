@@ -50,14 +50,6 @@ em { font-style: italic; }
 	height: 100%;
 }
 
-#rightbar {
-        width: 170px;
-        padding: 45px 10px 20px 18px;
-        float: right;
-        height: 100%;
-        text-align: center;
-}
-
 div.clear {
 	clear: both;
 	margin-top: 1px;
@@ -77,18 +69,21 @@ div.clear {
 /* Within Rightbar */
 /* -------------------------------------------------------------------------- */
 
-#box {
+#rightbar {
+        width: 170px;
+        padding: 45px 10px 20px 18px;
+        float: right;
+        height: 100%;
+        text-align: center;
+}
+
+#rightbar #box {
 	padding: 10px 10px 10px 10px;
 	background-color: #eee;
 }
 
-#leg {
-	padding: 10px 10px 10px 10px;
-	border: 2px solid black;
-}
-
 #rightbar h2 {
-        font-family: helvetica;
+        font-family: Helvetica, Arial, Futura, sans-serif;
 	font-size: 15px;
 	font-weight: bold;
 	color: #333;
@@ -98,9 +93,36 @@ div.clear {
 	clear: both;
 }
 
-#leg th {
+#rightbar #leg {
+	padding: 10px;
+	border: 2px solid black;
+}
+
+#rightbar #leg table {
+	width: 100%;
+}
+
+#rightbar #leg th {
 	font-weight: bold;
 	text-decoration: underline;
+}
+
+/* Significance Codes in All Tables */
+
+table .high {
+	background-color: #a2b5cd;
+}
+
+table .medium {
+	background-color: #bcd2ee;
+}
+
+table .low {
+	background-color: #cae1ff;
+}
+
+table .none {
+	background-color: #6699FF;
 }
 
 /* Links */
@@ -172,7 +194,7 @@ a:hover.create { background-color: #009900; color: #fff; }
 }
 
 #main h2 {
-	font-family: trebuchet ms;
+	font-family: Helvetica, Arial, sans-serif;
 	font-size: 18px;
 	font-weight: normal;
 	color: #264764;
@@ -235,7 +257,7 @@ h4 {
 /* Navigation */
 /* -------------------------------------------------------------------------- */
 
-ul#nav { margin: 0px; width: 473px; }
+ul#nav { margin: 0px; width: 500px; }
 
 ul#nav li {
   display: inline;
@@ -248,15 +270,14 @@ ul#nav li {
 }
 html>body ul#nav li { padding: 3px 7px 4px 7px; } /* non-iewin */
 
-body.warnings li#warnings, body.treatments li#treatments, body.products li#products, body.documents li#documents, body.interactions li#interactions, body.bulletins li#bulletins, body.threaded_discussion_posts li#threaded_discussion_posts,
-body.tags li#treatments {
+body.warnings li#warnings, body.treatments li#treatments, body.guidelines li#guidelines, 
+body.interactions li#interactions, body.bulletins li#bulletins, body.tags li#treatments {
 	background-color: #fff; border: 1px solid #888; border-bottom: 1px solid #fff;
 }
 
 ul#nav li a { text-decoration: none; color: #555; }
-ul#nav li a:hover { background-color: transparent; text-decoration: none; }
-ul#nav li:hover a { text-decoration: none; color: #000; }
-ul#nav li:hover { text-decoration: underline; }
+ul#nav li a:hover { background-color: transparent; text-decoration: underline; }
+
 
 /* Statuses */
 /* -------------------------------------------------------------------------- */
@@ -300,6 +321,15 @@ ul#nav li:hover { text-decoration: underline; }
 	margin-left: -12px;
 }
 
+#form_container div.heading {
+	font-size: 18px;
+	font-weight: normal;
+	color: #264764;
+	padding-bottom: 8px;
+	padding-top: 3px;
+	width: 510px;
+}
+
 #form_container.active #new_link span { visibility: hidden; }
 #form_container #cancel_link { visibility: hidden; float: right; }
 #form_container.active #cancel_link { visibility: visible; }
@@ -312,29 +342,30 @@ ul#nav li:hover { text-decoration: underline; }
 /* -------------------------------------------------------------------------- */
 
 form.standard {
-	clear: left;
-	margin-top: 10px;
+        clear: left;
+        margin-top: 10px;
   margin-left: 15px;
   padding-top: 10px;
   width: 510px;
 }
 
 form.standard label {
-	font-weight: bold;
-	display: block;
-	margin-bottom: 3px;
-	font-size: 12px;
-	font-family: verdana;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 3px;
+        font-size: 12px;
+        font-family: verdana;
 }
 
 form.standard input, form.standard textarea {
-	width: 100%;
-	display: block;
-	margin-bottom: 10px;
+        width: 100%;
+        display: block;
+        margin-bottom: 10px;
 }
 
 form.standard input#post_name, form.standard input#user_name { font-size: 18px; font-weight: bold; }
 form.standard input#post_drug2, form.standard input#user_name { font-size: 18px; font-weight: bold; }
+form.standard textarea.code { font-family: monospace;}
 form.standard .fieldWithErrors { border-left: 4px solid #c00; padding-left: 3px; }
 form.standard label span.error { color: #c00; }
 form.standard input[type='submit'] { width: 100px; display: block; }
@@ -429,6 +460,8 @@ img.user_picture {
 	border: 1px solid #cc7;
 }
 
+#main div#xml_blob { font-family: monospace; }
+
 #main div.tdpost {
 	background-color: #E0E6EF;
 	margin-top: 11px;
@@ -469,6 +502,26 @@ img.user_picture {
 #main div.tdpost div.no_user { margin-left: 0px; }
 #main div.tdpost p.meta span.comments { float: right; font-size: 11px; }
 
+table#posts { width: 100%; }
+table#posts th { 
+    padding: 3px; 
+    text-align: center; 
+    background-color: #e1e1e1;
+    font-weight: bold;
+}
+
+table#posts td { padding: 3px; text-align: center;}
+table#posts tr.no_sig { background-color: #cae1ff; }
+table#posts tr.agree { color: green; background-color: #B5EAAA; }
+table#posts tr.disagree { color: #B22222; background-color: #EEB4B4; }
+
+/* Drug Table */
+
+table#drugtable { width: 100%; text-align: left; }
+table#drugtable td { margin: 0; padding: 4px; border-bottom: 1px solid #ccc; }
+table#drugtable th { margin: 0; padding: 4px; font-weight: bold;}
+table#drugtable th.wider { width: 30%; }
+
 /* Comments */
 /* -------------------------------------------------------------------------- */
 
@@ -500,8 +553,8 @@ img.user_picture {
 /* User list */
 /* -------------------------------------------------------------------------- */
 
-table#posts { width: 100%; }
-table#posts td { margin: 0; padding: 4px; border-bottom: 1px solid #ccc; }
+table#users { width: 100%; }
+table#users td { margin: 0; padding: 4px; border-bottom: 1px solid #ccc; }
 
 /* User#show */
 /* -------------------------------------------------------------------------- */
@@ -544,6 +597,7 @@ div.auto_complete {
       list-style-type: none;
       margin:0px;
       padding:0px;
+      padding-bottom: 5px;
     }
     ul.posts li.selected { background-color: #ffb; }
     li.post {
@@ -551,7 +605,7 @@ div.auto_complete {
       display:block;
       margin:0;
       padding:2px;
-      height:32px;
+      height:25px;
     }
 	
 	li.post span.post_name {
@@ -559,18 +613,11 @@ div.auto_complete {
 		font-weight: bold;
 	}
 	
-	li.post span.post_atc {
-		font-size: smaller;
-		color: gray;
-	}
 	li.post span.post_din {
 		font-size: smaller;
 		color: gray;
 	}
-	li.post span.post_company {
-		font-size: smaller;
-		color: gray;
-	}
+
     li.drug div.image {
       float:left;
       width:32px;
@@ -600,3 +647,191 @@ div.auto_complete {
       border:1px solid #888;
       cursor:move;
     }
+    
+/* New Form Way */
+
+#form_wrapper {
+	margin-top: 10px;
+}
+
+#form_wrapper #helptext {
+    color: grey;
+    font-size: 12px;
+    font-family: Helvetica, Arial, sans-serif;
+    padding: 6px;
+    display: block;
+}
+
+#form_wrapper p#helptext{
+    background-color: #fffbd5;
+    position: relative;
+}
+
+#form_wrapper p#helptext a {
+    font-weight: bold;
+    color: grey;
+    text-decoration: none;
+}
+
+#form_wrapper p#helptext a:hover {
+    background-color: black;
+    color: white;
+}
+
+#form_wrapper p#helptext a#remove {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+#form_wrapper div.search {
+    padding: 5px;
+    border: 1px dashed grey;
+    margin-bottom: 4px;
+}
+
+#form_wrapper div.search input[type="text"]{
+    display: inline;
+}
+#form_wrapper div.search input[type="button"]{
+    width: 70px;
+    display: inline;
+}
+
+#form_wrapper div.search a {
+    text-decoration: none;
+    display: block;
+    max-width: 60%;
+}
+
+#form_wrapper div.search div#results {
+    padding: 3px;
+}
+
+#form_wrapper div.search div#results div {
+    padding: 3px;
+    margin: 2px;
+    position: relative;
+}
+
+#form_wrapper div.search div#results div span {
+    display: block;
+    margin: 1px;
+}
+
+#form_wrapper div.search div#results div span#atc_code {
+    display: inline;
+    font-weight: bold;
+}
+
+#form_wrapper div.search div#results div span#atc_class {
+    display: inline;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+#form_wrapper div.search div#results div span.ingredient {
+    font-style: italic;
+}
+
+#form_wrapper div.search div#results div p {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+}
+
+#form_wrapper div.search div#results div.result {
+    border: 1px solid black;
+}
+
+#form_wrapper div.search div#results div.add {
+    background: #EEF8ED;
+    border: 1px dashed #89B989;
+}
+
+#form_wrapper div.search div#results div.added {
+    font-size: smaller;
+    color: grey;
+}
+
+#form_wrapper ul#post_atcs {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+#form_wrapper ul#post_atcs li {
+    list-style-type: none;
+    border: 1px solid grey;
+    padding: 3px;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+#form_wrapper ul#post_atcs li input.hide_me {
+    display: none;
+}
+
+#form_wrapper ul#post_atcs li a {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    text-decoration: none;
+}
+
+#form_wrapper ul#post_atcs li span.atc_code {
+    font-weight: bold;
+}
+
+#form_wrapper ul#post_atcs li span.atc_class {
+    font-variant: small-caps;
+}
+
+#form_wrapper ul#post_atcs li span.options {
+    display: block;
+}
+
+#form_wrapper ul#post_atcs li span.options input {
+    display: inline;
+}
+
+#form_wrapper label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 4px;
+	font-size: 12px;
+	font-family: verdana;
+}
+
+#form_wrapper input[type="text"], #form_wrapper textarea {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#form_wrapper input#post_name, #form_wrapper input#user_name, #form_wrapper input#post_drug2 { 
+font-size: 18px; font-weight: bold; }
+#form_wrapper .fieldWithErrors { border-left: 4px solid #c00; padding-left: 3px; }
+#form_wrapper label span.error { color: #c00; }
+#form_wrapper input[type='submit'] { width: 100px; display: block; }
+#form_wrapper input[type='button'] { width: 150px; display: block; }
+#form_wrapper textarea { height: 150px; }
+#form_wrapper select { margin-bottom: 10px; width: 150px; }
+/* form.standard div#drug_refs { width: 250px; float:left; }
+form.standard div#num_drugs { border: dashed 1px #AAA; float: right;} */
+
+/* New Link Stuff */
+
+a.new_post {
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #009900;
+    width: 200px;
+    padding: 3px;
+    font-weight: bold;
+    font-size: medium;
+}
+
+a.new_post:hover {
+    background-color: #009900;
+    color: white;
+}

@@ -2,23 +2,28 @@
   <p><font color="purple"><b>Please type at least three characters and wait patiently for 
  autocomplete to find your drug. 
  <p>Also, avoid using backspace as it will slow down autocomplete tenfold.</b></font></p>
-  <%= f.text_field :name, :label => "Drug Name" %>
-<div class="auto_complete" id="post_name_auto_complete"></div>
+  <label for="brandname">Drug Name</label>
+ <input id='brandname' type='text' class='standard'>
+<div class="auto_complete" id="auto_complete_name"></div>
       <script type="text/javascript">;
-        new Ajax.Autocompleter('post_name',
-'post_name_auto_complete',
-'/posts/auto_complete_for_post_name',
+        new Ajax.Autocompleter('brandname', 'auto_complete_name', '/posts/auto_complete',
         { minChars: 3,
-          frequency: 0.05,
+          frequency: 0.4,
+          paramName: 'drugtext',
           updateElement: function(selected) {
           Element.cleanWhitespace(selected);
           dn = selected.childNodes;
-          $('post_name').value = dn[0].firstChild.nodeValue;
-          $('post_atc').value = dn[2].firstChild.nodeValue;
+          $('brandname').value = dn[0].firstChild.nodeValue;
+          $('post_drug_refs_attributes_0_drug_identification_number').value = dn[2].firstChild.nodeValue;
         } } );
       </script>
 
-<%= f.text_field :atc, :label => "ATC Code (read only)", :readonly => true %>
+<% f.fields_for :drug_refs do |dr| %>
+  <label>DIN (read only)</label>
+  <%= dr.text_field :drug_identification_number, :readonly => true %>
+  <%= dr.hidden_field :label, :value => 'Bulletin' %>
+<% end %>
+
 <%= f.text_field :news_source, :label => "News Source (e.g. Company Name)" %>
 <%= f.text_field :news_date, :label => "News Date" %>
 <%= f.text_area :body, :label => "Brief Description (e.g. Subject of e-mail)" %>

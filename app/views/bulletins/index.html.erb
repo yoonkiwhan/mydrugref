@@ -1,11 +1,3 @@
-<h4>Search Bulletins Only</h4>
-<% form_tag search_bulletins_url do %>
- <%= text_field_tag(:query, nil, :size => 15) %>
-<br>
-<input type="submit" name="submit" value="Search" />
-<% end %>
-</form>
-
 <% if logged_in? and current_user.valid? %>
 <div id="form_container">
   <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
@@ -16,7 +8,5 @@
 
 <div id="posts">
   <%= render :partial => "post", :collection => @posts %>
-  <%= link_to 'Previous page', { :page => @post_pages.current.previous} if @post_pages.current.previous %>
-  <%= pagination_links @post_pages %>
-  <%= link_to 'Next page', { :page => @post_pages.current.next} if @post_pages.current.next %>
+  <%= will_paginate @posts %>
 </div>

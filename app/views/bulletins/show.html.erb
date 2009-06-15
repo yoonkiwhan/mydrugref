@@ -8,7 +8,7 @@
   <%= render :partial => 'form' %>
  </div>
  <h3>ATC Code</h3>
-   <div id="detail"><%= simple_format(@post.atc) if @post.atc.any? %></div> 
+  <%= @atc unless @atc.nil? %>
   <h3>News Source</h3>
    <div id="detail"><%= simple_format(@post.news_source) if @post.news_source.any? %></div>
   <h3>News Date</h3>

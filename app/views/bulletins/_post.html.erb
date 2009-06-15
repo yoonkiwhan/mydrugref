@@ -2,7 +2,7 @@
   <%= user_thumb post.creator %>
   <div class="body">
     <h4>
-        <%= link_to post.name, url_for(:action => 'show', :id => post) %>
+        <%= link_to post.drugs[0].brand_name, url_for(:action => 'show', :id => post) %>
     </h4>
     <p class="meta">
       <span class="comments">
@@ -10,8 +10,8 @@
 	  No comments
 	  
 	  <% else %>
-	  <%= link_to  "#{post.comments.tally2 * (100 / post.comments.count)}% agree", :action => 'show', :id => post %>
-	  <br><small> (<%= post.comments.tally2 %> / <%= post.comments.count %> people)</small>
+	  <%= link_to  "#{post.comments.tally * (100 / post.comments.count)}% agree", :action => 'show', :id => post %>
+	  <br><small> (<%= post.comments.tally %> / <%= post.comments.count %> people)</small>
 	  <% end %>
 	  </span>
       Updated <%= time_ago_in_words post.updated_at %> ago

@@ -131,22 +131,57 @@ class BackendController < ApplicationController
 
 
   def make_oscar_interaction(post, trusted)
+    if post.evidence == 'Good' # Oscar side parses evidence, significance, effect the old way
+      ev = 'G'		       # aka '3' for high significance, 'I' for 'inhibits', 'G' for good evidence, etc.
+    elsif post.evidence == 'Fair'
+      ev = 'F'
+    elsif post.evidence == 'Poor'
+      ev = 'P'
+    end
+    if post.significance == 'High'
+      s = '3'
+    elsif post.significance == 'Medium'
+      s = '2'
+    elsif post.significance == 'Low'
+      s = '1'
+    end
+    if post.effect == 'Augments'
+      ef = 'A'
+    elsif post.effect == 'Inhibits'
+      ef = 'I'
+    elsif post.effect == 'No Effect'
+      ef = 'N'
+    end
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
                     :name => post.affecting_drug.brand_name, :atc => post.affecting_dr.tc_atc_number, 
                     :drug2 => post.affected_drug.brand_name, :atc2 => post.affected_dr.tc_atc_number, 
-                    :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
-                    :significance => post.significance, :type => 'Interaction', :trusted => trusted, 
+                    :effect => ef, :evidence => ev, :reference => post.reference, 
+                    :significance => s, :type => 'Interaction', :trusted => trusted, 
                     :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end
 
   
   def make_oscar_warning(post, trusted)
+    if post.evidence == 'Good' # Oscar side parses evidence, significance, effect the old way
+      ev = 'G'		       # aka '3' for high significance, 'I' for 'inhibits', 'G' for good evidence, etc.
+    elsif post.evidence == 'Fair'
+      ev = 'F'
+    elsif post.evidence == 'Poor'
+      ev = 'P'
+    end
+    if post.significance == 'High'
+      s = '3'
+    elsif post.significance == 'Medium'
+      s = '2'
+    elsif post.significance == 'Low'
+      s = '1'
+    end
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
                     :name => post.drugs[0].brand_name, :atc => post.drug_refs[0].tc_atc_number, 
-                    :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
-                    :significance => post.significance, :trusted => trusted, :type => 'Warning', 
+                    :evidence => ev, :reference => post.reference, 
+                    :significance => s, :trusted => trusted, :type => 'Warning', 
                     :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end
   
@@ -155,8 +190,7 @@ class BackendController < ApplicationController
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
                     :name => post.drugs[0].brand_name, :atc => post.drug_refs[0].tc_atc_number, 
-                    :effect => post.effect, :evidence => post.evidence, :reference => post.reference, 
-                    :significance => post.significance, :trusted => trusted, :type => 'Bulletin',
+                    :reference => post.reference, :trusted => trusted, :type => 'Bulletin',
                     :news_source => post.news_source, :news_date => post.news_date, 
                     :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end

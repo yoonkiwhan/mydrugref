@@ -33,12 +33,16 @@
 		</div>
       <div id="navigat">
         <ul id="nav">
-          <li id="warnings"><%= link_to_unless_current "Warnings", warnings_url %></li>
-          <li id="treatments"><%= link_to_unless_current "Treatments", treatments_url %></li>
-          <li id="products"><%= link_to_unless_current "Prices", products_url %></li>
-          <li id="interactions"><%= link_to_unless_current "Interactions", interactions_url %></li>
-          <li id="bulletins"><%= link_to_unless_current "Bulletins", bulletins_url %></li>
-          <li id="threaded_discussion_posts"><%= link_to_unless_current "Forum", :action => 'index', :controller => 'threaded_discussion_posts' %></li>
+          <li id="warnings"><%= link_to_unless_current "Warnings", warnings_url %>
+          <%= link_to ' (+)', new_warning_url if logged_in? %></li>
+          <li id="treatments"><%= link_to_unless_current "Treatments", treatments_url %>
+          <%= link_to ' (+)', new_treatment_url if logged_in? %></li>
+          <li id="interactions"><%= link_to_unless_current "Interactions", interactions_url %>
+          <%= link_to ' (+)', new_interaction_url if logged_in? %></li>
+          <li id="bulletins"><%= link_to_unless_current "Bulletins", bulletins_url %>
+          <%= link_to ' (+)', new_bulletin_url if logged_in? %></li>
+          <li id="guidelines"><%= link_to_unless_current "Guidelines", guidelines_url %>
+          <%= link_to ' (+)', new_guideline_url if logged_in? %></li>
         </ul>
       </div>  
     </div>
@@ -74,12 +78,12 @@
 	<br><br>
 	<div id="leg">
 	<h2>Legend</h2>
-	<table border = "0" cellpadding="3" cellspacing="2"  width = "100%">
-	   <th>Color</th><th>Significance</th>
-	   <tr><td bgcolor="#a2b5cd"></td><td> High </td></tr>
-	   <tr><td bgcolor="#bcd2ee"></td><td> Medium </td></tr>
-	   <tr><td bgcolor="#cae1ff"></td><td> Low </td></tr>
-	   <tr><td bgcolor="#6699FF"></td><td> Not Specified </td></tr>
+	<table cellspacing="3">
+	   <tr><th>Color</th><th>Significance</th></tr>
+	   <tr><td class="high"></td><td> High </td></tr>
+	   <tr><td class="medium"></td><td> Medium </td></tr>
+	   <tr><td class="low"></td><td> Low </td></tr>
+	   <tr><td class="none"></td><td> Not Specified </td></tr>
 	</table>
 	</div>
 	<% end %>

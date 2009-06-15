@@ -1,20 +1,58 @@
 # Be sure to restart your web server when you modify this file.
 
-# Uncomment below to force Rails into production mode when 
-# you don't control web/app server and can't set it the proper way
-# ENV['RAILS_ENV'] ||= 'production'
-
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.4' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
+
   # Settings in config/environments/* take precedence over those specified here
+
+  # New (rails 2.3.2) code comments:
+
+  # Application configuration should go into files in config/initializers
+  # -- all .rb files in that directory are automatically loaded.
+
+  # Add additional load paths for your own custom dirs
+  # config.load_paths += %W( #{RAILS_ROOT}/extras )
+
+  # Specify gems that this application depends on and have them installed with rake gems:install
+  # config.gem "bj"
+  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
+  # config.gem "sqlite3-ruby", :lib => "sqlite3"
+  # config.gem "aws-s3", :lib => "aws/s3"
+  config.gem 'mislav-will_paginate', :version => '~> 2.3.8', :lib => 'will_paginate', 
+    :source => 'http://gems.github.com'
+  config.gem 'datanoise-actionwebservice', :lib => 'actionwebservice', :version => '2.3.2', 
+    :source => 'http://gems.github.com'
+
+  # Only load the plugins named here, in the order given (default is alphabetical).
+  # :all can be used as a placeholder for all plugins not explicitly named
+  # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+
+  # Skip frameworks you're not going to use. To use Rails without a database,
+  # you must remove the Active Record framework.
+  # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+
+  # Activate observers that should always be running
+  # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+
+  # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+  # Run "rake -D time" for a list of tasks for finding time zone names.
+  config.time_zone = 'UTC'
+
+  # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+  # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+  # config.i18n.default_locale = :de
+
+
+
+  # Old (rails 1.2) code comments:
+
   require 'rubygems'
-  require 'ferret'
-  require 'acts_as_ferret'
+
   # Skip frameworks you're not going to use (only works if using vendor/rails)
   # config.frameworks -= [ :action_web_service, :action_mailer ]
 
@@ -30,7 +68,8 @@ Rails::Initializer.run do |config|
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
-   config.action_controller.session_store = :active_record_store
+  # config.action_controller.session_store = :active_record_store
+
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper, 
@@ -69,7 +108,7 @@ end
   require 'labeling_form_helper'
   
   ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.server_settings = {
+  ActionMailer::Base.smtp_settings = {
     :address => "univmail.cis.mcmaster.ca",
     :port => 25
   }

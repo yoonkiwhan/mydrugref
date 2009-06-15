@@ -1,12 +1,13 @@
 ActionController::Routing::Routes.draw do |map|
 
   # A resource for each post type
-  map.resources :warnings, :interactions, :treatments, :bulletins, :products, :threaded_discussion_posts,
+  map.resources :warnings, :interactions, :treatments, :bulletins, :products, :threaded_discussion_posts, :guidelines,
     :collection => { :search => :get },
     :member => { :download => :get }
   # A comments resource under every post type ex. warnings/comments
   map.resources :comments, :path_prefix => "/:post_type/:post_id"
-  map.resources :prices, :path_prefix => "/:post_type/:post_id"
+  map.resources :prices, :path_prefix => "/:post_type/:drug_code"
+  map.resources :drugs
   
   # User and session resources
   map.resources :sessions
@@ -26,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # You can have the root of your site routed by hooking up '' 
   # -- just remember to delete public/index.html.
-   map.connect '', :controller => "posts", :action => "news"
+   map.connect '', :controller => 'sessions', :action => 'new'
    
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'

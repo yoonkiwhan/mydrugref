@@ -1,184 +1,34 @@
 <% standard_form :post, @post do |f| %>
-<p><font color="purple"><b>Please type at least three characters and wait patiently for 
-autocomplete to find your drug. 
-<p>Avoid using backspace as it will slow down autocomplete tenfold.</p>
-<p>-> All text fields are optional except for those marked with "*".</b></font>
-	<h2>Condition*</h2>
-	<%= f.text_field :name, :label => " " %>
-	<h2>First Line Drugs</h2>
-	<%= f.text_field :fldrug1, :label => "Choice 1*" %>
-<div class="auto_complete" id="post_fldrug1_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_fldrug1',
-'post_fldrug1_auto_complete',
-'/posts/auto_complete_for_post_fldrug1',
-        { minChars: 3,
-          frequency: 0.01,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_fldrug1').value = dn[0].firstChild.nodeValue;
-          $('post_atc').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
 
-<%= f.text_field :atc, :label => "ATC Code (read only)", :readonly => true %>
- 
-<%= f.text_field :drug2, :label => "Choice 2" %>
-<div class="auto_complete" id="post_drug2_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_drug2',
-'post_drug2_auto_complete',
-'/posts/auto_complete_for_post_drug2',
-        { minChars: 2,
-          frequency: 0.15,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_drug2').value = dn[0].firstChild.nodeValue;
-          $('post_atc2').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
+<p><b>Please type at least three characters and wait patiently for autocomplete to find your drug. </p></b>
 
-<%= f.text_field :atc2, :label => "ATC Code (read only)", :readonly => true %>
+<div class='heading'>Condition</div>
 
-<%= f.text_field :fldrug3, :label => "Choice 3" %>
-<div class="auto_complete" id="post_fldrug3_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_fldrug3',
-'post_fldrug3_auto_complete',
-'/posts/auto_complete_for_post_fldrug3',
-        { minChars: 3,
-          frequency: 0.01,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_fldrug3').value = dn[0].firstChild.nodeValue;
-          $('post_atc3').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
+<%= f.text_field :name, :label => " " %>
 
-<%= f.text_field :atc3, :label => "ATC Code (read only)", :readonly => true %>
- 
-<h2>Second Line Drugs</h2>
-	<%= f.text_field :sldrug1, :label => "Choice 1" %>
-<div class="auto_complete" id="post_sldrug1_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_sldrug1',
-'post_sldrug1_auto_complete',
-'/posts/auto_complete_for_post_sldrug1',
-        { minChars: 3,
-          frequency: 0.01,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_sldrug1').value = dn[0].firstChild.nodeValue;
-          $('post_slatc').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
+<div class='heading'>Drugs</div>
+	
+<div id='drug_refs'>
+  <% f.fields_for :drug_refs do |dr_form| -%>
+    <%= render :partial => 'drug_ref', :locals => {:dr => dr_form, :unique_num => 1} %>
+  <% end %>
+</div>
 
-<%= f.text_field :slatc, :label => "ATC Code (read only)", :readonly => true %>
- 
-<%= f.text_field :sldrug2, :label => "Choice 2" %>
-<div class="auto_complete" id="post_sldrug2_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_sldrug2',
-'post_sldrug2_auto_complete',
-'/posts/auto_complete_for_post_sldrug2',
-        { minChars: 2,
-          frequency: 0.15,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_sldrug2').value = dn[0].firstChild.nodeValue;
-          $('post_slatc2').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
+<%= add_drug_button("Add Another Drug", f) %>
 
-<%= f.text_field :slatc2, :label => "ATC Code (read only)", :readonly => true %>
-
-<%= f.text_field :sldrug3, :label => "Choice 3" %>
-<div class="auto_complete" id="post_sldrug3_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_sldrug3',
-'post_sldrug3_auto_complete',
-'/posts/auto_complete_for_post_sldrug3',
-        { minChars: 3,
-          frequency: 0.01,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_sldrug3').value = dn[0].firstChild.nodeValue;
-          $('post_slatc3').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
-
-<%= f.text_field :slatc3, :label => "ATC Code (read only)", :readonly => true %>
-
-<h2>For Pregnant Women, Suggest:</h2>
-	<%= f.text_field :pregdrug1, :label => "Choice 1" %>
-<div class="auto_complete" id="post_pregdrug1_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_pregdrug1',
-'post_pregdrug1_auto_complete',
-'/posts/auto_complete_for_post_pregdrug1',
-        { minChars: 3,
-          frequency: 0.01,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_pregdrug1').value = dn[0].firstChild.nodeValue;
-          $('post_pregatc').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
-
-<%= f.text_field :pregatc, :label => "ATC Code (read only)", :readonly => true %>
- 
-<%= f.text_field :pregdrug2, :label => "Choice 2" %>
-<div class="auto_complete" id="post_pregdrug2_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_pregdrug2',
-'post_pregdrug2_auto_complete',
-'/posts/auto_complete_for_post_pregdrug2',
-        { minChars: 2,
-          frequency: 0.15,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_pregdrug2').value = dn[0].firstChild.nodeValue;
-          $('post_pregatc2').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
-
-<%= f.text_field :pregatc2, :label => "ATC Code (read only)", :readonly => true %>
-
-<%= f.text_field :pregdrug3, :label => "Choice 3" %>
-<div class="auto_complete" id="post_pregdrug3_auto_complete"></div>
-      <script type="text/javascript">;
-        new Ajax.Autocompleter('post_pregdrug3',
-'post_pregdrug3_auto_complete',
-'/posts/auto_complete_for_post_pregdrug3',
-        { minChars: 3,
-          frequency: 0.01,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $('post_pregdrug3').value = dn[0].firstChild.nodeValue;
-          $('post_pregatc3').value = dn[2].firstChild.nodeValue;
-        } } );
-      </script>
-
-<%= f.text_field :pregatc3, :label => "ATC Code (read only)", :readonly => true %>
- 
  <%= f.text_area :body, :label => "Comments/Instructions" %>
  
  <%= f.text_field :reference, :label => "Reference" %>
- <p>
- <h4>Category</h4>
- <%= f.select(:tag_list, %w{ Cardiovascular Dermatology Ears\ Nose\ and\ Throat Endocrinology Gastroenterology Genitourinary\ System HIV Hematology Musculoskeletal\ System Neurology Opthalmology Obstetrics\ and\ Gynecology Palliative\ Care Psychiatry\ and\ Behaviour Respiratory\ System }) %>
-  </p>
 
-	<%= standard_submit %>
+<label>Category</label>
+
+<%= f.select(:tag_list, %w{ Cardiovascular Dermatology Ears\ Nose\ and\ Throat 
+    Endocrinology Gastroenterology Genitourinary\ System HIV Hematology Musculoskeletal\ System 
+    Neurology Opthalmology Obstetrics\ and\ Gynecology Palliative\ Care Psychiatry\ and\ Behaviour 
+    Respiratory\ System }) %>
+
+<%= standard_submit %>
 	
 <% end %>
+
 </form>

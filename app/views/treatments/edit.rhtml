@@ -1,10 +1,11 @@
 <div id='form_wrapper'>
-<span id='controller_name' class='treatments'></span>  
+<span id='controller_name' class='treatments'></span>
 <% standard_form :post, @post do |f| %>
 
   <%= f.text_field :name, :label => "Condition" %> 
 
 <%= render :partial => 'posts/helptext' %>
+
 <div class='search'>
     <label>
     <span id='searching_by'>Brand Name</span>  
@@ -22,6 +23,12 @@
    
   <label>Drugs of Choice ATCs</label>
   <ul id='post_atcs'>
+    <% for d in @post.drug_refs %>
+    <% c = Code.find_by_tc_atc_number(d.tc_atc_number) %>
+    <% @post_atc = {:atc_code => d.tc_atc_number, :atc_class => c.tc_atc, :id => d.id, :con_name => 'treatments',
+                    :label => d.label } %>
+    <%= render :partial => '/posts/existing_post_atc', :object => @post_atc %>
+  <% end %>
   </ul>
 
   <%= f.text_area :body, :label => "Comments/Instructions" %>

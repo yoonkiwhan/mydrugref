@@ -73,6 +73,14 @@ module ApplicationHelper
     end
   end
 
+  def proper_noun(s) #For displaying company and brand names
+    words = s.split
+    for word in words
+      word.capitalize!
+    end
+    words.join(' ')
+  end
+
   # Renders the form used for all post and user creating/editing.
   # Yields an instance of LabelingFormBuilder (see lib/labeling_form_helper.rb).
   def standard_form name, object, &block
@@ -106,6 +114,14 @@ module ApplicationHelper
       submit_tag("Save Post") + (object.new_record? ? "" : (" or " + link_to("Delete", { :action => 'show' }, :method => :delete, :confirm => "Are you sure?", :class => "delete")))
     else
       submit_tag("Save #{name}") + (object.new_record? ? "" : (" or " + link_to("Delete", { :action => 'show' }, :method => :delete, :confirm => "Are you sure?", :class => "delete")))
+    end
+  end
+
+  def comment_class(agree)
+    if agree == true
+      "agree"
+    else
+      "disagree"
     end
   end
 

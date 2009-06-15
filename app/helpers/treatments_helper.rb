@@ -1,2 +1,3 @@
-module TreatmentsHelper
+module TreatmentsHelper 
+
 end

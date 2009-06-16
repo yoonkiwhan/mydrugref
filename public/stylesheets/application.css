@@ -740,6 +740,12 @@ div.auto_complete {
     right: 5px;
 }
 
+#form_wrapper div.search div#results div#no_results {
+    background-color: #FE9092;
+    color: black;
+    text-align: center;   
+}
+
 #form_wrapper div.search div#results div.result {
     border: 1px solid black;
 }

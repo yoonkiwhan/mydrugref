@@ -33,7 +33,7 @@ class PostsController < ApplicationController
     
     if @post.save 
       flash[:notice] = 'Post successfully created.'
-      redirect_to :action => 'index'
+      redirect_to :action => 'show', :controller => @post.class.to_s + 's', :id => @post.id
     else
       @page_title = "New #{post_type}"
       @edit_on = true
@@ -135,6 +135,9 @@ class PostsController < ApplicationController
       end
     else
       @results = []
+    end
+    if @results.empty?
+      @results = params[:by]
     end
       render :partial => 'results', :object => @results 
   end

@@ -1,2 +1,14 @@
 <%= link_to_function 'Clear', "$(this).up('#results').update();" %>
-<%= render :partial => 'result', :collection => @results %>
+<% if @results.class == String %>
+  <div id='no_results'>
+  Sorry, no matches found in the Health Canada drug database. <br /> Perhaps try searching by 
+  <% if @results == 'brandname' %>
+  Active Ingredient (generic name)
+  <% else %>
+  Brand Name
+  <% end %>
+  ?
+  </div>
+<% else %>
+  <%= render :partial => 'result', :collection => @results %>
+<% end %>

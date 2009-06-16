@@ -55,7 +55,7 @@
   	</tr>
   	<% for post in @warnings %>
   	<tr class=<%= post.significance.downcase %>>
-    	    <td><b><%= link_to post.drug_refs[0].drug.brand_name, warning_url(:id => post.id) %></td></b>
+    	    <td><b><%= link_to proper_noun(post.drug_refs[0].code.tc_atc), warning_url(:id => post.id) %></td></b>
     	    <td><%= nice_date post.created_at %></td>   
     	    <td><%= nice_date post.updated_at %></td> 
   	</tr>
@@ -74,12 +74,12 @@
   	</tr>
   	<% for post in @interactions %>
   	    <% for dr in post.drug_refs %>
-  	        <% @drug1 = dr.drug.brand_name if dr.label == 'int_drug1' %>
-  	        <% @drug2 = dr.drug.brand_name if dr.label == 'int_drug2' %>
+  	        <% drug1 = dr.code.tc_atc if dr.label == 'int_drug1' %>
+  	        <% drug2 = dr.code.tc_atc if dr.label == 'int_drug2' %>
   	    <% end %>
   	<tr class=<%= post.significance.downcase %>>
-    	   <td><b><%= link_to @drug1, interaction_url(:id => post.id) %></td></b>
-    	   <td><b><%= link_to @drug2, interaction_url(:id => post.id) %></td></b>
+    	   <td><b><%= link_to proper_noun(drug1), interaction_url(:id => post.id) %></td></b>
+    	   <td><b><%= link_to proper_noun(drug2), interaction_url(:id => post.id) %></td></b>
     	   <td><%= nice_date post.created_at %></td> 
     	   <td><%= nice_date post.updated_at %></td>  
   	</tr>
@@ -99,10 +99,7 @@
   	<% for post in @treatments %>
   	<tr class="no_sig">
     	    <td><b><%= link_to post.name, treatment_url(:id => post.id) %></b></td>
-    	    <% for dr in post.drug_refs %>
-    	        <% @fld1 = dr.drug.brand_name if dr.label == 'FLD1' %>
-    	    <% end %>
-    	        <td><%= @fld1 %></td>
+    	        <td><%= proper_noun(post.drug_refs.find {|d| d.label == 'FLD'}.code.tc_atc) %></td>
     	        <td><%= nice_date post.created_at %></td>
     	        <td><%= nice_date post.updated_at %></td>   
   	</tr>

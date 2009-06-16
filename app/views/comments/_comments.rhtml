@@ -1,54 +1,32 @@
 <div id="comments">
-  <h2><% if @post.comments.any? %> <%= @post.comments.tally %> out of <%= @post.comments.size %> people agree 
-      <% elsif logged_in? and current_user.valid? %>Be the first to post a comment
-      <% else %>No comments so far<% end %></h2>
-	<!--no_vote keeps track of whether the user has already left one review to prevent 
-	multiple reviews and thus multiple votes. -->
-	<% no_vote = 0 %>
-	<% for comment in @post.comments %>
+  <h2><% if @post.comments.any? %>
+   <%= pluralize @post.comments.size, 'comment' %> so far 
+      <% elsif logged_in? %>Be the first to post a comment
+      <% else %>No comments so far
+      <% end %>
+  </h2>
 
-  <div class="post">
-  <%= user_thumb comment.creator %>
-  
-        <p class="meta">Created <%= nice_date comment.created_at %></p>
-        <% unless comment.created_at == comment.updated_at %>
-		<p class="meta"><b>Updated <%= nice_date comment.updated_at %></b></p>
-		<% end %>
-		<% if logged_in? and current_user.valid? and current_user == comment.creator %>
-		<big><strong>
-		<%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
-            <!-- Only allow user to vote once -->
-            <% no_vote += 1 %>
-        <% end %></big></strong>
-  <%= simple_format comment.body %>
- <% if comment.agree? %> 
-	<img src="/images/smallthumbup.bmp" alt="Agree" float="left">
-	 <% elsif comment.agree == false %> 
-	 <img src="/images/smallthumbdown.bmp" alt="Disagree" float="left">
-	 <% else %>
-	 
-	 <% end %>
-	
-  <%= clear_div %>
-</div>
-<% end %>
-  
-  <% if logged_in? and current_user.valid? and no_vote == 0 %>
+<%= render :partial => 'comments/comment', :collection => @post.comments %>
   
   <% remote_form_for :comment,
                      :url => comments_url(:post_type => "Comment", :post_id => @post),
                      :html => { :action => comments_url(:post_type => params[:controller], :post_id => @post) },
                      :before => "$('spinner').show()",
                      :complete => "$('spinner').hide(); $('comment_body').value=''" do |c| %>
+   <fieldset>
+     <h3><%= current_user.name %> said . . .</h3>
+     <p><%= c.text_area :body %></p>
+     <% if @post.comments.detect {|com| com.created_by == current_user.id and !com.agree.nil? }.nil? %>
+     <p><!-- If current_user hasn't already voted agree/disagree -->
+       <%= c.select :agree, [['No Thanks', nil], ['Agree', true], ['Disagree', false]] %>
+       Vote whether you agree or disagree. 
+       Agreeing with this post will allow users that trust you to receive the post from Oscar.
+     </p>
+     <% end %>
+     <p>
+       <%= submit_tag "Post New Comment" %>
+       <%= image_tag "spinner.gif", :style => "display: none;", :id => "spinner" %>
+     </p>
+   </fieldset>
  <% end %>
-
-<%= form_tag :controller => "comments", :action => "create", :post_id => @post %>
-<h3><%= current_user.name %> said...</h3>
-<%= text_area "comment", "body", "rows" => 5 %><br>
-    <p><b><label for="comment_agree">Vote:</label></b><br/>
-    <select id="comment_agree" name="comment[agree]"><option value="true">Agree</option>
-        <option value="false">Disagree</option></select></p>
-	<%= submit_tag "Post New Comment" %> <%= image_tag "spinner.gif", :style => "display: none;", :id => "spinner" %>
-<% end %>
-</form> 	
-    </div>
+</div>

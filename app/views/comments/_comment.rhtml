@@ -1,16 +1,18 @@
 <div class="post">
   <%= user_thumb comment.creator %>
-        <p class="meta"><%= nice_date comment.created_at %></p>
-        <% if logged_in? and current_user.valid? and current_user == comment.creator %><big><strong><%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post, :id => comment.id %>
-            <!-- Only allow user to vote once -->
-            <% no_vote = no_vote + 1 %>
-        <% end %></big></strong>
+    <p class="meta"><%= nice_date comment.created_at %></p>
+    <% if logged_in? and current_user == comment.creator %>
+      <big><strong>
+<!--<%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post.id, :id => comment.id %>-->
+        <%= link_to 'Edit', edit_comment_url(:post_type => @post.class.to_s + 's',
+                                             :post_id => @post.id, :id => comment.id ) %>
+      </big></strong>
+    <% end %>
   <%= simple_format comment.body %>
  <% if comment.agree %> 
 	<img src="/images/thumbsup copy.bmp" alt="Agree" float="left">
- <% else %>
+ <% elsif comment.agree == false %>
  	 <img src="/images/thumbs down.bmp" alt="Disagree" float="left">
- <% else %>
 	 <% end %>
   <%= clear_div %>
 </div>

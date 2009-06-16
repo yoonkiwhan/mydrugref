@@ -32,14 +32,15 @@ class CommentsController < ApplicationController
   end
   
   def edit
-    @comment = Comment.find_by_id(params[:id])
+    @comment = Comment.find(params[:id])
   end
   
   def update
-      @comment = Comment.find_by_id(params[:id])
+      @comment = Comment.find(params[:id])
+      
       if @comment.update_attributes(params[:comment])
           flash[:notice] = "Your changes were saved."
-          redirect_to :action => 'show', :controller => "#{@post.type}s", :id => @post.id        
+          redirect_to :action => 'show', :controller => "#{@post.class.to_s}s", :id => @comment.post_id        
       
       else
       render  :action => 'edit'

@@ -15,14 +15,20 @@ class Post < ActiveRecord::Base
                      :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND created_at > ?', 
                                      q.downcase, date])
       by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND created_at > ?', q.downcase, date])
+      by_atc = Post.find(:all, :include => :codes,
+                     :conditions => ['LOWER(cd_therapeutic_class.tc_atc) LIKE ? AND created_at > ?',
+                                     q.downcase, date])
     else
       by_drug_name = Post.find(:all, :include => :drugs, 
                      :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND type = ? AND created_at > ?', 
                                      q.downcase, type, date])
       by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND type = ? AND created_at > ?', 
                                                 q.downcase, type, date])
+      by_atc = Post.find(:all, :include => :codes,
+               :conditions => ['LOWER(cd_therapeutic_class.tc_atc) LIKE ? AND type = ? AND created_at > ?',
+                               q.downcase, type, date])
     end
-    by_drug_name | by_body
+    by_drug_name | by_body | by_atc
   end
 
   def self.latest

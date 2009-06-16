@@ -29,10 +29,20 @@
 	                       <% end %></td></b>
     	    <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
     	    <td><%= nice_date post.updated_at %></td> 
-    	    <td><% if post.comments.count == 0 %>None<% else %>
-	  	<%= link_to  "#{(post.comments.tally*100)/post.comments.count}% agree", :action => 'show', :id => post %>
-	  	<br><small> (<%= post.comments.tally %> / <%= post.comments.count %> people) </small>
-	  	<% end %></td> 
+    	    <td><% c = post.comments %>
+	<% if c.count == 0 %>
+	   None
+	<% else %>   
+	<%= pluralize c.size, 'comment' %>
+	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->
+	    <br />
+	    <% num_yes = c.find_all{|com| com.agree}.length %>
+	    <% num_no = c.find_all{|com| com.agree == false}.length %>
+        <%= link_to  "#{(num_yes*100)/(num_yes + num_no)}% agree", 
+        :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	    <br /><small> (<%= num_yes %> / <%= num_yes + num_no %> people) </small>
+	  <% end %>
+	 <% end %></td> 
   	</tr>
     <% end %>
 </table>

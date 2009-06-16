@@ -12,18 +12,20 @@
   <% @results.each do |post| %>
   <tr class=<%= (post.significance == ' ' or post.significance.nil?) ? 'none' : post.significance.downcase %>>
     				<td><b>
-<% if post.class == Warning or post.class == Bulletin %>
-<%= link_to post.drugs[0].brand_name, :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post.id %>
+<% if post.class == Bulletin %>
+<%= link_to post.drugs[0].brand_name, bulletin_url(:id => post.id) %>
+<% elsif post.class == Warning %>
+<%= link_to post.drug_refs[0].code.tc_atc, warning_url(:id => post.id) %>
 <% elsif post.class == Treatment %>
 <%= link_to post.name, treatment_url(:id => post.id) %>
 <% elsif post.class == Interaction %>
 <% for dr in post.drug_refs %>
-     <% if dr.label == 'int_drug2' then @drug2 = dr.drug.brand_name %>
+     <% if dr.label == 'int_drug2' then drug2 = dr.code.tc_atc %>
      <% else %>
-     <% @drug1 = dr.drug.brand_name %>
+     <% drug1 = dr.code.tc_atc %>
      <% end %>
 <% end %>
-<%= link_to @drug1 + " and " + @drug2, interaction_url(:id => post.id) %>
+<%= link_to drug1 + " and " + drug2, interaction_url(:id => post.id) %>
 <% elsif post.class == Comment %>
 <%= link_to post.name, :action => 'show', :controller => Post.find(post.post_id).class.to_s.downcase + "s", :id => post.post_id %>
 <% elsif post.class == Price %>
@@ -35,10 +37,21 @@
     			<td><%= truncate(post.body, 50) %></td> 
 	            <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td>
 				<td>
-	<% if post.comments.count == 0 %>None<% else %>
-<%= link_to  "#{(post.comments.tally*100)/post.comments.count}% agree", :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
-	 <br><small> (<%= post.comments.tally %> / <%= post.comments.count %> people) </small>
-	 <% end %></td>
+				<% c = post.comments %>
+	<% if c.count == 0 %>
+	   None
+	<% else %>   
+	<%= pluralize c.size, 'comment' %>
+	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->
+	    <br />
+	    <% num_yes = c.find_all{|com| com.agree}.length %>
+	    <% num_no = c.find_all{|com| com.agree == false}.length %>
+        <%= link_to  "#{(num_yes*100)/(num_yes + num_no)}% agree", 
+        :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	    <br /><small> (<%= num_yes %> / <%= num_yes + num_no %> people) </small>
+	  <% end %>
+	 <% end %>
+	            </td>
   				</tr>
 		<% end %>
 	</table>

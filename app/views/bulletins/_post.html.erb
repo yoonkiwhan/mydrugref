@@ -6,13 +6,20 @@
     </h4>
     <p class="meta">
       <span class="comments">
-      <% if post.comments.count == 0 %>
-	  No comments
-	  
-	  <% else %>
-	  <%= link_to  "#{post.comments.tally * (100 / post.comments.count)}% agree", :action => 'show', :id => post %>
-	  <br><small> (<%= post.comments.tally %> / <%= post.comments.count %> people)</small>
+      <% c = post.comments %>
+	<% if c.count == 0 %>
+	   None
+	<% else %>   
+	<%= pluralize c.size, 'comment' %>
+	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->
+	    <br />
+	    <% num_yes = c.find_all{|com| com.agree}.length %>
+	    <% num_no = c.find_all{|com| com.agree == false}.length %>
+        <%= link_to  "#{(num_yes*100)/(num_yes + num_no)}% agree", 
+        :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	    <br /><small> (<%= num_yes %> / <%= num_yes + num_no %> people) </small>
 	  <% end %>
+	 <% end %>
 	  </span>
       Updated <%= time_ago_in_words post.updated_at %> ago
     </p>

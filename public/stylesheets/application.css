@@ -549,6 +549,7 @@ table#drugtable th.wider { width: 30%; }
 #comments h3 { font-size: 1em; }
 #comments input { float: left; }
 #comments p img { margin-top: 1px; margin-left: 10px; }
+#comments select { width: 100px; float: right; margin-right: 50px; }
 
 /* User list */
 /* -------------------------------------------------------------------------- */

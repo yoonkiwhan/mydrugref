@@ -98,8 +98,15 @@
   	</tr>
   	<% for post in @treatments %>
   	<tr class="no_sig">
+  	        <% choice = post.drug_refs.detect {|d| d.label == 'FLD'} %>
     	    <td><b><%= link_to post.name, treatment_url(:id => post.id) %></b></td>
-    	        <td><%= proper_noun(post.drug_refs.find {|d| d.label == 'FLD'}.code.tc_atc) %></td>
+    	        <td>
+    	        <% if choice.nil? %>
+    	        None
+    	        <% else %>
+    	        <%= proper_noun(choice.code.tc_atc) %>
+    	        <% end %>
+    	        </td>
     	        <td><%= nice_date post.created_at %></td>
     	        <td><%= nice_date post.updated_at %></td>   
   	</tr>

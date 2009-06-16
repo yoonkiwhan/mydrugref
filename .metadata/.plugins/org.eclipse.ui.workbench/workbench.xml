@@ -42,10 +42,25 @@
 </view>
 <view id="org.radrails.rails.ui.ViewRailsPlugins" partName="Rails Plugins"/>
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console"/>
+<view id="org.radrails.rails.ui.ViewRailsNavigator" partName="Rails Navigator">
+<viewState LINK_NAVIGATOR_TO_EDITOR="0" sorter="1">
+<filters>
+<filter element=".*" isEnabled="true"/>
+<filter element="*.xml" isEnabled="false"/>
+<filter element="*.yml" isEnabled="false"/>
+<filter element="*.gem" isEnabled="false"/>
+<filter element="*.so" isEnabled="false"/>
+<filter element=".*" isEnabled="true"/>
+</filters>
+<selection>
+<element path="/mydrugref"/>
+</selection>
+</viewState>
+</view>
 <view id="org.radrails.rails.ui.ViewRakeTasks" partName="Rake Tasks"/>
 <view id="org.rubypeople.rdt.ui.views.RIView" partName="RI"/>
 </views>
-<perspectives activePart="org.radrails.server.ui.ViewServers" activePerspective="org.radrails.rails.ui.PerspectiveRails">
+<perspectives activePart="org.radrails.rails.ui.ViewRailsNavigator" activePerspective="org.radrails.rails.ui.PerspectiveRails">
 <perspective editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.radrails.rails.internal.ui.RailsPerspectiveFactory" id="org.radrails.rails.ui.PerspectiveRails" label="Rails"/>
 <alwaysOnActionSet id="org.rubypeople.rdt.debug.ui.RDTDebugActionSet"/>
@@ -78,6 +93,9 @@
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.rubypeople.rdt.ui.views.RIView"/>
 <view id="org.radrails.rails.ui.ViewRailsPlugins"/>
+<fastViews>
+<view id="org.radrails.rails.ui.ViewRailsNavigator" ratio="0.3"/>
+</fastViews>
 <layout>
 <mainWindow>
 <info folder="true" part="topLeft">

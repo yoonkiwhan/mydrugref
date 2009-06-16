@@ -767,7 +767,7 @@ div.auto_complete {
     position: relative;
 }
 
-#form_wrapper ul#post_atcs li input.hide_me {
+#form_wrapper ul#post_atcs li input[type="hidden"] {
     display: none;
 }
 
@@ -788,6 +788,7 @@ div.auto_complete {
 
 #form_wrapper ul#post_atcs li span.options {
     display: block;
+    margin-top: 10px;
 }
 
 #form_wrapper ul#post_atcs li span.options input {

@@ -1,4 +1,14 @@
 var SearchDiv = {
+  enterMeansSearch: function(event){
+    if (event.keyCode == Event.KEY_RETURN) {
+        $('search_button').click();
+        return false;
+    }
+    else {
+        return true;
+    }
+  },
+  
   searchForResults: function(by){
     $('spinner').show();
     new Ajax.Updater(

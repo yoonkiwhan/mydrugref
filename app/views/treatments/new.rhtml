@@ -9,11 +9,9 @@
     <label>
     <span id='searching_by'>Brand Name</span>  
     </label>
-    <input id='drugtext' name='drugtext' type='text'>
+    <input id='drugtext' name='drugtext' type='text' onkeypress='return SearchDiv.enterMeansSearch(event);'>
     <%= button_to_function "Search", "SearchDiv.searchForResults('brandname')", :id => 'search_button' %>
     <img id="spinner" style="display: none;" src="/images/spinner.gif" />
-    <span id='helptext'>Click the search button with your mouse -- hitting enter may cause your browser to submit 
-    an unfinished form.</span>
     <span id='alt_search_link'>
         <a href="#" onclick="SearchDiv.byIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>
     </span>

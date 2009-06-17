@@ -3,7 +3,6 @@
     <p class="meta"><%= nice_date comment.created_at %></p>
     <% if logged_in? and current_user == comment.creator %>
       <big><strong>
-<!--<%= link_to 'Edit', :controller => "comments", :action => "edit", :post_id => @post.id, :id => comment.id %>-->
         <%= link_to 'Edit', edit_comment_url(:post_type => @post.class.to_s + 's',
                                              :post_id => @post.id, :id => comment.id ) %>
       </big></strong>

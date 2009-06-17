@@ -38,14 +38,14 @@ em { font-style: italic; }
 	position: relative;
 	left: -2px;
 	top: 24px;
-	padding-right: 30px;
+	padding-right: 10px;
 	width: 575px;
 	padding-bottom: 50px;
 }
 
 #utility {
 	width: 170px;
-	padding: 45px 10px 20px 18px;
+	padding: 45px 10px 20px 10px;
 	float: left;
 	height: 100%;
 }
@@ -66,12 +66,21 @@ div.clear {
 	background-color: #FFFFFF;
 }
 
+#wrapper {
+    width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#main {
+    float: left;
+}
 /* Within Rightbar */
 /* -------------------------------------------------------------------------- */
 
 #rightbar {
         width: 170px;
-        padding: 45px 10px 20px 18px;
+        padding: 45px 10px 20px 0px;
         float: right;
         height: 100%;
         text-align: center;

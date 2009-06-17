@@ -6,9 +6,7 @@ class BulletinsController < PostsController
   end
   
   def show
-    @page_title = @post.drugs[0].brand_name
-    @code = @post.drugs[0].code
-    @atc = @code.tc_atc_number
+    @page_title = @post.drug_refs[0].code.tc_atc
   end
 
   private

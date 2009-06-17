@@ -1,14 +1,14 @@
-<div id="form_container" <% if @edit_on %>class="active"<% end %>>
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><% if logged_in? and current_user.valid? and can_edit? @post %><span>&nbsp;&nbsp;</span><%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %><% end %></div>
+<% if logged_in? and can_edit? @post %>
+    <%= link_to 'Edit', edit_bulletin_url(@post), :class => 'new_post' %>
+<% end %>
   <div id="meta">
   	Posted <%= time_ago_in_words @post.created_at %> ago by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
 	
   </div>
-  <%= render :partial => 'form' %>
- </div>
- <h3>ATC Code</h3>
-  <%= @atc unless @atc.nil? %>
+<% for dr in @post.drug_refs%>
+    <h3><%= proper_noun(dr.code.tc_atc) %></h3>
+    <b>ATC Code: </b><%= dr.code.tc_atc_number %>
+  <% end %>
   <h3>News Source</h3>
    <div id="detail"><%= simple_format(@post.news_source) if @post.news_source.any? %></div>
   <h3>News Date</h3>

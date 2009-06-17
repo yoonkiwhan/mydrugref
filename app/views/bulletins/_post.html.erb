@@ -1,14 +1,17 @@
 <div class="post">
-  <%= user_thumb post.creator %>
+  <div class="user">
+  Posted by <br />
+  <%= link_to post.creator.short_name, user_url(:id => post.created_by) %>
+  </div>
   <div class="body">
-    <h4>
-        <%= link_to post.drugs[0].brand_name, url_for(:action => 'show', :id => post) %>
-    </h4>
+    <h5>
+        <%= link_to post.drug_refs[0].code.tc_atc, url_for(:action => 'show', :id => post) %>
+    </h5>
     <p class="meta">
       <span class="comments">
       <% c = post.comments %>
 	<% if c.count == 0 %>
-	   None
+	   No Comments
 	<% else %>   
 	<%= pluralize c.size, 'comment' %>
 	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->

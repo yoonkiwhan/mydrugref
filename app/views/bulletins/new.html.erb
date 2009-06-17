@@ -1,3 +1,30 @@
-<div id="form_container" class="active">
-  <%= render :partial => 'form' %>
+<div id='form_wrapper'>
+<span id='controller_name' class='bulletins'></span>  
+<%= render :partial => 'posts/helptext' %>
+<div class='search'>
+    <label>
+    <span id='searching_by'>Brand Name</span>  
+    </label>
+    <input id='drugtext' name='drugtext' type='text' onkeypress='SearchDiv.enterMeansSearch(event);'>
+    <%= button_to_function "Search", "SearchDiv.searchForResults('brandname')", :id => 'search_button' %>
+    <img id="spinner" style="display: none;" src="/images/spinner.gif" />
+    <span id='alt_search_link'>
+        <a href="#" onclick="SearchDiv.byIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>
+    </span>
+    <div id='results'></div>
+  </div>
+  
+<% standard_form :post, @post do |f| %>  
+  <label>Drug ATCs</label>
+  <ul id='post_atcs'>
+  </ul>
+
+  <%= f.text_field :news_source, :label => "News Source (e.g. Company Name)" %>
+<%= f.text_field :news_date, :label => "News Date" %>
+<%= f.text_area :body, :label => "Brief Description (e.g. Subject of e-mail)" %>
+<%= f.text_field :reference, :label => "Reference (if available)" %>
+  
+  <%= standard_submit %>
+  
+<% end %>
 </div>

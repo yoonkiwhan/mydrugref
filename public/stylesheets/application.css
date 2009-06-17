@@ -222,6 +222,12 @@ h4 {
 	margin-bottom: 2px;
 }
 
+h5 {
+	font-size: 11px;
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
 /* Warnings and notices */
 /* -------------------------------------------------------------------------- */
 
@@ -386,7 +392,7 @@ form.standard select { margin-bottom: 10px; width: 150px; }
 	background-color: #E0E6EF;
 	margin-top: 11px;
 	margin-bottom: 25px;
-	margin-left: 1px;
+	padding: 5px;
 }
 
 #main div.post div.user {

@@ -93,16 +93,6 @@ class PostsController < ApplicationController
     render :partial => "posts/search", :layout => true
    end
   
-  def auto_complete
-    value = ('%' + params[:drugtext] + '%').gsub(' ', '%')
-
-    @drugs = Drug.find(:all,
-      :conditions => [ 'LOWER(brand_name) LIKE ?', value.downcase],
-      :order => 'brand_name ASC',
-      :limit => 20)
-    render :partial => 'drugs' 
-  end
-  
   def get_results
     params[:atcs].nil? ? existing_atcs = [] : existing_atcs = params[:atcs]
     if params[:drugtext].length > 2

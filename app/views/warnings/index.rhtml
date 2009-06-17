@@ -1,7 +1,7 @@
-<% if logged_in? and current_user.valid? %>
+<% if logged_in? %>
   <%= link_to 'Add New Warning', new_warning_url, :class => 'new_post' %>
 <% end %>
-<br>
+<br />
 
 
 <table id="posts">

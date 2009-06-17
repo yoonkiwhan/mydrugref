@@ -98,45 +98,7 @@ var PostForm = {
         container.addClassName('active');
       }});
     }
-  },
-  newtoggle: function() {
-    var container = $('form_container');
-    var form = $('form_wrapper');
-    if(container.hasClassName('active')) {
-      form.visualEffect('blind_up', { duration: 0.25, afterFinish: function(){
-        container.removeClassName('active');
-      }});
-    } else {
-      form.visualEffect('blind_down', { duration: 0.5, beforeStart: function(){
-        container.addClassName('active');
-      }});
-    }
-  },
-  autocomplete: function(textfield, div, action, field2) {
-    new Ajax.Autocompleter(textfield, div, action,
-        { minChars: 3,
-          frequency: 0.4,
-          paramName: 'drugtext',
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $(textfield).value = dn[0].firstChild.nodeValue;
-          $$(field2).first().value = dn[2].firstChild.nodeValue;
-        } } );
-   },
-   autocomplete_three: function(textfield, div, action, field2, field3, param) {
-    new Ajax.Autocompleter(textfield, div, action,
-        { minChars: 3,
-          frequency: 0.4,
-          paramName: param,
-          updateElement: function(selected) {
-          Element.cleanWhitespace(selected);
-          dn = selected.childNodes;
-          $(textfield).value = dn[0].firstChild.nodeValue;
-          $(field2).value = dn[1].firstChild.nodeValue;
-          $$(field3).first().value = dn[2].firstChild.nodeValue;
-        } } );
-   }
+  }
 }
 
 var TDPostForm = {

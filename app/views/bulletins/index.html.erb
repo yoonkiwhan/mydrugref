@@ -1,10 +1,7 @@
-<% if logged_in? and current_user.valid? %>
-<div id="form_container">
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %></div>
-  <%= render :partial => 'form' %>
-</div>
+<% if logged_in? %>
+  <%= link_to 'Add New Bulletin', new_bulletin_url, :class => 'new_post' %>
 <% end %>
+<br />
 
 <div id="posts">
   <%= render :partial => "post", :collection => @posts %>

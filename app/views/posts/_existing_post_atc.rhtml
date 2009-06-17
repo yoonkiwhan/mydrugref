@@ -9,6 +9,10 @@
     <input id=<%= "post_drug_refs_attributes_" + @post_atc[:id].to_s + "_label"%>
            name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> 
            type="hidden" value="Warning" />
+  <% elsif @post_atc[:con_name] == 'bulletins' %>
+    <input id=<%= "post_drug_refs_attributes_" + @post_atc[:id].to_s + "_label"%>
+           name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> 
+           type="hidden" value="Bulletin" />
   <% elsif @post_atc[:con_name] == 'treatments' %>
   <span class="options">
     <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="FLD"

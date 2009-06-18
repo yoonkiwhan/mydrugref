@@ -735,14 +735,21 @@ div.auto_complete {
     margin: 1px;
 }
 
-#form_wrapper div.search div#results div span#atc_code {
+#form_wrapper div.search div#results div span#price_atc {
+    display: inline;
+    margin: 0;
+}
+
+#form_wrapper div.search div#results div span#atc_code, 
+#form_wrapper div.search div#results div span#atc_class, 
+#form_wrapper div.search div#results div span#brand_name, 
+#form_wrapper div.search div#results div span#din {
     display: inline;
     font-weight: bold;
 }
 
-#form_wrapper div.search div#results div span#atc_class {
-    display: inline;
-    font-weight: bold;
+#form_wrapper div.search div#results div span#atc_class, 
+#form_wrapper div.search div#results div span#brand_name {
     font-variant: small-caps;
 }
 
@@ -776,12 +783,12 @@ div.auto_complete {
     color: grey;
 }
 
-#form_wrapper ul#post_atcs {
+#form_wrapper ul#post_drug_refs {
     padding-left: 0;
     margin-left: 0;
 }
 
-#form_wrapper ul#post_atcs li {
+#form_wrapper ul#post_drug_refs li {
     list-style-type: none;
     border: 1px solid grey;
     padding: 3px;
@@ -789,31 +796,36 @@ div.auto_complete {
     position: relative;
 }
 
-#form_wrapper ul#post_atcs li input[type="hidden"] {
+#form_wrapper ul#post_drug_refs li input[type="hidden"] {
     display: none;
 }
 
-#form_wrapper ul#post_atcs li a {
+#form_wrapper ul#post_drug_refs li a {
     position: absolute;
     top: 5px;
     right: 5px;
     text-decoration: none;
 }
 
-#form_wrapper ul#post_atcs li span.atc_code {
+#form_wrapper ul#post_drug_refs li h3 a, #form_wrapper ul#post_drug_refs li div a {
+    position: static;
+}
+
+#form_wrapper ul#post_drug_refs li span.atc_code, #form_wrapper ul#post_drug_refs li span.brand_name,
+#form_wrapper ul#post_drug_refs li span.din {
     font-weight: bold;
 }
 
-#form_wrapper ul#post_atcs li span.atc_class {
+#form_wrapper ul#post_drug_refs li span.atc_class, #form_wrapper ul#post_drug_refs li span.brand_name {
     font-variant: small-caps;
 }
 
-#form_wrapper ul#post_atcs li span.options {
+#form_wrapper ul#post_drug_refs li span.options {
     display: block;
     margin-top: 10px;
 }
 
-#form_wrapper ul#post_atcs li span.options input {
+#form_wrapper ul#post_drug_refs li span.options input {
     display: inline;
 }
 

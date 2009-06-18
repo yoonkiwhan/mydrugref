@@ -1,12 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
 
   # A resource for each post type
-  map.resources :warnings, :interactions, :treatments, :bulletins, :products, :threaded_discussion_posts, :guidelines,
+  map.resources :warnings, :interactions, :treatments, :bulletins, :prices, :threaded_discussion_posts, :guidelines,
     :collection => { :search => :get },
     :member => { :download => :get }
   # A comments resource under every post type ex. warnings/comments
   map.resources :comments, :path_prefix => "/:post_type/:post_id"
-  map.resources :prices, :path_prefix => "/:post_type/:drug_code"
   map.resources :drugs
   
   # User and session resources

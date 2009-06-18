@@ -95,41 +95,37 @@ class PostsController < ApplicationController
   
   def get_results
     params[:atcs].nil? ? existing_atcs = [] : existing_atcs = params[:atcs]
-    if params[:drugtext].length > 2
-      value = ('%' + params[:drugtext] + '%').gsub(' ', '%')
+    value = ('%' + params[:drugtext] + '%').gsub(' ', '%')
       
-      if params[:by] == 'brandname' # originally two functions (get_brandname_results and get_ingredient_results)
-        objs = Drug.find(:all, :conditions => [ 'class_1=? AND LOWER(brand_name) LIKE ?', 'HUMAN', value.downcase], 
-                         :select => 'brand_name, drug_code')
-      else
-        objs = ActiveIngredient.find(:all, :conditions => [ 'LOWER(ingredient) LIKE ?', value.downcase],
-                                     :select => 'ingredient, drug_code')
-        objs.delete_if{|a| a.code.nil?}
-      end  
-        
-      atc_objs = objs.group_by { |ob| Code.find_by_drug_code(ob.drug_code, :select => 'tc_atc, tc_atc_number') }
-      @results = []
-      atc_objs.each do |code, obj_array|
-        atc_code = code.tc_atc_number
-        h = {:atc_code => atc_code, :atc_class => code.tc_atc, 
-                     :added => existing_atcs.include?(atc_code),
-                     :ais => ActiveIngredient.find(:all, 
-                                                   :conditions => {:drug_code => obj_array[0].drug_code }, 
-                                                   :select => 'ingredient') }
-        if params[:by] == 'brandname'
-          h[:brand_name] = obj_array[0].brand_name
-        else
-          h[:brand_name] = Drug.find_by_drug_code(obj_array[0].drug_code, :select => 'brand_name').brand_name
-        end
-        @results << h
-      end
+    if params[:by] == 'brandname' # originally two functions (get_brandname_results and get_ingredient_results)
+      objs = Drug.find(:all, :conditions => [ 'class_1=? AND LOWER(brand_name) LIKE ?', 'HUMAN', value.downcase], 
+                       :select => 'brand_name, drug_code')
     else
-      @results = []
+      objs = ActiveIngredient.find(:all, :conditions => [ 'LOWER(ingredient) LIKE ?', value.downcase],
+                                   :select => 'ingredient, drug_code')
+      objs.delete_if{|a| a.code.nil?}
+    end  
+        
+    atc_objs = objs.group_by { |ob| Code.find_by_drug_code(ob.drug_code, :select => 'tc_atc, tc_atc_number') }
+    @results = []
+    atc_objs.each do |code, obj_array|
+      atc_code = code.tc_atc_number
+      h = {:atc_code => atc_code, :atc_class => code.tc_atc, 
+           :added => existing_atcs.include?(atc_code),
+           :ais => ActiveIngredient.find(:all, 
+                                         :conditions => {:drug_code => obj_array[0].drug_code }, 
+                                         :select => 'ingredient') }
+      if params[:by] == 'brandname'
+        h[:brand_name] = obj_array[0].brand_name
+      else
+        h[:brand_name] = Drug.find_by_drug_code(obj_array[0].drug_code, :select => 'brand_name').brand_name
+      end
+      @results << h
     end
     if @results.empty?
       @results = params[:by]
     end
-      render :partial => 'results', :object => @results 
+    render :partial => 'results', :object => @results    
   end
   
   def add_post_atc

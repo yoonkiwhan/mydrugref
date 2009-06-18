@@ -16,9 +16,9 @@
   
 <% standard_form :post, @post do |f| %>  
   <label>Drug ATCs</label>
-  <ul id='post_atcs'>
+  <ul id='post_drug_refs'>
   <% for d in @post.drug_refs %>
-    <% c = Code.find_by_tc_atc_number(d.tc_atc_number) %>
+    <% c = d.code %>
     <% @post_atc = {:atc_code => d.tc_atc_number, :atc_class => c.tc_atc, :id => d.id, :con_name => 'warnings' } %>
     <%= render :partial => '/posts/existing_post_atc', :object => @post_atc %>
   <% end %>

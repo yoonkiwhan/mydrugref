@@ -1,1 +1,7 @@
-<%= render :partial => 'prices' %>
+<% if logged_in? %>
+  <%= link_to 'Post a Price', new_price_url %>
+<% end %>
+
+<%= render :partial => 'price', :collection => @posts %>  
+
+<%= will_paginate @posts %>

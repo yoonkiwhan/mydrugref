@@ -7,7 +7,8 @@
   </h2>
 
 <%= render :partial => 'comments/comment', :collection => @post.comments %>
-  
+
+<% if logged_in? %>  
   <% remote_form_for :comment,
                      :url => comments_url(:post_type => "Comment", :post_id => @post),
                      :html => { :action => comments_url(:post_type => params[:controller], :post_id => @post) },
@@ -29,4 +30,5 @@
      </p>
    </fieldset>
  <% end %>
+<% end %>
 </div>

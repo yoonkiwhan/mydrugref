@@ -10,13 +10,17 @@
   		<% for post in @latest_p %>
   <tr class=<%= (post.significance == ' ' or post.significance.nil?) ? 'none' : post.significance.downcase %>>
     				<td><b>
-<% if post.class == Warning %>
-<%= link_to proper_noun(post.drug_refs[0].code.tc_atc), warning_url(:id => post.id) %>
-<% elsif post.class == Bulletin %>
-<%= link_to proper_noun(post.drug_refs[0].drug.brand_name), bulletin_url(:id => post.id) %>
+<% if post.class == Warning or post.class == Bulletin %>
+
+  <%= link_to proper_noun(post.drug_refs[0].code.tc_atc), 
+      post.class == Warning ? warning_url(:id => post.id) : bulletin_url(:id => post.id) %>
+
 <% elsif post.class == Treatment or post.class == Guideline %>
-<%= link_to post.name, :action => 'show', :controller => post.class.to_s + 's', :id => post.id %>
+
+  <%= link_to post.name, post.class == Treatment ? treatment_url(:id => post.id) : guideline_url(:id => post.id) %>
+
 <% elsif post.class == Interaction %>
+
 <% for dr in post.drug_refs %>
      <% if dr.label == 'int_drug2' then drug2 = dr.code.tc_atc %>
      <% else %>

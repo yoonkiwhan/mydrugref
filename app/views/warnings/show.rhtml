@@ -8,7 +8,7 @@
   </div>
   <% for dr in @post.drug_refs%>
     <h3><%= proper_noun(dr.code.tc_atc) %></h3>
-    <b>ATC Code: </b><%= dr.code.tc_atc_number %>
+    <b>ATC Code: </b><%= dr.tc_atc_number %>
   <% end %>
   <h3>Warning</h3>
  <%= @post.body unless @post.body.nil? %>

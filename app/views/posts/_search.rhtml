@@ -12,10 +12,9 @@
   <% @results.each do |post| %>
   <tr class=<%= (post.significance == ' ' or post.significance.nil?) ? 'none' : post.significance.downcase %>>
     				<td><b>
-<% if post.class == Bulletin %>
-<%= link_to post.drugs[0].brand_name, bulletin_url(:id => post.id) %>
-<% elsif post.class == Warning %>
-<%= link_to post.drug_refs[0].code.tc_atc, warning_url(:id => post.id) %>
+<% if post.class == Bulletin or post.class == Warning %>
+<%= link_to post.drug_refs[0].code.tc_atc, 
+    post.class == Warning ? warning_url(:id => post.id) : bulletin_url(:id => post.id) %>
 <% elsif post.class == Treatment %>
 <%= link_to post.name, treatment_url(:id => post.id) %>
 <% elsif post.class == Interaction %>

@@ -61,7 +61,18 @@ module ApplicationHelper
   def clear_div
     '<div class="clear"></div>'
   end
-
+  
+  def post_creator user
+    if current_user.friends.include?(user)
+      t = "<h4>Trusted!</h4>"
+      style_class = 'trusted'
+    else
+      style_class = 'not_trusted'
+      t = ""
+    end
+    content_tag :div, t + "Created by #{link_to user.short_name, user_url(:id => user)}", :class => style_class
+  end
+  
   # if post is over 30 days old, produces this format: Thursday 25 May 2006 - 1:08 PM
   def nice_date(date)
     dt = DateTime.new(date.year, date.month, date.mday)

@@ -1,53 +1,68 @@
 class PricesController < PostsController
-  
-def index
-end
 
-def create    
-    @drug = Drug.find(params[:drug_identification_number])
-    @price = Price.new(params[:price])
-    @price.name = "Price of #{@drug.brand_name}"
-    @price.creator = current_user
-    if @price.save
-    @dr = DrugRef.new({:drug_identification_number => @drug.drug_identification_number, 
-		       :post_id => @price.id, :label => 'Price'})
-    @dr.save
-    flash[:notice] = "Price saved."
-    redirect_to :back
-    else
-	flash[:notice] = "Price could not be saved."
-	redirect_to :back
+  def index
+    super
+    @posts = Price.paginate :page => params[:page], :order => 'created_by', :per_page => 20
+  end
+
+  def get_results_by_brand
+    value = ('%' + params[:drugtext] + '%').gsub(' ', '%')     
+    drugs = Drug.find(:all, :conditions => [ 'class_1=? AND LOWER(brand_name) LIKE ?', 'HUMAN', value.downcase], 
+                      :select => 'brand_name, drug_identification_number, drug_code')
+    @results = []
+    drugs.each do |drug|
+      code = Code.find_by_drug_code(drug.drug_code, :select => 'tc_atc, tc_atc_number')
+      @results << {:atc_code => code.tc_atc_number, :atc_class => code.tc_atc, 
+                   :ais => ActiveIngredient.find(:all, 
+                                                 :conditions => {:drug_code => drug.drug_code }, 
+                                                 :select => 'ingredient'),
+                   :brand_name => drug.brand_name, :din => drug.drug_identification_number,
+                   :company => Company.find_by_drug_code(drug.drug_code, :select => 'company_name').company_name }
     end
-end
-
-  def edit
-    @drug = Drug.find params[:drug_identification_number]
-    @price = Price.find(params[:id])
+    if @results.empty?
+      @results = 'None'
+    end
+    render :partial => 'results', :object => @results    
   end
   
-  def update
-      @drug = Drug.find params[:drug_identification_number]
-      @price = Price.find_by_id(params[:id])
-      if @price.update_attributes(params[:price])
-          flash[:notice] = "Your changes were saved."
-          redirect_to drug_url(:id => @drug)        
-      
-      else
-      render  :action => 'edit'
-      end
+  def get_results_by_ingredient
+    value = ('%' + params[:drugtext] + '%').gsub(' ', '%')     
+    ingredients = ActiveIngredient.find(:all, :conditions => [ 'LOWER(ingredient) LIKE ?', value.downcase],
+                                        :select => 'ingredient, drug_code')
+    ingredients.delete_if{|a| a.code.nil?}
+    grouped_ingredients = ingredients.group_by {|i| 
+                          Drug.find_by_drug_code(i.drug_code, 
+                                                 :select => 'drug_code, brand_name, drug_identification_number')
+                                                 }
+    @results = []
+    grouped_ingredients.each do |drug, ingredients|
+      code = Code.find_by_drug_code(drug.drug_code, :select => 'tc_atc, tc_atc_number')
+      @results << {:atc_code => code.tc_atc_number, :atc_class => code.tc_atc, 
+                   :ais => ingredients,
+                   :brand_name => drug.brand_name, :din => drug.drug_identification_number,
+                   :company => Company.find_by_drug_code(drug.drug_code, :select => 'company_name').company_name }
     end
+    if @results.empty?
+      @results = 'None'
+    end
+    render :partial => 'results', :object => @results    
+  end
   
-  def destroy
-    @drug = Drug.find params[:drug_identification_number]
-    @price = Price.find_by_id(params[:id])
-    @price.destroy
-    flash[:notice] = "Price deleted."
-    redirect_to drug_url(:id => @drug)
+  def add_price_drug
+    @price_drug = { :brand_name => params[:brand_name], :atc => params[:atc_code], :din => params[:din] }
+    render :partial => 'price_drug', :object => @price_drug
+  end
+
+  def edit
+    @edit_on = true
+    @page_title = 'Edit Price'
   end
   
   def show
-    @drug = Drug.find(params[:drug_identification_number])
-    @price = Price.find params[:id]
+    @page_title = 'Price of ' + @post.drug_refs[0].drug.brand_name
   end
+  
+  private
+    def model_name; 'Price'; end
   
 end

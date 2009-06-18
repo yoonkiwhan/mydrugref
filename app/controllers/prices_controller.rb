@@ -12,7 +12,7 @@ class PricesController < PostsController
     @results = []
     drugs.each do |drug|
       code = Code.find_by_drug_code(drug.drug_code, :select => 'tc_atc, tc_atc_number')
-      unless code.tc_atc_number.nil? or code.tc_atc_number == ''
+      unless code.nil? or code.tc_atc_number.nil? or code.tc_atc_number == ''
         @results << {:atc_code => code.tc_atc_number, :atc_class => code.tc_atc, 
                      :ais => ActiveIngredient.find(:all, 
                                                    :conditions => {:drug_code => drug.drug_code }, 

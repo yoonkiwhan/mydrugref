@@ -109,7 +109,7 @@ class PostsController < ApplicationController
     atc_objs = objs.group_by { |ob| Code.find_by_drug_code(ob.drug_code, :select => 'tc_atc, tc_atc_number') }
     @results = []
     atc_objs.each do |code, obj_array|
-      unless code.tc_atc_number.nil? or code.tc_atc_number == ''
+      unless code.nil? or code.tc_atc_number.nil? or code.tc_atc_number == ''
         atc_code = code.tc_atc_number
         h = {:atc_code => atc_code, :atc_class => code.tc_atc, 
              :added => existing_atcs.include?(atc_code),

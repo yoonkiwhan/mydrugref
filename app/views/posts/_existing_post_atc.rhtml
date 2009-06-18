@@ -19,20 +19,23 @@
     <% if @post_atc[:label] == 'FLD' %> 
     checked="checked"
     <% end %> 
-    />
+    >
     First Line Drug
+    </input>
     <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="SLD" 
     <% if @post_atc[:label] == 'SLD' %> 
     checked="checked"
     <% end %>
-    />
+    >
     Second Line Drug
+    </input>
     <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="Preg" 
     <% if @post_atc[:label] == 'Preg' %> 
     checked="checked"
     <% end %>
-    />
+    >
     Suggest for Pregnant Women
+    </input>
   </span>
   <% elsif @post_atc[:con_name] == 'interactions' %>
   <span class="options">
@@ -40,14 +43,16 @@
     <% if @post_atc[:label] == 'int_drug1' %> 
     checked="checked"
     <% end %> 
-    />
+    >
     <b>Affecting</b> Drug
+    </input>
     <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]"%> value="int_drug2" 
     <% if @post_atc[:label] == 'int_drug2' %> 
     checked="checked"
     <% end %>
-    />
+    >
     <b>Affected</b> Drug
+    </input>
   </span>
   <% end %>
          

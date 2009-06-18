@@ -61,7 +61,7 @@ class PostsController < ApplicationController
       redirect_to :action => 'show'
     else
       @edit_on = true
-      render :action => 'show'
+      render :action => 'edit'
     end
   end
 
@@ -109,18 +109,20 @@ class PostsController < ApplicationController
     atc_objs = objs.group_by { |ob| Code.find_by_drug_code(ob.drug_code, :select => 'tc_atc, tc_atc_number') }
     @results = []
     atc_objs.each do |code, obj_array|
-      atc_code = code.tc_atc_number
-      h = {:atc_code => atc_code, :atc_class => code.tc_atc, 
-           :added => existing_atcs.include?(atc_code),
-           :ais => ActiveIngredient.find(:all, 
-                                         :conditions => {:drug_code => obj_array[0].drug_code }, 
-                                         :select => 'ingredient') }
-      if params[:by] == 'brandname'
-        h[:brand_name] = obj_array[0].brand_name
-      else
-        h[:brand_name] = Drug.find_by_drug_code(obj_array[0].drug_code, :select => 'brand_name').brand_name
+      unless code.tc_atc_number.nil? or code.tc_atc_number == ''
+        atc_code = code.tc_atc_number
+        h = {:atc_code => atc_code, :atc_class => code.tc_atc, 
+             :added => existing_atcs.include?(atc_code),
+             :ais => ActiveIngredient.find(:all, 
+                                           :conditions => {:drug_code => obj_array[0].drug_code }, 
+                                           :select => 'ingredient') }
+        if params[:by] == 'brandname'
+          h[:brand_name] = obj_array[0].brand_name
+        else
+          h[:brand_name] = Drug.find_by_drug_code(obj_array[0].drug_code, :select => 'brand_name').brand_name
+        end
+        @results << h
       end
-      @results << h
     end
     if @results.empty?
       @results = params[:by]

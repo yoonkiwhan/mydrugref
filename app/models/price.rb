@@ -4,9 +4,10 @@ class Price < Post
   validate :one_drug_ref
   
   def one_drug_ref
-    unless drug_refs.length == 1
-      errors.add_to_base("Must have one drug attached")
+    if drug_refs.empty? or drug_refs[0].marked_for_destruction?
+      errors.add(:drug_refs, "Must have one drug attached")
     end
   end
   
 end
+

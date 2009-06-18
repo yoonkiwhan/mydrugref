@@ -31,7 +31,7 @@
 <% elsif post.class == Comment %>
 <%= link_to post.name, :action => 'show', :controller => Post.find(post.post_id).class.to_s.downcase + "s", :id => post.post_id %>
 <% elsif post.class == Price %>
-<%= link_to post.name, :action => 'show', :controller => 'drugs', :id => post.drug_refs[0].drug_identification_number %>
+<%= link_to post.drugs[0].brand_name, price_url(:id => post.id) %>
 <% end %>
 </td></b>
 				<td><%= post.class %></td>

@@ -272,7 +272,7 @@ h5 {
 /* Navigation */
 /* -------------------------------------------------------------------------- */
 
-ul#nav { margin: 0px; width: 500px; }
+ul#nav { margin: 0px; width: 600px; }
 
 ul#nav li {
   display: inline;
@@ -285,7 +285,7 @@ ul#nav li {
 }
 html>body ul#nav li { padding: 3px 7px 4px 7px; } /* non-iewin */
 
-body.warnings li#warnings, body.treatments li#treatments, body.guidelines li#guidelines, 
+body.warnings li#warnings, body.treatments li#treatments, body.guidelines li#guidelines, body.prices li#prices, 
 body.interactions li#interactions, body.bulletins li#bulletins, body.tags li#treatments {
 	background-color: #fff; border: 1px solid #888; border-bottom: 1px solid #fff;
 }
@@ -357,11 +357,16 @@ ul#nav li a:hover { background-color: transparent; text-decoration: underline; }
 /* -------------------------------------------------------------------------- */
 
 form.standard {
-        clear: left;
-        margin-top: 10px;
-  margin-left: 15px;
-  padding-top: 10px;
-  width: 510px;
+    clear: left;
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-top: 10px;
+    width: 510px;
+}
+
+form#drug_ref {
+  margin-left: 0;
+  width: 100%;
 }
 
 form.standard label {
@@ -455,6 +460,37 @@ img.user_picture {
 #main div.post div.no_user { margin-left: 0px; }
 #main div.post p.meta span.comments { float: right; font-size: 11px; }
 #main p.meta { color: #666; margin-bottom: 10px; }
+
+#main div.price {
+    border: 1px solid black;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+#main div.price h3, #main div.price span {
+    padding: 3px;
+    margin: 0;
+    display: block;
+    background: none;
+    border: none;
+}
+
+#main div.price div {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding: 3px;
+}
+
+#main div.price div h4 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+#main div.price div.trusted{
+    background-color: #fffbd5;
+}
 
 #letter_links {
 	margin-top: 20px;

@@ -12,12 +12,14 @@ class PricesController < PostsController
     @results = []
     drugs.each do |drug|
       code = Code.find_by_drug_code(drug.drug_code, :select => 'tc_atc, tc_atc_number')
-      @results << {:atc_code => code.tc_atc_number, :atc_class => code.tc_atc, 
-                   :ais => ActiveIngredient.find(:all, 
-                                                 :conditions => {:drug_code => drug.drug_code }, 
-                                                 :select => 'ingredient'),
-                   :brand_name => drug.brand_name, :din => drug.drug_identification_number,
-                   :company => Company.find_by_drug_code(drug.drug_code, :select => 'company_name').company_name }
+      unless code.tc_atc_number.nil? or code.tc_atc_number == ''
+        @results << {:atc_code => code.tc_atc_number, :atc_class => code.tc_atc, 
+                     :ais => ActiveIngredient.find(:all, 
+                                                   :conditions => {:drug_code => drug.drug_code }, 
+                                                   :select => 'ingredient'),
+                     :brand_name => drug.brand_name, :din => drug.drug_identification_number,
+                     :company => Company.find_by_drug_code(drug.drug_code, :select => 'company_name').company_name }
+      end
     end
     if @results.empty?
       @results = 'None'

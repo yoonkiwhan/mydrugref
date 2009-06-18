@@ -9,6 +9,21 @@ class Post < ActiveRecord::Base
 #  validates_associated :drug_refs, :message => "Must contain valid DIN code"
   accepts_nested_attributes_for :drug_refs, :allow_destroy => true
   
+  def has_drug_ref
+    if drug_refs.empty? or deleting_all_drug_refs
+      errors.add(:drug_refs, "Must have at least one ATC Code attached")
+    end
+  end
+  
+  def deleting_all_drug_refs
+    drug_refs.each do |d|
+      unless d.marked_for_destruction?
+        return false
+      end
+    end
+    return true
+  end
+  
   def self.search(q, date, type)
     if type.nil?
       by_drug_name = Post.find(:all, :include => :drugs, 

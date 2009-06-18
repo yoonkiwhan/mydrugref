@@ -20,8 +20,10 @@
     <div id='results'>Price can only be attached to one drug.</div>
   </div>
   
-<% standard_form :post, @post do |f| %>  
-  <label>Drug ATC</label>
+<% drug_refs_form :post, @post do |f| %>  
+  <label>Drug ATC
+  <%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+  </label>
   <ul id='post_drug_refs'>
   <% d = @post.drug_refs[0] %>
   <% @price_drug = {:atc => d.tc_atc_number, :din => d.drug_identification_number, :id => d.id, 

@@ -15,8 +15,10 @@
     <div id='results'></div>
   </div>
 
-<% standard_form :post, @post do |f| %>
-  <label>Drugs of Choice ATCs</label>
+<% drug_refs_form :post, @post do |f| %>
+  <label>Drug ATCs
+  <%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+  </label>
   <ul id='post_drug_refs'>
   </ul>
   

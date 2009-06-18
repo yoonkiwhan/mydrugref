@@ -99,10 +99,21 @@ module ApplicationHelper
     html = { :class     => "standard",
              :style     => (@edit_on ? '' : "display: none;"),
              :multipart => true }
-    concat form_tag(url, html) + "<fieldset>", block.binding
-    concat '<input name="_method" type="hidden" value="put" />', block.binding unless object.new_record?
+    concat form_tag(url, html) + "<fieldset>"
+    concat '<input name="_method" type="hidden" value="put" />' unless object.new_record?
     yield LabelingFormBuilder.new(name, object, self, {}, block)
-    concat "</fieldset>", block.binding
+    concat "</fieldset>"
+  end
+  
+  
+  def drug_refs_form name, object, &block
+    url  = { :action    => object.new_record? ? "index" : "show" }
+    html = { :class     => "standard", :id => "drug_ref",
+             :multipart => true }
+    concat form_tag(url, html) + "<fieldset>"
+    concat '<input name="_method" type="hidden" value="put" />' unless object.new_record?
+    yield LabelingFormBuilder.new(name, object, self, {}, block)
+    concat "</fieldset>"
   end
 
   #modifying standard_form so that tdpost create works

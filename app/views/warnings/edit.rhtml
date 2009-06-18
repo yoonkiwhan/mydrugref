@@ -15,7 +15,9 @@
   </div>
   
 <% standard_form :post, @post do |f| %>  
-  <label>Drug ATCs</label>
+  <label>Drug ATC
+  <%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+  </label>
   <ul id='post_drug_refs'>
   <% for d in @post.drug_refs %>
     <% c = d.code %>

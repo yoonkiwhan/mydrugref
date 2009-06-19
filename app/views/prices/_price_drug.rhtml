@@ -1,0 +1,38 @@
+<div>
+<li>
+  <span class="brand_name"><%= proper_noun(@price_drug[:brand_name]) %></span> &nbsp 
+  <span class="din"><%= @price_drug[:din] %></span>  
+  <input id=<%= "post_drug_refs_attributes_" + @price_drug[:din] + "_tc_atc_number"%>
+         name=<%= "post[drug_refs_attributes][" + @price_drug[:din] + "][tc_atc_number]"%>
+         type="hidden" value=<%= @price_drug[:atc] %> />
+  <input id=<%= "post_drug_refs_attributes_" + @price_drug[:din] + "_drug_identification_number"%>
+         name=<%= "post[drug_refs_attributes][" + @price_drug[:din] + "][drug_identification_number]"%>
+         type="hidden" value=<%= @price_drug[:din] %> />
+  <input id=<%= "post_drug_refs_attributes_" + @price_drug[:din] + "_label"%>
+         name=<%= "post[drug_refs_attributes][" + @price_drug[:din] + "][label]"%> 
+         type="hidden" value="Price" />
+  <%= link_to_function 'Remove from post', "PostForm.removeNewPriceDrug($(this).up('li').up('div'))" %>
+</li>
+<% prices_with_din = Price.find(:all, :include => :drug_refs, 
+                                :conditions => ['drug_refs.drug_identification_number = ?', @price_drug[:din]]) %>
+<% unless prices_with_din.empty? %>
+<li>
+  Other prices posted for this drug: <%= link_to_function 'Remove from display', "$(this).up('li').remove()" %>
+  <% for p in prices_with_din %>
+    <%= render :partial => 'price', :object => p %>
+  <% end %>
+</li>
+<% end %>
+
+<% prices_with_atc = (Price.find(:all, :include => :drug_refs, 
+                                 :conditions => ['drug_refs.tc_atc_number = ?', @price_drug[:atc]]) - prices_with_din) %>
+<% unless prices_with_atc.empty? %>
+<li>
+   Other prices posted for this drug's ATC code: <%= link_to_function 'Remove from display', 
+                                                       "$(this).up('li').remove()" %>
+    <% for p in prices_with_atc %>
+      <%= render :partial => 'price', :object => p %>
+    <% end %>
+</li>
+<% end %>
+</div>

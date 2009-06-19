@@ -63,7 +63,7 @@ module ApplicationHelper
   end
   
   def post_creator user
-    if current_user.friends.include?(user)
+    if logged_in? and current_user.friends.include?(user)
       t = "<h4>Trusted!</h4>"
       style_class = 'trusted'
     else

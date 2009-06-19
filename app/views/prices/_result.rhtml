@@ -1,0 +1,12 @@
+<div class='result' onmouseover='ResultDiv.lightUp($(this)); return false;' 
+     onmouseout='ResultDiv.backToNorm($(this)); return false;' 
+     onclick='ResultDiv.addToPrice($(this)); return false;'>
+    <span id='brand_name'><%= proper_noun(result[:brand_name]) %></span>
+    <span id='din'>(<%= proper_noun(result[:din]) %>)</span>
+    <span>ATC: <span id='price_atc'><%= result[:atc_code] %></span> <%= proper_noun(result[:atc_class]) %>
+    <br />Company: <%= proper_noun(result[:company]) %>
+    </span>
+    <% for ai in result[:ais] %>
+      <span class="ingredient"><%= proper_noun(ai.ingredient) %></span>
+    <% end %>
+</div>

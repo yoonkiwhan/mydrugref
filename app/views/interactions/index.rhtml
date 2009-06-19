@@ -15,8 +15,9 @@
     </tr>
     <% for post in @posts %>
        <% for dr in post.drug_refs %>
-  	     <% if dr.label == 'int_drug2' then drug2 = dr.code.tc_atc %>
-  	     <% elsif dr.label == 'int_drug1' then drug1 = dr.code.tc_atc %>
+         <!-- Holbrook Interactions contain atc codes that are not in the Health Canada Database -->
+  	     <% if dr.label == 'int_drug2' then dr.code.nil? ? drug2 = dr.tc_atc_number : drug2 = dr.code.tc_atc %>
+  	     <% elsif dr.label == 'int_drug1' then dr.code.nil? ? drug1 = dr.tc_atc_number : drug1 = dr.code.tc_atc %>
          <% end %>
        <% end %>
        <tr class=<%= post.significance.downcase %>>

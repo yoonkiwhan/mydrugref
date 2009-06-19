@@ -1,0 +1,6 @@
+<div class="price">
+<h3><%= link_to price.drug_refs[0].drug.brand_name, price_url(:id => price.id) %></h3>
+<span class="cost"><%= number_to_currency(price.cost) %></span>
+<span class="retailer"><%= price.reference %></span>
+<%= post_creator price.creator %>
+</div>

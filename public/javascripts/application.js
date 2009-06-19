@@ -203,7 +203,7 @@ var EditTDPostForm = {
 }
 
 function getAtcs(){
-    var postAtcs = $$('#post_atcs li');
+    var postAtcs = $$('#post_drug_refs li');
     var atcCodes = '';
     for (var i=0; i<postAtcs.length; i++){
       //atcCodes.push(postAtcs[i].down('.atc_code').innerHTML);

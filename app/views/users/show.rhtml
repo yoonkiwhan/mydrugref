@@ -126,7 +126,7 @@
   	</tr>
     <% for post in @bulletins %>
   	<tr class="no_sig">
-    	    <td><b><%= link_to post.name, bulletin_url(:id => post.id) %></td></b>
+    	    <td><b><%= link_to post.drug_refs[0].code.tc_atc, bulletin_url(:id => post.id) %></td></b>
    	    <td><%= nice_date post.created_at %></td>   
     	    <td><%= nice_date post.updated_at %></td> 
         </tr>
@@ -144,7 +144,7 @@
   	</tr>
     <% for post in @comments %>
   	<tr class = <%= comment_class(post.agree) %>>
-    	    <td><b><%=link_to post.name, :action => 'show', :controller => "#{Post.find(post.post_id).class}s", 
+    	    <td><b><%=link_to post.name, :action => 'show', :controller => "#{post.post.class}s", 
 					 :id => post.post_id %></td></b>
     	    <td><%= truncate(post.body, 200) %></td>   
   	</tr>

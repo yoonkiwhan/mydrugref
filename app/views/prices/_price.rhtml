@@ -1,5 +1,8 @@
 <div class="price">
 <h3><%= link_to price.drug_refs[0].drug.brand_name, price_url(:id => price.id) %></h3>
+<% price.drug_refs[0].drug.active_ingredients.each do |ai| %>
+<%= proper_noun(ai.ingredient) + ': ' + ai.strength + ai.strength_unit %><br />
+<% end %>
 <span class="cost"><%= number_to_currency(price.cost) %></span>
 <span class="retailer"><%= price.reference %></span>
 <%= post_creator price.creator %>

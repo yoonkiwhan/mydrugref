@@ -141,6 +141,7 @@ var PostForm = {
     $('alt_search_link').update(
       '<a href="#" onclick="SearchDiv.priceByIngredient(); return false;">Search By Active Ingredient ' +
       '(Generic Name)</a>');
+    $('searching_by').update('Brand Name');
   },
   deletePriceDrugRef: function(li, id) {
     li.hide();

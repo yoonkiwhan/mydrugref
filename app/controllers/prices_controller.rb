@@ -16,7 +16,7 @@ class PricesController < PostsController
         @results << {:atc_code => code.tc_atc_number, :atc_class => code.tc_atc, 
                      :ais => ActiveIngredient.find(:all, 
                                                    :conditions => {:drug_code => drug.drug_code }, 
-                                                   :select => 'ingredient'),
+                                                   :select => 'ingredient, strength, strength_unit'),
                      :brand_name => drug.brand_name, :din => drug.drug_identification_number,
                      :company => Company.find_by_drug_code(drug.drug_code, :select => 'company_name').company_name }
       end
@@ -30,7 +30,7 @@ class PricesController < PostsController
   def get_results_by_ingredient
     value = ('%' + params[:drugtext] + '%').gsub(' ', '%')     
     ingredients = ActiveIngredient.find(:all, :conditions => [ 'LOWER(ingredient) LIKE ?', value.downcase],
-                                        :select => 'ingredient, drug_code')
+                                        :select => 'ingredient, strength, strength_unit, drug_code')
     ingredients.delete_if{|a| a.code.nil?}
     grouped_ingredients = ingredients.group_by {|i| 
                           Drug.find_by_drug_code(i.drug_code, 

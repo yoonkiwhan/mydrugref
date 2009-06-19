@@ -7,6 +7,6 @@
     <br />Company: <%= proper_noun(result[:company]) %>
     </span>
     <% for ai in result[:ais] %>
-      <span class="ingredient"><%= proper_noun(ai.ingredient) %></span>
+      <span class="ingredient"><%= proper_noun(ai.ingredient) + ': ' + ai.strength + ai.strength_unit %></span>
     <% end %>
 </div>

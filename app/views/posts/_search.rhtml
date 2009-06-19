@@ -1,35 +1,35 @@
 <p align="center"><strong><%= @results.length %></strong> posts matched <strong>"<%= @query %>"</strong>:</p>
 <% if @results.length > 0 %>
-<table id="posts">
-  <tr>
-	<th>Title</th>
-	<th>Type</th>
- 	<th>Created</th>
-    <th>Body</th>
-	<th>Author</th>
-	<th>Comments</th>
-  </tr>
+  <table id="posts">
+    <tr>
+	  <th>Title</th>
+	  <th>Type</th>
+ 	  <th>Created</th>
+      <th>Body</th>
+	  <th>Author</th>
+	  <th>Comments</th>
+    </tr>
   <% @results.each do |post| %>
   <tr class=<%= (post.significance == ' ' or post.significance.nil?) ? 'none' : post.significance.downcase %>>
     				<td><b>
-<% if post.class == Bulletin or post.class == Warning %>
-<%= link_to post.drug_refs[0].code.tc_atc, 
-    post.class == Warning ? warning_url(:id => post.id) : bulletin_url(:id => post.id) %>
-<% elsif post.class == Treatment %>
-<%= link_to post.name, treatment_url(:id => post.id) %>
-<% elsif post.class == Interaction %>
-<% for dr in post.drug_refs %>
-     <% if dr.label == 'int_drug2' then drug2 = dr.code.tc_atc %>
-     <% else %>
-     <% drug1 = dr.code.tc_atc %>
-     <% end %>
-<% end %>
-<%= link_to drug1 + " and " + drug2, interaction_url(:id => post.id) %>
-<% elsif post.class == Comment %>
-<%= link_to post.name, :action => 'show', :controller => Post.find(post.post_id).class.to_s.downcase + "s", :id => post.post_id %>
-<% elsif post.class == Price %>
-<%= link_to post.drugs[0].brand_name, price_url(:id => post.id) %>
-<% end %>
+  <% if post.class == Bulletin or post.class == Warning %>
+    <%= link_to post.drug_refs[0].code.tc_atc, 
+        post.class == Warning ? warning_url(:id => post.id) : bulletin_url(:id => post.id) %>
+  <% elsif post.class == Treatment %>
+    <%= link_to post.name, treatment_url(:id => post.id) %>
+  <% elsif post.class == Interaction %>
+    <% for dr in post.drug_refs %>
+      <!-- Holbrook Interactions contain atc codes that are not in the Health Canada Database -->
+  	  <% if dr.label == 'int_drug2' then dr.code.nil? ? drug2 = dr.tc_atc_number : drug2 = dr.code.tc_atc %>
+  	  <% elsif dr.label == 'int_drug1' then dr.code.nil? ? drug1 = dr.tc_atc_number : drug1 = dr.code.tc_atc %>
+      <% end %>
+    <% end %>
+    <%= link_to proper_noun(drug1) + " and " + proper_noun(drug2), interaction_url(:id => post.id) %>
+  <% elsif post.class == Comment %>
+    <%= link_to post.name, :action => 'show', :controller => Post.find(post.post_id).class.to_s.downcase + "s", :id => post.post_id %>
+  <% elsif post.class == Price %>
+    <%= link_to post.drug_refs[0].drug.brand_name, price_url(:id => post.id) %>
+  <% end %>
 </td></b>
 				<td><%= post.class %></td>
     			<td><%= nice_date post.created_at %></td>   
@@ -52,6 +52,6 @@
 	 <% end %>
 	            </td>
   				</tr>
-		<% end %>
+  <% end %>
 	</table>
 <% end %>

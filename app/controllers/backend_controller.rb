@@ -152,10 +152,12 @@ class BackendController < ApplicationController
     elsif post.effect == 'No Effect'
       ef = 'N'
     end
+    post.affecting_dr.code.nil? ? name = post.affecting_dr.tc_atc_number : name = post.affecting_dr.code.tc_atc
+    post.affected_dr.code.nil? ? drug2 = post.affected_dr.tc_atc_number : drug2 = post.affected_dr.code.tc_atc
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
-                    :name => post.affecting_drug.brand_name, :atc => post.affecting_dr.tc_atc_number, 
-                    :drug2 => post.affected_drug.brand_name, :atc2 => post.affected_dr.tc_atc_number, 
+                    :name => name, :atc => post.affecting_dr.tc_atc_number, 
+                    :drug2 => drug2, :atc2 => post.affected_dr.tc_atc_number, 
                     :effect => ef, :evidence => ev, :reference => post.reference, 
                     :significance => s, :type => 'Interaction', :trusted => trusted, 
                     :author => post.creator.name, :comments => make_oscar_comments(post.comments))
@@ -179,7 +181,7 @@ class BackendController < ApplicationController
     end
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
-                    :name => post.drugs[0].brand_name, :atc => post.drug_refs[0].tc_atc_number, 
+                    :name => post.drug_refs[0].code.tc_atc, :atc => post.drug_refs[0].tc_atc_number, 
                     :evidence => ev, :reference => post.reference, 
                     :significance => s, :trusted => trusted, :type => 'Warning', 
                     :author => post.creator.name, :comments => make_oscar_comments(post.comments))
@@ -189,7 +191,7 @@ class BackendController < ApplicationController
   def make_oscar_bulletin(post, trusted)
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
-                    :name => post.drugs[0].brand_name, :atc => post.drug_refs[0].tc_atc_number, 
+                    :name => post.drug_refs[0].code.tc_atc, :atc => post.drug_refs[0].tc_atc_number, 
                     :reference => post.reference, :trusted => trusted, :type => 'Bulletin',
                     :news_source => post.news_source, :news_date => post.news_date, 
                     :author => post.creator.name, :comments => make_oscar_comments(post.comments))
@@ -198,7 +200,8 @@ class BackendController < ApplicationController
   def make_oscar_price(post, trusted)
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, 
-                    :name => post.name, :reference => post.reference, :cost => post.cost, :trusted => trusted, 
+                    :name => post.drug_refs[0].drug.brand_name, 
+                    :reference => post.reference, :cost => post.cost, :trusted => trusted, 
                     :type => 'Price', :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end
   

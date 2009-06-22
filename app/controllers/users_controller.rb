@@ -35,14 +35,6 @@ class UsersController < ApplicationController
   end
 
   def show
-   # @posts = Post.find_all_by_created_by(@user)
-    @treatments = Treatment.find_all_by_created_by(@user)
-    @comments = Comment.find_all_by_created_by(@user)
-    @interactions = Interaction.find_all_by_created_by(@user)
-    @warnings = Warning.find_all_by_created_by(@user)
-    @bulletins = Bulletin.find_all_by_created_by(@user)
-    @products = Product.find_all_by_created_by(@user)
-    @prices = Price.find_all_by_created_by(@user)
     @friends = @user.friends
     @trusters = @user.trusted_by
     if params[:format]=='jpg'
@@ -54,16 +46,19 @@ class UsersController < ApplicationController
       return
     end
   end
+  
+  def show_posts
+    @user = User.find(params[:userid])
+    @treatments = Treatment.find_all_by_created_by(params[:userid])
+    @comments = Comment.find_all_by_created_by(params[:userid])
+    @interactions = Interaction.find_all_by_created_by(params[:userid])
+    @warnings = Warning.find_all_by_created_by(params[:userid])
+    @bulletins = Bulletin.find_all_by_created_by(params[:userid])
+    render :partial => 'posts'
+  end
 
   def edit
     @edit_on = true
-    @treatments = Treatment.find_all_by_created_by(@user)
-    @comments = Comment.find_all_by_created_by(@user)
-    @interactions = Interaction.find_all_by_created_by(@user)
-    @warnings = Warning.find_all_by_created_by(@user)
-    @bulletins = Bulletin.find_all_by_created_by(@user)
-    @products = Product.find_all_by_created_by(@user)
-    @prices = Price.find_all_by_created_by(@user)
     @friends = @user.friends
     @allusers = User.find(:all)
     render :action => 'show'

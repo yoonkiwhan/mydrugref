@@ -43,119 +43,15 @@
 <% end %>
 </div>
 <br />
-<h2><%= @user.doc_name %>'s posts</h2>
+<%= link_to_remote "Show #{@user.name}'s Posts", 
+                   :update => 'user_posts', 
+                   :before => "$('user_posts').update('Loading . . . ')",
+                   :url => {:action => 'show_posts'},
+                   :with => "'userid=#{@user.id}'" %>
+<div id='user_posts'></div>
 
-<% if @warnings.any? %>
-<h4>Warnings</h4>
-    <table id="posts">
- 	<tr>
-	    <th>Drug Name</th>
- 	    <th>Created</th>
-            <th>Last Updated</th>
-  	</tr>
-  	<% for post in @warnings %>
-  	<tr class=<%= post.significance.downcase %>>
-    	    <td><b><%= link_to proper_noun(post.drug_refs[0].code.tc_atc), warning_url(:id => post.id) %></td></b>
-    	    <td><%= nice_date post.created_at %></td>   
-    	    <td><%= nice_date post.updated_at %></td> 
-  	</tr>
-	<% end %>
-</table>
-<% end %>
-
-<% if @interactions.any? %>
-<h4>Interactions</h4>
-    <table id="posts">
-        <tr>
-	    <th>Affecting Drug</th>
-            <th>Affected Drug</th>
- 	    <th>Created</th>
-            <th>Last Updated</th>
-  	</tr>
-  	<% for post in @interactions %>
-  	    <% for dr in post.drug_refs %>
-  	        <% drug1 = dr.code.tc_atc if dr.label == 'int_drug1' %>
-  	        <% drug2 = dr.code.tc_atc if dr.label == 'int_drug2' %>
-  	    <% end %>
-  	<tr class=<%= post.significance.downcase %>>
-    	   <td><b><%= link_to proper_noun(drug1), interaction_url(:id => post.id) %></td></b>
-    	   <td><b><%= link_to proper_noun(drug2), interaction_url(:id => post.id) %></td></b>
-    	   <td><%= nice_date post.created_at %></td> 
-    	   <td><%= nice_date post.updated_at %></td>  
-  	</tr>
-	<% end %>
-</table>
-<% end %>
-
-<% if @treatments.any? %>
-<h4>Treatments</h4>	
-    <table id="posts">
- 	<tr>
-     	    <th>Condition</th>
-     	    <th>Drug of Choice</th>
-            <th>Created</th>
-            <th>Last Updated</th>
-  	</tr>
-  	<% for post in @treatments %>
-  	<tr class="no_sig">
-  	        <% choice = post.drug_refs.detect {|d| d.label == 'FLD'} %>
-    	    <td><b><%= link_to post.name, treatment_url(:id => post.id) %></b></td>
-    	        <td>
-    	        <% if choice.nil? %>
-    	        None
-    	        <% else %>
-    	        <%= proper_noun(choice.code.tc_atc) %>
-    	        <% end %>
-    	        </td>
-    	        <td><%= nice_date post.created_at %></td>
-    	        <td><%= nice_date post.updated_at %></td>   
-  	</tr>
-	<% end %>
-    </table>
-	
-<% end %>
-
-<% if @bulletins.any? %>
-<h4>Bulletins</h4>
-	
-    <table id="posts">
- 	<tr>
-	    <th> Drug Name</th>
- 	    <th>Created</th>
-            <th>Last Updated</th>
-  	</tr>
-    <% for post in @bulletins %>
-  	<tr class="no_sig">
-    	    <td><b><%= link_to post.drug_refs[0].code.tc_atc, bulletin_url(:id => post.id) %></td></b>
-   	    <td><%= nice_date post.created_at %></td>   
-    	    <td><%= nice_date post.updated_at %></td> 
-        </tr>
-    <% end %>
-    </table>
-	
-<% end %>
-
-<% if @comments.any? %>
-<h4>Comments</h4>	
-    <table id="posts">
- 	<tr>
-	    <th>Name</th>
- 	    <th>Body</th>
-  	</tr>
-    <% for post in @comments %>
-  	<tr class = <%= comment_class(post.agree) %>>
-    	    <td><b><%=link_to post.name, :action => 'show', :controller => "#{post.post.class}s", 
-					 :id => post.post_id %></td></b>
-    	    <td><%= truncate(post.body, 200) %></td>   
-  	</tr>
-    <% end %>
-    </table>
-	
-<% end %>	
-
-<br />
 <% unless @user.friends.blank? %>
-    <h2><%= @user.doc_name %> trusts: </h2>
+    <h2><%= @user.name %> trusts: </h2>
         <ul><% for pal in @friends %> 
             <li><%= link_to pal.name, user_url(:id => pal.id) %></li> 
         <% end %></ul>

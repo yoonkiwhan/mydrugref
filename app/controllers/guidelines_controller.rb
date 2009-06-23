@@ -10,10 +10,20 @@ class GuidelinesController < PostsController
   
   def show
     super
-    all_versions = Guideline.find_all_by_uuid(@post.uuid)
-    other_versions = all_versions - [@post]
-    @other_versions = other_versions.sort {|g, gnext| gnext.id <=> g.id }
-    
+    xml_bod = REXML::Document.new @post.body
+    @page_title = xml_bod.root.attributes["title"] unless xml_bod.root.attributes["title"].nil?
+    @evidence = xml_bod.root.attributes["evidence"]
+    @significance = xml_bod.root.attributes["significance"]
+    # parsing conditions into hashes
+    @conditions = []
+    xml_bod.elements.each("*/conditions/condition") { |c| @conditions << c.attributes }
+    @consequences = []
+    xml_bod.root.elements["consequence"].elements.each { |w|
+      hash = w.attributes
+      hash['name'] = w.name
+      hash['text'] = w.text 
+      @consequences << hash
+    }
   end
   
   def update

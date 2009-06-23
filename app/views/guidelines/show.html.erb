@@ -8,21 +8,36 @@
   <%= render :partial => 'form' %>
  </div>
 
-<h3>XML Body</h3>
-<div id="xml_blob">
- <%= h @post.body %>
-</div>
+<% unless @evidence.nil? %>
+  <h3>Evidence</h3>
+  <%= @evidence %>
+<% end %>
+
+<% unless @significance.nil? %>
+  <h3>Significance</h3>
+  <%= @significance %>
+<% end %>
+
+<h3>Conditions</h3>
+<ul>
+  <% for c in @conditions %>
+  	<li><b><%= c["type"].capitalize %></b> -- 
+  	    <% c.delete("type").attributes.each do |attname, attval| %>
+        <b><%= attname.capitalize %></b>: <%= attval %>
+        <% end %>
+  	</li>
+  <% end %>
+</ul>
+
+<h3>Consequence</h3>
+<ol>
+  <% for c in @consequences %>
+  	<li><b><%= c["name"].capitalize %></b>
+    <% c.delete("name").attributes.each do |attname, attval| %>
+  	  <br /><b><%= attname.capitalize %></b>: <%= attval %>
+  	<% end %>
+  	</li>
+  <% end %>
+</ol>
 
 <%= render :partial => "comments/comments", :comments => @post.comments %>
-
-<% version_num = @other_versions.length %>
-<% while version_num > 0 %>
-  <h2>Version <%= version_num %></h2>
-  <h3>XML Body</h3>
-  <div id="xml_blob">
-    <%= h @other_versions[version_num -1].body %>
-  </div>
-
-<%= render :partial => "comments/comments", :comments => @other_versions[version_num -1].comments %>
-<% version_num -= 1 %>
-<% end %>

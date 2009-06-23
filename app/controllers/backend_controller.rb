@@ -70,29 +70,34 @@ class BackendController < ApplicationController
 
   end
 
-  def get_guideline_ids(userid)
-    
-    #making string: "(userid, friendid1, friendid2, etc.)"
-    sql_user_and_friends = "(" + userid.to_s
-    for user in User.find(userid).friends
-      sql_user_and_friends += ", " + user.id.to_s
+  def get_guideline_ids(email="none")
+  
+    email == "none" ? user = nil : user = User.find_by_email(email)
+  
+    unless user.nil?
+      trusted_ids = ([user] + user.friends).collect {|u| u.id}
     end
-    sql_user_and_friends += ")"
     
     results = []
     
-    for g in Guideline.find(:all, :conditions => 'created_by IN' + sql_user_and_friends)
-      results << GuidelineInfo.new(:id => g.id, :uuid => g.uuid)
+    for g in Guideline.find(:all)
+      user.nil? ? trusted = true : trusted = mark_trusted(g, trusted_ids)
+      unless !trusted
+        results << GuidelineInfo.new(:version => g.id.to_s, :uuid => g.uuid)
+      end
     end
     
     results
     
   end
   
-  def get_guidelines(ids)
+  def get_guidelines(uuids)
     results = []
-    for id in ids
-      results << make_oscar_guideline(Guideline.find(id), true)
+    for uuid in uuids
+      all_versions = Guideline.find_all_by_uuid(uuid)
+      sorted_versions = all_versions.sort_by {|g| g.id}
+      # sorted_versions[-1] is the latest version
+      results << make_oscar_guideline(sorted_versions[-1], true)
     end
     results
   end
@@ -236,7 +241,7 @@ class BackendController < ApplicationController
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
                     :name => post.name, :author => post.creator.name, :type => 'Guideline',
-                    :comments => make_oscar_comments(post.comments), :trusted => trusted)
+                    :comments => make_oscar_comments(post.comments))
   end
   
 

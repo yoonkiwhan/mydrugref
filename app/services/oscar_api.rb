@@ -8,11 +8,11 @@ class OscarApi < ActionWebService::API::Base
              :returns => [[Oscarresult]]
              
   api_method :get_guideline_ids,
-             :expects => [:int],
+             :expects => [:string],
              :returns => [[GuidelineInfo]]
              
   api_method :get_guidelines,
-             :expects => [[:int]],
+             :expects => [[:string]],
              :returns => [[Oscarresult]]
  
 end

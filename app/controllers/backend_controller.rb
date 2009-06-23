@@ -1,6 +1,7 @@
 class BackendController < ApplicationController
   web_service_api OscarApi
-  web_service_scaffold :invoke
+  web_service_scaffold :invoke if Rails.env == 'development'
+  
 
   def fetch(methods, atcs, email="none", inclusive=true)
    

@@ -70,7 +70,7 @@ class BackendController < ApplicationController
 
   end
 
-  def get_guidelines(userid)
+  def get_guideline_ids(userid)
     
     #making string: "(userid, friendid1, friendid2, etc.)"
     sql_user_and_friends = "(" + userid.to_s
@@ -82,11 +82,19 @@ class BackendController < ApplicationController
     results = []
     
     for g in Guideline.find(:all, :conditions => 'created_by IN' + sql_user_and_friends)
-      results << make_oscar_guideline(g, true)
+      results << g.id
     end
     
     results
     
+  end
+  
+  def get_guidelines(ids)
+    results = []
+    for id in ids
+      results << make_oscar_guideline(Guideline.find(id), true)
+    end
+    results
   end
   
   def get_treatments(query, email="none", inclusive=true)

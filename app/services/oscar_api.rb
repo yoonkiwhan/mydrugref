@@ -7,8 +7,12 @@ class OscarApi < ActionWebService::API::Base
              :expects => [:string, :string, :bool],
              :returns => [[Oscarresult]]
              
-  api_method :get_guidelines,
+  api_method :get_guideline_ids,
              :expects => [:int],
+             :returns => [[:int]]
+             
+  api_method :get_guidelines,
+             :expects => [[:int]],
              :returns => [[Oscarresult]]
  
 end

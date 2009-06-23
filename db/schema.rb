@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090604155610) do
+ActiveRecord::Schema.define(:version => 20090623145227) do
 
   create_table "attachments", :force => true do |t|
     t.binary   "content"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(:version => 20090604155610) do
     t.string   "news_source"
     t.string   "news_date"
     t.float    "cost",                        :default => 0.0
+    t.string   "uuid"
   end
 
   add_index "posts", ["created_at"], :name => "created_at"

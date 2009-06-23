@@ -27,6 +27,7 @@ Rails::Initializer.run do |config|
     :source => 'http://gems.github.com'
   config.gem 'datanoise-actionwebservice', :lib => 'actionwebservice', :version => '2.3.2', 
     :source => 'http://gems.github.com'
+  config.gem 'uuidtools'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

@@ -140,7 +140,7 @@ module ApplicationHelper
   end
 
   def comment_class(agree)
-    if agree == true
+    if agree
       "agree"
     else
       "disagree"

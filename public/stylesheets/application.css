@@ -157,29 +157,25 @@ a:hover.create { background-color: #009900; color: #fff; }
 /* -------------------------------------------------------------------------- */
 
 #header {
-	height: 92px;
-	background-image: url('/images/background.gif');
+	height: 75px;
+	background-color: #E0E6EF;
 	border-bottom: 1px solid #888;
 }
 
 #header h1 {
 	
+	font-family: futura;
+	font-size: 30px;
 	float: left;
-	height: 200px;
+	height: 92px;
 	width: 181px;
 
-	background-image: url('/images/backgroundlogo.gif');
-	text-indent: -3px;
+	text-indent: -50px;
 	/* or */
-	height: 72px;
+	height: 55px;
 	padding-top: 20px;
 	width: 120px;
 	padding-left: 60px;
-}
-
-#header #imagelink {
-	float: left;
-	padding-top: 39px;
 }
 
 #header h1 a { text-decoration: none; }
@@ -198,7 +194,7 @@ a:hover.create { background-color: #009900; color: #fff; }
 #header #navigat {
 	float: left;
 	position: relative;
-	top: 68px;
+	top: 50px;
 	left: 15px;
 }
 

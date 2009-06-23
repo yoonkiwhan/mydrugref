@@ -9,7 +9,7 @@ class OscarApi < ActionWebService::API::Base
              
   api_method :get_guideline_ids,
              :expects => [:int],
-             :returns => [[:int]]
+             :returns => [[GuidelineInfo]]
              
   api_method :get_guidelines,
              :expects => [[:int]],

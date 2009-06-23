@@ -9,7 +9,7 @@
 <br>
 
 
-<% for g in @posts %>
-<%= link_to g.name, guideline_path(g) %>
+<% @grouped_posts.each do |uuid, posts| %>
+<%= link_to posts[-1].name, guideline_path(posts[-1].id) %>
 <br>
 <% end %>

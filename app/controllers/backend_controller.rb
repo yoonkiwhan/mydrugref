@@ -82,7 +82,7 @@ class BackendController < ApplicationController
     results = []
     
     for g in Guideline.find(:all, :conditions => 'created_by IN' + sql_user_and_friends)
-      results << g.id
+      results << GuidelineInfo.new(:id => g.id, :uuid => g.uuid)
     end
     
     results

@@ -14,3 +14,15 @@
 </div>
 
 <%= render :partial => "comments/comments", :comments => @post.comments %>
+
+<% version_num = @other_versions.length %>
+<% while version_num > 0 %>
+  <h2>Version <%= version_num %></h2>
+  <h3>XML Body</h3>
+  <div id="xml_blob">
+    <%= h @other_versions[version_num -1].body %>
+  </div>
+
+<%= render :partial => "comments/comments", :comments => @other_versions[version_num -1].comments %>
+<% version_num -= 1 %>
+<% end %>

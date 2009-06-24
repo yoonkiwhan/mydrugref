@@ -154,9 +154,7 @@ class BackendController < ApplicationController
   def make_oscar_drugs(drug_refs)
     results = []
     for dr in drug_refs
-      results << OscarDrug.new(:brand_name => dr.drug.brand_name, 
-                               :drug_identification_number => dr.drug_identification_number,
-                               :atc => dr.tc_atc_number, :label => dr.label)
+      results << OscarDrug.new(:tc_atc_number => dr.tc_atc_number, :tc_atc => dr.code.tc_atc, :label => dr.label)
     end
     results
   end
@@ -242,6 +240,7 @@ class BackendController < ApplicationController
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
                     :name => post.name, :author => post.creator.name, :type => 'Guideline',
+                    :uuid => post.uuid, :version => post.id.to_s,
                     :comments => make_oscar_comments(post.comments))
   end
   

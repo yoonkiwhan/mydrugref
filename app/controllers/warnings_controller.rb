@@ -13,10 +13,6 @@ class WarningsController < PostsController
        end	
   end
   
-  def show
-    @page_title = @post.name.nil? ? @post.drug_refs[0].code.tc_atc : @post.name
-  end
-  
   def edit
     @edit_on = true
     @page_title = 'Edit Warning'

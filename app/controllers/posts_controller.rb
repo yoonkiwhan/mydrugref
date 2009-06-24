@@ -11,7 +11,6 @@ class PostsController < ApplicationController
   def index
     @page_title = post_type.pluralize
     @post = model.new
-    @post.drug_refs.build
     @posts = model.find :all
   end
   
@@ -19,7 +18,6 @@ class PostsController < ApplicationController
     @page_title = "New #{post_type}"
     @edit_on = true
     @post = model.new
-    @post.drug_refs.build
   end
   
   def add_price
@@ -32,6 +30,8 @@ class PostsController < ApplicationController
     @post.updated_by = @post.created_by
     
     if @post.save 
+      if @post.name.nil? : @post.name = @post.make_a_name end # After DrugRefs have been validated
+      @post.save
       flash[:notice] = 'Post successfully created.'
       redirect_to :action => 'show', :controller => @post.class.to_s + 's', :id => @post.id
     else

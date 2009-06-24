@@ -15,8 +15,8 @@
 	<% for post in @posts %>
         <tr class = <%= post.significance.downcase %>>
     		<td><b><%= link_to (post.name.nil? ? proper_noun(post.drug_refs[0].code.tc_atc) : post.name), 
-    		           :action => 'show', :controller => "warnings", :id => post.id %></td></b>
-    		<td><%= truncate(post.body, 50) %></td>
+    		           warning_url(:id => post.id) %></td></b>
+    		<td><%= link_to truncate(post.body, 50), warning_url(:id => post.id) %></td>
     		<td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
     		<td><%= nice_date post.updated_at %></td> 
     		<td>

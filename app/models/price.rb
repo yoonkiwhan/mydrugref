@@ -9,5 +9,9 @@ class Price < Post
     end
   end
   
+  def make_a_name
+    'Price of ' + self.drug_refs[0].drug.brand_name.capitalize
+  end
+  
 end
 

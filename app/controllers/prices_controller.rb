@@ -60,10 +60,6 @@ class PricesController < PostsController
     @page_title = 'Edit Price'
   end
   
-  def show
-    @page_title = 'Price of ' + @post.drug_refs[0].drug.brand_name
-  end
-  
   private
     def model_name; 'Price'; end
   

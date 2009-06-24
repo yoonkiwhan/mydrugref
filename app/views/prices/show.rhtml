@@ -13,6 +13,10 @@
     <p>
     <b>DIN Number: </b><%= dr.drug_identification_number %>
     </p>
+    <b>Active Ingredients:</b>
+    <% dr.drug.active_ingredients.each do |a| %>
+    <br /><%= a.ingredient.capitalize %>
+    <% end %>
   <h3>Price</h3>
   <%= number_to_currency(@post.cost) %>
   <h3>Retailer</h3>

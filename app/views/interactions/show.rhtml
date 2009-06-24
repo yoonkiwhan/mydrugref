@@ -1,5 +1,3 @@
-<% @page_title = ( @drug1 + "&nbsp;and&nbsp;" + @drug2 ) %>
-
 <% if logged_in? and can_edit? @post %>
     <%= link_to 'Edit', edit_interaction_url(@post), :class => 'new_post' %>
 <% end %>

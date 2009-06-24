@@ -6,7 +6,6 @@ class Post < ActiveRecord::Base
   has_many   :codes, :through => :drug_refs
   belongs_to :creator, :class_name => 'User', :foreign_key => "created_by"
   belongs_to :attachment, :dependent => :destroy
-#  validates_associated :drug_refs, :message => "Must contain valid DIN code"
   accepts_nested_attributes_for :drug_refs, :allow_destroy => true
   
   def has_drug_ref

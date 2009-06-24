@@ -19,11 +19,7 @@
     <% for post in @posts %>
   	<tr class="no_sig">
             <td><b><%= link_to truncate(post.name, :length => 50), treatment_url(:id => post.id) %></td></b>
-    	    <td><% if post.drug_refs.empty? %>
-      		    None
-    		<% else %>
-    		    <%= proper_noun(post.drug_refs[0].code.tc_atc) %>
-    		<% end %></td>
+    	    <td><%= post.drug_of_choice %></td>
     	    <td><b><% for tag in post.tags %>
 	         <%= link_to tag.name, :action => 'show', :controller => 'tags', :id => tag.id %>
 	                       <% end %></td></b>

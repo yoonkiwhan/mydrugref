@@ -2,20 +2,14 @@ class Treatment < Post
  acts_as_taggable
  validates_presence_of :name
 
-def self.today
-    Treatment.find(:all,
-                       :conditions =>["type = 'Treatment' and created_at between ? AND ?", Time.today, Time.now],
-                       :order => "created_at DESC")
-end
-
-def self.cemois
-    Treatment.find(:all,
-                 :conditions =>["type = 'Treatment' and created_at between ? AND ?", Time.now.at_beginning_of_month, Time.now],
-                 :order => "created_at DESC")
-end
-  
-def self.latest
-    Treatment.find(:all, :order => "created_at DESC", :limit => 10)
+ def drug_of_choice
+  flds = self.drug_refs.find_all { |d| d.label.include?('FLD')}
+  if flds.empty?
+    "None"
+  else
+    drug_of_choice = flds.detect {|d| d.code.tc_atc != ''}
+    drug_of_choice.nil? ? flds[0].tc_atc_number : drug_of_choice.code.tc_atc.capitalize
+  end
  end
 
 end

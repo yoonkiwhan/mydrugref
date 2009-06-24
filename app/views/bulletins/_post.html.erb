@@ -5,7 +5,7 @@
   </div>
   <div class="body">
     <h5>
-        <%= link_to post.drug_refs[0].code.tc_atc, url_for(:action => 'show', :id => post) %>
+        <%= link_to post.name, bulletin_url(:id => post) %>
     </h5>
     <p class="meta">
       <span class="comments">

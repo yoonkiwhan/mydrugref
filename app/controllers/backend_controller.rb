@@ -58,7 +58,15 @@ class BackendController < ApplicationController
       end
     end
     
-    logger.info("Fetch Output: #{ results }")
+    logger.info("Fetch Output:")
+    results.each do |r|
+      logger.info("Post ID: #{r.id}")
+      logger.info("Post Type: #{r.type}")
+      logger.info("ATC: #{r.atc}")
+      if r.type == 'Interaction'
+        logger.info("ATC2: #{r.atc2}")
+      end
+    end
 
     results
 

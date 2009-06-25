@@ -57,15 +57,6 @@ class BackendController < ApplicationController
         end
       end
     end
-  
-#    if methods.include?("get_guidelines")
-#      for g in Guideline.all
-#        user.nil? ? trusted = false : trusted = mark_trusted(g, trusted_ids)
-#        unless !trusted and !inclusive
-#          results << make_oscar_guideline(g, trusted)
-#        end
-#      end
-#    end
 
     results
 
@@ -221,7 +212,7 @@ class BackendController < ApplicationController
   def make_oscar_bulletin(post, trusted)
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, :body => post.body, 
-                    :name => post.drug_refs[0].code.tc_atc, :atc => post.drug_refs[0].tc_atc_number, 
+                    :name => post.name, :atc => post.drug_refs[0].tc_atc_number, 
                     :reference => post.reference, :trusted => trusted, :type => 'Bulletin',
                     :news_source => post.news_source, :news_date => post.news_date, 
                     :author => post.creator.name, :comments => make_oscar_comments(post.comments))
@@ -230,8 +221,7 @@ class BackendController < ApplicationController
   def make_oscar_price(post, trusted)
     Oscarresult.new(:id => post.id, :created_at => post.created_at, :updated_at => post.updated_at, 
                     :created_by => post.created_by, :updated_by => post.updated_by, 
-                    :name => post.drug_refs[0].drug.brand_name, 
-                    :reference => post.reference, :cost => post.cost, :trusted => trusted, 
+                    :name => post.name, :reference => post.reference, :cost => post.cost, :trusted => trusted, 
                     :type => 'Price', :author => post.creator.name, :comments => make_oscar_comments(post.comments))
   end
   

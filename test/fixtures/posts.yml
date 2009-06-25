@@ -1,5 +1,79 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
-  id: 1
-two:
-  id: 2
+
+# Warnings
+
+abacavir:
+#  drug_refs: abacavir
+
+  created_by: 3
+  type: Warning
+  
+codeine:
+#  drug_refs: codeine1, codeine2, codeine3, codeine4, codeine5
+
+  created_by: 4
+  type: Warning
+amox:
+#  drug_refs: amoxicillin
+  created_by: 5
+  type: Warning
+
+# Interactions
+
+int_one:
+  effect: Augments
+  created_by: 3
+  type: Interaction
+  
+int_two:
+  effect: Inhibits
+  type: Interaction
+  created_by: 7
+  
+int_three:
+  effect: Inhibits
+  type: Interaction
+  created_by: 4
+
+# Treatments
+
+hypertension_and_diabetes:
+  type: Treatment
+  created_by: 3
+  name: Hypertension and Diabetes
+  
+hypertension_and_heart_disease:
+  type: Treatment
+  created_by: 4
+  name: Hypertension and Ischemic Heart Disease
+  
+sneezes:
+  type: Treatment
+  created_by: 7
+  name: Sneezes
+
+# Bulletins
+
+breaking_news:
+  created_by: 5
+  type: Bulletin
+
+# Prices
+
+price_one:
+  created_by: 7
+  type: Price
+  cost: 4.8
+
+# Guidelines
+
+
+
+# Comments
+
+deb_approves_of_guests_post:
+  created_by: 3
+  agree: true
+  type: Comment
+  post: int_two
+  

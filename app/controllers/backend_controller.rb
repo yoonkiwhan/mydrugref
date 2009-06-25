@@ -57,6 +57,8 @@ class BackendController < ApplicationController
         end
       end
     end
+    
+    logger.info("Fetch Output: #{ results }")
 
     results
 

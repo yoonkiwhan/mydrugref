@@ -1,29 +1,35 @@
 <div id='form_wrapper'>
-<span id='controller_name' class='interactions'></span>  
+<span id='controller_name' class='interactions'></span>
 
-<%= render :partial => 'posts/helptext' %>
-<div class='search'>
-    <label>
-    <span id='searching_by'>Brand Name</span>  
-    </label>
-    <input id='drugtext' name='drugtext' type='text' onkeypress='SearchDiv.enterMeansSearch(event);'>
-    <%= button_to_function "Search", "SearchDiv.searchForResults('brandname')", :id => 'search_button' %>
-    <img id="spinner" style="display: none;" src="/images/spinner.gif" />
-    <span id='alt_search_link'>
-        <a href="#" onclick="SearchDiv.byIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>
-    </span>
-    <div id='results'></div>
-  </div>
+<label>Affecting Drug</label>
+<div id='affecting'>
+  <p id='helptext'>
+    Search for the drug in the Health Canada Database below. <br />
+    Click on a result to add it to your post.
+  </p>
+  <div class='search'><%= render :partial => 'search_div' %></div>
+  <ul class="int_atcs"></ul>
+</div>
+
+ 
+<label>Affected Drug</label>
+<div id='affected'>
+  <p style='color: grey;'>
+    Affected drug not yet added
+  </p>
+</div>
 
 <% drug_refs_form :post, @post do |f| %>
-  <label>Drug ATCs
-  <%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
-  </label>
-  <ul id='post_drug_refs'>
-  </ul>
+
+<%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+
+<div id='hidden_drug_ref_inputs'></div>
   
   <label for="post_effect">Effect</label>
-<%= f.select :effect, [ 'Augments', 'Inhibits', 'No Effect' ] %>
+<%= f.radio_button :effect, 'Augments', :checked => 'checked' %> Augments
+<%= f.radio_button :effect, 'Inhibits' %> Inhibits
+<%= f.radio_button :effect, 'No Effect' %> No Effect
+
 
   <%= f.text_area :body, :label => "Details" %>
   

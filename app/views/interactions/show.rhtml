@@ -5,17 +5,30 @@
   <div id="meta">Posted <%= time_ago_in_words @post.created_at %> ago by 
   <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
   (<b><%= @post.significance.upcase %></b> significance )</div>
+  
+  <h3>Affecting Drug<% if @drug1s.length > 1 %>s<% end %></h3>
+  <% @drug1s.each do |drug| %>
+  <b><%= drug[:atc] %></b>&nbsp
+    <%= proper_noun(drug[:code].tc_atc) unless drug[:code].nil? %>
+  <br />
+  <% end %>
+  
+  <h3>Effect</h3>
+   <%= @post.effect %>
 
-  <h3><%= proper_noun(@drug1) %>'s ATC Code</h3>
-   <div id="detail"><%= @atc1 %></div>
-  <h3><%= proper_noun(@drug2) %>'s ATC Code</h3>
+  <h3>Affected Drug<% if @drug2s.length > 1 %>s<% end %></h3>
+  <% @drug2s.each do |drug| %>
+  <b><%= drug[:atc] %></b>&nbsp
+    <%= proper_noun(drug[:code].tc_atc) unless drug[:code].nil? %>
+  <br />
+  <% end %>
+  
    <div id="detail"><%= @atc2 %></div>
   <% if @post.body.any? %>
   <h3>Details</h3>
   <div id="detail"><%= simple_format(@post.body) %></div>
   <% end %>
-  <h3>Effect</h3>
-   <%= @post.effect %>
+  
   <h3>Evidence</h3>
    <%= @post.evidence %>
   <% if @post.reference != nil %>

@@ -379,6 +379,8 @@ form.standard input, form.standard textarea {
         margin-bottom: 10px;
 }
 
+form.standard input[type='radio'] {display: inline;}
+
 form.standard input#post_name, form.standard input#user_name { font-size: 18px; font-weight: bold; }
 form.standard input#post_drug2, form.standard input#user_name { font-size: 18px; font-weight: bold; }
 form.standard textarea.code { font-family: monospace;}
@@ -732,10 +734,19 @@ div.auto_complete {
     right: 2px;
 }
 
+#form_wrapper div#affecting {
+    margin-bottom: 10px;
+}
+
 #form_wrapper div.search {
     padding: 5px;
     border: 1px dashed grey;
     margin-bottom: 4px;
+}
+
+#form_wrapper div.search #searching_by {
+    display: block;
+    margin-bottom: 2px;
 }
 
 #form_wrapper div.search input[type="text"]{
@@ -815,12 +826,12 @@ div.auto_complete {
     color: grey;
 }
 
-#form_wrapper ul#post_drug_refs {
+#form_wrapper ul#post_drug_refs, #form_wrapper ul.int_atcs {
     padding-left: 0;
     margin-left: 0;
 }
 
-#form_wrapper ul#post_drug_refs li {
+#form_wrapper ul#post_drug_refs li, #form_wrapper ul.int_atcs li {
     list-style-type: none;
     border: 1px solid grey;
     padding: 3px;
@@ -828,11 +839,11 @@ div.auto_complete {
     position: relative;
 }
 
-#form_wrapper ul#post_drug_refs li input[type="hidden"] {
+#form_wrapper input[type="hidden"], #form_wrapper div#hidden_drug_ref_inputs {
     display: none;
 }
 
-#form_wrapper ul#post_drug_refs li a {
+#form_wrapper ul#post_drug_refs li a, #form_wrapper ul.int_atcs li a {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -844,11 +855,12 @@ div.auto_complete {
 }
 
 #form_wrapper ul#post_drug_refs li span.atc_code, #form_wrapper ul#post_drug_refs li span.brand_name,
-#form_wrapper ul#post_drug_refs li span.din {
+#form_wrapper ul#post_drug_refs li span.din, #form_wrapper ul.int_atcs li span.atc_code {
     font-weight: bold;
 }
 
-#form_wrapper ul#post_drug_refs li span.atc_class, #form_wrapper ul#post_drug_refs li span.brand_name {
+#form_wrapper ul#post_drug_refs li span.atc_class, #form_wrapper ul#post_drug_refs li span.brand_name,
+#form_wrapper ul.int_atcs li span.atc_code {
     font-variant: small-caps;
 }
 

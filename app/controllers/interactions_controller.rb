@@ -14,27 +14,10 @@ class InteractionsController < PostsController
   
   def show
     super
-    for dr in @post.drug_refs
-      if dr.label == 'int_drug1'
-        c = dr.code
-        if c.nil?
-          @drug1 = dr.tc_atc_number
-          @atc1 = dr.tc_atc_number
-        else
-          @drug1 = c.tc_atc
-          @atc1 = c.tc_atc_number
-        end
-      else
-        c = dr.code
-        if c.nil?
-          @drug2 = dr.tc_atc_number
-          @atc2 = dr.tc_atc_number
-        else
-          @drug2 = c.tc_atc
-          @atc2 = c.tc_atc_number
-        end
-      end
-    end
+    @drug1s = @post.drug_refs.find_all {|d| d.label == 'int_drug1'}
+    @drug1s = @drug1s.map {|d| {:code => d.code, :atc => d.tc_atc_number}}
+    @drug2s = @post.drug_refs.find_all {|d| d.label == 'int_drug2'}
+    @drug2s = @drug2s.map {|d| {:code => d.code, :atc => d.tc_atc_number}}
   end
   
  

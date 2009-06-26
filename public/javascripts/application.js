@@ -1,3 +1,90 @@
+var InteractionForm = {
+    searchForMore: function(label){
+      var searchStuff = '<p id="helptext">Search for the drug in the Health Canada Database below. <br />' +
+        'Click on a result to add it to your post.</p>' +
+        '<div class="search"><span id="searching_by">Brand Name</span>' +
+        '<input id="drugtext" name="drugtext" type="text" onkeypress="SearchDiv.enterMeansSearch(event);">' +
+        '<input id="search_button" onclick="SearchDiv.searchForResults(\'brandname\');" type="button" ' +
+        'value="Search" />' +
+        '<img id="spinner" style="display: none;" src="/images/spinner.gif" />' +
+        '<span id="alt_search_link">' +
+    '<a href="#" onclick="SearchDiv.byIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>' +
+        '</span><div id="results"></div></div>';
+      
+      if (label == 'int_drug1'){
+        $('affecting').insert({ 'top' : searchStuff });
+        if ($('affected').down('.search') != null){
+          $('affected').down('.search').remove();
+          $('affected').down('p#helptext').remove();
+          $('affected').insert(
+          { 'bottom' : '<a href="#" onclick="InteractionForm.searchForMore(\'int_drug2\'); $(this).remove(); return false;">Search for more</a>'}
+          );
+        }
+      } else {
+        $('affected').insert({ 'top' : searchStuff });
+        if ($('affecting').down('.search') != null){
+          $('affecting').down('.search').remove();
+          $('affecting').down('p#helptext').remove();
+          $('affecting').insert(
+          { 'bottom' : '<a href="#" onclick="InteractionForm.searchForMore(\'int_drug1\'); $(this).remove(); return false;">Search for more</a>'}
+          );
+        }
+      }
+    },
+    
+    add: function(div, atcCode, atcClass){
+      if (div.up(2).readAttribute('id') == 'affecting'){
+        var value = 'int_drug1';
+      } else {
+        var value = 'int_drug2';
+      }
+      
+      var results = div.up('#results');
+      results.update();
+      var contents = results.up(1).innerHTML;
+      results.up().previous().remove();
+      var list = results.up().next();
+      list.insert(
+        '<li><span class="atc_code">' + atcCode + '</span>' + 
+        '&nbsp<span class="atc_class">' + atcClass + '</span>' +
+        '<a href="#" onclick="InteractionForm.removeAtc($(this).up(\'li\'), \'' + atcCode + '\')">Remove</a></li>'
+        );
+      results.up().remove();
+      
+      list.up().insert(
+        '<a href="#" onclick="InteractionForm.searchForMore(\'' + 
+        value + '\'); $(this).remove(); return false;">Search for more</a>');
+      
+      $('hidden_drug_ref_inputs').insert(
+        '<div id="' + atcCode + '">' +
+        '<input id="post_drug_refs_attributes_' + atcCode + '_tc_atc_number" ' + 
+        'name="post[drug_refs_attributes][' + atcCode + '][tc_atc_number]" ' + 
+        'value="' + atcCode + '" type="hidden" class="atc_code" />' +
+        '<input id="post_drug_refs_attributes_' + atcCode + '_label" ' +
+        'name="post[drug_refs_attributes][' + atcCode + '][label]" value="' + value + '" type="hidden" />' +
+        '</div>'
+      );
+      
+      // If there aren't any affected atcs
+      if (value == 'int_drug1' && $('affected').childElements().length == 1){
+        // contents minus the list's atc info
+        $('affected').update(
+          contents.slice(0, contents.indexOf('<li')) + '</ul>'
+          );
+      // else if there aren't any affecting atcs
+      } else if (value == 'int_drug2' && $('affecting').down('.int_atcs').down() == null) {
+        $('affecting').update(
+          contents.slice(0, contents.indexOf('<ul')) + '<ul class="int_atcs"></ul>'
+          );
+      }
+   },
+   
+   removeAtc: function(li, atc){
+     li.remove();
+     $('hidden_drug_ref_inputs').down('div#' + atc).remove();
+   }
+}
+
 var SearchDiv = {
   enterMeansSearch: function(event){
     if (event.keyCode == Event.KEY_RETURN) {
@@ -100,11 +187,19 @@ var ResultDiv = {
     div.down('p').update('Added to post');
   },
   add: function(div){
-    ResultDiv.makeItGrey(div);
     var controller = $('controller_name').readAttribute('class');
-    var params = 'atc_code=' + div.down('span#atc_code').innerHTML;
-    params += '&atc_class=' + div.down('span#atc_class').innerHTML + '&con_name=' + controller;
-    new Ajax.Updater($('post_drug_refs'), '/posts/add_post_atc', {insertion: Insertion.Bottom, parameters: params });
+    var atcCode = div.down('span#atc_code').innerHTML;
+    var atcClass = div.down('span#atc_class').innerHTML;
+    
+    if (controller == 'interactions') {
+      InteractionForm.add(div, atcCode, atcClass);     
+    } else {
+      ResultDiv.makeItGrey(div);
+      var params = 'atc_code=' + atcCode + '&atc_class=' + atcClass + '&con_name=' + controller;
+      new Ajax.Updater(
+        $('post_drug_refs'), '/posts/add_post_atc', {insertion: Insertion.Bottom, parameters: params }
+      );
+    }
   },
   addToPrice: function(div){
     var results = div.up('#results');
@@ -204,12 +299,25 @@ var EditTDPostForm = {
 }
 
 function getAtcs(){
-    var postAtcs = $$('#post_drug_refs li');
     var atcCodes = '';
+    if ($('controller_name').hasClassName('interactions')) {
+    
+      var postAtcs = $$('#hidden_drug_ref_inputs input.atc_code');
+      for (var i=0; i<postAtcs.length; i++){
+        atcCodes += 'atcs[]=' + $F(postAtcs[i]) + '&'
+      }
+    
+    } else {
+    
+    var postAtcs = $$('#post_drug_refs li');
+    
     for (var i=0; i<postAtcs.length; i++){
       //atcCodes.push(postAtcs[i].down('.atc_code').innerHTML);
       atcCodes += 'atcs[]=' + postAtcs[i].down('.atc_code').innerHTML + '&'
     }
+    
+    }
+    
     return atcCodes;
   }
   

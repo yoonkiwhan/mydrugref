@@ -10,20 +10,26 @@ class GuidelinesController < PostsController
   
   def show
     super
-    xml_bod = REXML::Document.new @post.body
-    @page_title = xml_bod.root.attributes["title"] unless xml_bod.root.attributes["title"].nil?
-    @evidence = xml_bod.root.attributes["evidence"]
-    @significance = xml_bod.root.attributes["significance"]
-    # parsing conditions into hashes
-    @conditions = []
-    xml_bod.elements.each("*/conditions/condition") { |c| @conditions << c.attributes }
-    @consequences = []
-    xml_bod.root.elements["consequence"].elements.each { |w|
-      hash = w.attributes
-      hash['name'] = w.name
-      hash['text'] = w.text 
-      @consequences << hash
-    }
+    begin
+      xml_bod = REXML::Document.new @post.body
+    rescue REXML::ParseException => exc
+      @invalid = true
+      @message = exc
+    else
+      @page_title = xml_bod.root.attributes["title"] unless xml_bod.root.attributes["title"].nil?
+      @evidence = xml_bod.root.attributes["evidence"]
+      @significance = xml_bod.root.attributes["significance"]
+      # parsing conditions into hashes
+      @conditions = []
+      xml_bod.elements.each("*/conditions/condition") { |c| @conditions << c.attributes }
+      @consequences = []
+      xml_bod.root.elements["consequence"].elements.each { |w|
+        hash = w.attributes
+        hash['name'] = w.name
+        hash['text'] = w.text 
+        @consequences << hash
+      }
+    end
   end
   
   def update
@@ -35,7 +41,7 @@ class GuidelinesController < PostsController
     new_g.save
     
     # Rewrite new_g's uuid back to @post's because creating a Guideline generates a new uuid
-    if new_g.update_attributes params[:post].merge(:updated_by => current_user, :uuid => @post.uuid)
+    if new_g.update_attributes params[:post].merge(:uuid => @post.uuid)
       flash[:notice] = 'Your post has been updated.'
       redirect_to guideline_url(new_g.id)
     else

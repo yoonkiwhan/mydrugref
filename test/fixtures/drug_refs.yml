@@ -129,7 +129,10 @@ some_drug:
   label: Bulletin
   
 # Prices
+
+price_of_some_drug:
   post: price_one
   tc_atc_number: N06BC01
   drug_identification_number: 02231960
+  label: Price
   

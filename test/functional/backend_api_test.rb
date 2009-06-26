@@ -22,8 +22,9 @@ class BackendControllerApiTest < ActiveSupport::TestCase
       ["J05AF06", "J01CA04", "R05DA04", "R05FA02", "M04AA01", "S01AA17", "M01AB05", "C07AB02", "N06BC01"],
       nil, true)
 
-    assert_equal result.length, 8
+    assert_equal result.length, 9 # Should match all 8 posts, and the codeine post twice (two matching ATCs)
     result.each do |r|
+      print r.name, ' ', r.atc, ' '
       assert_equal r.trusted, false
     end
      
@@ -38,7 +39,7 @@ class BackendControllerApiTest < ActiveSupport::TestCase
       ["J05AF06", "J01CA04", "R05DA04", "R05FA02", "M04AA01", "S01AA17", "M01AB05", "C07AB02", "N06BC01"],
       "bob@msn.com", true)
 
-    assert_equal result.length, 8
+    assert_equal result.length, 9
     result.each do |r|
       assert_equal r.trusted, false
     end
@@ -53,7 +54,7 @@ class BackendControllerApiTest < ActiveSupport::TestCase
       ["J05AF06", "J01CA04", "R05DA04", "R05FA02", "M04AA01", "S01AA17", "M01AB05", "C07AB02", "N06BC01"],
       "dont_mugyourself@hotmail.com", true)
 
-    assert_equal result.length, 8
+    assert_equal result.length, 9
     result.each do |r|
       if r.author == 'Guest' and r.id == posts(:price_one).id
         assert !r.trusted
@@ -73,7 +74,7 @@ class BackendControllerApiTest < ActiveSupport::TestCase
       ["J05AF06", "J01CA04", "R05DA04", "R05FA02", "M04AA01", "S01AA17", "M01AB05", "C07AB02", "N06BC01"],
       "dont_mugyourself@hotmail.com", false)
 
-    assert_equal result.length, 7
+    assert_equal result.length, 8
     result.each do |r|
       assert r.id != posts(:price_one).id
     end
@@ -91,7 +92,7 @@ class BackendControllerApiTest < ActiveSupport::TestCase
         ["J05AF06", "J01CA04", "R05DA04", "R05FA02", "M04AA01", "S01AA17", "M01AB05", "C07AB02", "N06BC01"],
         "this_is_fake@guest.com", true)
       
-    assert_equal result.length, 8
+    assert_equal result.length, 9
     result.each do |r|
       if friends.include?(r.created_by)
         assert r.trusted
@@ -116,7 +117,7 @@ class BackendControllerApiTest < ActiveSupport::TestCase
     assert_equal result.length, 5
       
     result.each do |r|
-      print r.name
+      print r.name, ' ', r.atc, ' '
       assert friends.include?(r.created_by)
     end
   

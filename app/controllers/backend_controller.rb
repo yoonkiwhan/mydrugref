@@ -73,6 +73,7 @@ class BackendController < ApplicationController
   end
 
   def get_guideline_ids(email="none")
+    # Returns the latest "version number" (post id) and uuid of every trusted guideline
   
     email == "none" ? user = nil : user = User.find_by_email(email)
   
@@ -80,12 +81,18 @@ class BackendController < ApplicationController
       trusted_ids = ([user] + user.friends).collect {|u| u.id}
     end
     
+    grouped_gs = Guideline.find(:all).group_by {|g| g.uuid}
+    grouped_gs.each do |k, v|
+      grouped_gs[k] = v.sort_by {|g| g.id}
+    end
+    
     results = []
     
-    for g in Guideline.find(:all)
-      user.nil? ? trusted = true : trusted = mark_trusted(g, trusted_ids)
+    grouped_gs.each do |uuid, posts|
+      # posts[-1] is the most recent version of the guideline
+      user.nil? ? trusted = true : trusted = mark_trusted(posts[-1], trusted_ids)
       unless !trusted
-        results << GuidelineInfo.new(:version => g.id.to_s, :uuid => g.uuid)
+        results << GuidelineInfo.new(:version => posts[-1].id.to_s, :uuid => uuid)
       end
     end
     

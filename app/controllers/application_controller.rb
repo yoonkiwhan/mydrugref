@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
       case record.class.to_s
         when 'User'
           record.id == current_user.id # regular users can't edit other users
-        when 'Warning', 'Interaction', 'Treatment', 'Bulletin', 'ThreadedDiscussionPost', 'Price', 'Comment'
+        when 'Warning', 'Interaction', 'Treatment', 'Bulletin', 'ThreadedDiscussionPost', 'Price', 'Comment', 'Guideline'
           record.created_by == current_user.id # these posts can only be edited by their creators
         else true # everyone can edit anything else
       end

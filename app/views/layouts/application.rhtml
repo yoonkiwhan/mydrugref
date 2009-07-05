@@ -20,8 +20,10 @@
 		
 		 Signed in as <%= link_to current_user.first_name, user_url(:id => current_user), :class => 'strong stealth' %>
 		 <br/><%= link_to "Home", :action => 'news', :controller => 'posts' %>
-        <%= link_to 'Settings', edit_user_url(:id => current_user), :class => 'small subtle' %>
-        <%= link_to 'Sign Out', session_url(:id => request.session_options[:id]), 
+<% unless current_user.name == "Guest" %>
+<%= link_to 'Settings', edit_user_url(:id => current_user), :class => 'small subtle' %>
+<% end %>
+<%= link_to 'Sign Out', session_url(:id => request.session_options[:id]), 
             :method => :delete, :class => 'small delete' %>
         
         <% else %>

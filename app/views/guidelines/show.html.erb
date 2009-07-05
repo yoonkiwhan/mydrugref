@@ -56,7 +56,7 @@ Invalid XML Body.
 
 <h3>XML Body</h3>
 <p style="font-family: monospace;">
-  <%= @post.body %>
+  <%= h @post.body %>
 </p>
 
 <%= render :partial => "comments/comments", :comments => @post.comments %>

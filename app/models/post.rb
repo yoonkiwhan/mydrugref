@@ -45,8 +45,40 @@ class Post < ActiveRecord::Base
     by_drug_name | by_body | by_atc
   end
 
+  #def self.latest
+  #  Post.find(:all, :order => "created_at DESC", :limit => 10)
+  #end
+
   def self.latest
-    Post.find(:all, :order => "created_at DESC", :limit => 10)
+    first_10 = Post.find(:all, :order => 'created_at DESC', :limit => 10)
+    grouped_first_10 = first_10.group_by {|p| p.uuid }
+    latest_p = grouped_first_10.delete(nil)
+    grouped_first_10.each_value do |g|
+      latest_p << g.sort_by {|guideline| guideline.id}[-1] # The newest version
+    end
+    # Get the number of Guidelines that won't be displayed (because a newer version is being displayed)
+    num_posts_needed = 10 - latest_p.length
+
+    num_posts_seen = 10
+
+    # then find that many more posts
+    while num_posts_needed > 0
+      more_posts = Post.find(:all, :order => 'created_at DESC', :offset => num_posts_seen, :limit => num_posts_needed)
+      for post in more_posts
+        if post.uuid.nil? # then it's not a guideline
+          latest_p << post
+        else
+          unless latest_p.any? {|p| p.uuid == post.uuid} # unless the newest version of post is in latest_p
+            latest_p << post
+          end
+        end
+      end
+      num_posts_seen += num_posts_needed
+      num_posts_needed = 10 - latest_p.length
+    end
+
+    latest_p
+
   end
 
   def self.cemois

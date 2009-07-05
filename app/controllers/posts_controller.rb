@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   
   before_filter :find_post, :only => [ :show, :download, :edit, :update, :destroy ]
-  before_filter :check_permissions, :only => [ :update, :destroy ]
+  before_filter :check_permissions, :only => [ :edit, :update, :destroy ]
   
   def home
     flash.keep

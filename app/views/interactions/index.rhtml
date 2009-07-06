@@ -10,7 +10,7 @@
         <th><%= link_to "Effect", :action => :index, :sort_by => :effect %></th>
         <th>Affected Drug</th>
         <th><%= link_to "Author", :action => :index, :sort_by => :author %></th>
-        <th><%= link_to "Last Updated", :action => :index %></th>
+        <th><%= link_to "Created", :action => :index %></th>
         <th>Comments</th>
     </tr>
     <% for post in @posts %>
@@ -25,7 +25,7 @@
  	   <td><%= post.effect %></td>
     	   <td><b><%= link_to proper_noun(drug2), interaction_url(:id => post.id) %></td></b>
     	   <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
-    	   <td><%= nice_date post.updated_at %></td> 
+    	   <td><%= nice_date post.created_at %></td> 
     	   <td><% c = post.comments %>
 	<% if c.count == 0 %>
 	   None

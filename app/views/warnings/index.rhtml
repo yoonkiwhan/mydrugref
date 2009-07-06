@@ -9,7 +9,7 @@
 	     <th><%= link_to "Drug", :action => :index %></th>
              <th>Warning</th>
       	     <th><%= link_to "Author", :action => :index, :sort_by => :author %></th>
-       	     <th><%= link_to "Last Updated", :action => :index, :sort_by => :date %></th>
+       	     <th><%= link_to "Created", :action => :index, :sort_by => :date %></th>
        	     <th>Comments</th>
 	</tr>
 	<% for post in @posts %>
@@ -18,7 +18,7 @@
     		           warning_url(:id => post.id) %></td></b>
     		<td><%= link_to truncate(post.body, 50), warning_url(:id => post.id) %></td>
     		<td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
-    		<td><%= nice_date post.updated_at %></td> 
+    		<td><%= nice_date post.created_at %></td> 
     		<td>
     		<% c = post.comments %>
 	<% if c.count == 0 %>

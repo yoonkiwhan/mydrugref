@@ -13,7 +13,7 @@
         <th>Drug of Choice</th>
         <th>Category</th>
         <th><%= link_to "Author", :action => :index, :sort_by => :author %></th>
-        <th><%= link_to "Last Updated", :action => :index, :sort_by => :date %></th>
+        <th><%= link_to "Created", :action => :index, :sort_by => :date %></th>
         <th>Comments</th>
     </tr>
     <% for post in @posts %>
@@ -24,7 +24,7 @@
 	         <%= link_to tag.name, :action => 'show', :controller => 'tags', :id => tag.id %>
 	                       <% end %></td></b>
     	    <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
-    	    <td><%= nice_date post.updated_at %></td> 
+    	    <td><%= nice_date post.created_at %></td> 
     	    <td><% c = post.comments %>
 	<% if c.count == 0 %>
 	   None

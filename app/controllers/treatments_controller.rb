@@ -7,8 +7,6 @@ class TreatmentsController < PostsController
 	  @posts = Treatment.paginate :page => params[:page], :order => 'name', :per_page => 20
        elsif @sort_by == "author"
 	  @posts = Treatment.paginate :page => params[:page], :order => 'created_by', :per_page => 20
-       elsif @sort_by == "date"
-	  @posts = Treatment.paginate :page => params[:page], :order => 'updated_at desc', :per_page => 20
        else
  	  @posts = Treatment.paginate :page => params[:page], :order => 'created_at desc', :per_page => 20
        end

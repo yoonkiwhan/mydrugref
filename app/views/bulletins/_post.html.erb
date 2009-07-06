@@ -24,7 +24,7 @@
 	  <% end %>
 	 <% end %>
 	  </span>
-      Updated <%= time_ago_in_words post.updated_at %> ago
+      Created <%= time_ago_in_words post.created_at %> ago
     </p>
     <%= simple_format truncate(post.body, 100) %>
   </div>

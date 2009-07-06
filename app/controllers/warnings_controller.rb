@@ -4,7 +4,7 @@ class WarningsController < PostsController
     super
        @sort_by = params[:sort_by]
        if @sort_by == "date"
-	     @posts = Warning.paginate :page => params[:page], :order => 'updated_at DESC', :per_page => 20
+	     @posts = Warning.paginate :page => params[:page], :order => 'created_at DESC', :per_page => 20
        elsif @sort_by == "author"
 	     @posts = Warning.paginate :page => params[:page], :order => 'created_by', :per_page => 20
        else

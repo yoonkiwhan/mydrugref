@@ -8,7 +8,7 @@ class InteractionsController < PostsController
        elsif @sort_by == "author"
 	  @posts = Interaction.paginate :page => params[:page], :order => 'created_by', :per_page => 25
        else
-	  @posts = Interaction.paginate :page => params[:page], :order => 'updated_at DESC', :per_page => 25
+	  @posts = Interaction.paginate :page => params[:page], :order => 'created_at DESC', :per_page => 25
        end
   end
   

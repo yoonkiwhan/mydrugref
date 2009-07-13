@@ -34,6 +34,16 @@
   <% end %>
   </ol>
   <% end %>
+
+  <% unless @dnus.empty? %>
+  <h3>Do not use -- ineffective or may be harmful</h3>
+  <ol>
+  <% for dr in @dnus %>
+  <li><b><%= dr.code.tc_atc %></b> (<%= dr.code.tc_atc_number %>)</li>
+  <br />
+  <% end %>
+  </ol>
+  <% end %>
   
   <% if @post.reference.any? %>
   <h3>Reference</h3>

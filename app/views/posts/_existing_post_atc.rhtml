@@ -36,6 +36,13 @@
     >
     Suggest for Pregnant Women
     </input>
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:id].to_s + "][label]" %> value="DNU"
+    <% if @post_atc[:label] == 'DNU' %>
+    checked="checked"
+    <% end %>
+    >
+    Do not use -- ineffective or may be harmful
+    </input>
   </span>
   <% elsif @post_atc[:con_name] == 'interactions' %>
   <span class="options">

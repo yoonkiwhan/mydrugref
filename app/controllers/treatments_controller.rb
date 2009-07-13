@@ -14,9 +14,11 @@ class TreatmentsController < PostsController
   
   def show
     super
-    @flds = @post.drug_refs.find_all { |d| d.label.include?('FLD')}
-    @slds = @post.drug_refs.find_all { |d| d.label.include?('SLD')}
-    @pregs = @post.drug_refs.find_all { |d| d.label.include?('Preg')}
+    drs = @post.drug_refs
+    @flds = drs.find_all { |d| d.label.include?('FLD')}
+    @slds = drs.find_all { |d| d.label.include?('SLD')}
+    @pregs = drs.find_all { |d| d.label.include?('Preg')}
+    @dnus = drs.find_all { |d| d.label.include?('DNU')} 
   end
   
   def remove_tag

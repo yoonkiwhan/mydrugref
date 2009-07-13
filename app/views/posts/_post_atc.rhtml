@@ -23,6 +23,9 @@
     <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]"%> value="Preg">
     Suggest for Pregnant Women
     </input>
+    <input type="radio" name=<%= "post[drug_refs_attributes][" + @post_atc[:atc_code] + "][label]" %> value="DNU">
+    Do not use -- ineffective or may be harmful
+    </input>
   </span>
   <% elsif @post_atc[:con_name] == 'interactions' %>
   <span class="options">

@@ -63,4 +63,21 @@ Invalid XML Body.
   <%= h @post.body %>
 </p>
 
+<% if @post.all_versions.length > 1 %>
+  <% versns = @post.all_versions.sort_by {|g| g.id} %>
+  <% versns.delete(@post) %>
+  <h3>Other Versions</h3>
+  <ol>
+    <% for v in versns %>
+      <li>
+        <% if v.name.nil? or v.name == "" %>
+          <%= link_to 'No Name', guideline_path(v.id) %>
+        <% else %>
+          <%= link_to v.name, guideline_path(v.id) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+<% end %>
+
 <%= render :partial => "comments/comments", :comments => @post.comments %>

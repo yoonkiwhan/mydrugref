@@ -70,6 +70,20 @@ def after_destroy
   end
 end
 
+def treatments; Treatment.find_all_by_created_by(self.id); end
+
+def comments; Comment.find_all_by_created_by(self.id); end
+
+def interactions; Interaction.find_all_by_created_by(self.id); end
+
+def warnings; Warning.find_all_by_created_by(self.id); end
+
+def bulletins; Bulletin.find_all_by_created_by(self.id); end
+
+def guidelines; Guideline.find_all_by_created_by(self.id); end
+
+
+
 private
 
 def self.encrypted_password(password, salt)

@@ -49,11 +49,16 @@ class UsersController < ApplicationController
   
   def show_posts
     @user = User.find(params[:userid])
-    @treatments = Treatment.find_all_by_created_by(params[:userid])
-    @comments = Comment.find_all_by_created_by(params[:userid])
-    @interactions = Interaction.find_all_by_created_by(params[:userid])
-    @warnings = Warning.find_all_by_created_by(params[:userid])
-    @bulletins = Bulletin.find_all_by_created_by(params[:userid])
+    @treatments = @user.treatments
+    @comments = @user.comments
+    @interactions = @user.interactions
+    @warnings = @user.warnings
+    @bulletins = @user.bulletins
+    g = @user.guidelines
+    @guidelines = g.group_by {|guide| guide.uuid}
+    @guidelines.each do |k, v|
+      @guidelines[k] = v.sort_by {|guide| guide.id}
+    end
     render :partial => 'posts'
   end
 

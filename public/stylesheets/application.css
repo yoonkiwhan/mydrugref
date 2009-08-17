@@ -551,7 +551,7 @@ img.user_picture {
 #main div.tdpost div.no_user { margin-left: 0px; }
 #main div.tdpost p.meta span.comments { float: right; font-size: 11px; }
 
-table#posts { width: 100%; }
+/* table#posts { width: 100%; } */
 table#posts th { 
     padding: 3px; 
     text-align: center; 

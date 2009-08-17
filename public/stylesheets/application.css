@@ -279,7 +279,7 @@ ul#nav li {
   margin-right: 5px;
   padding: 3px 4px 5px 7px;
 }
-html>body ul#nav li { padding: 3px 7px 4px 7px; } /* non-iewin */
+html>body ul#nav li { padding: 3px 7px 5px 7px; } /* non-iewin */
 
 body.warnings li#warnings, body.treatments li#treatments, body.guidelines li#guidelines, body.prices li#prices, 
 body.interactions li#interactions, body.bulletins li#bulletins, body.tags li#treatments {

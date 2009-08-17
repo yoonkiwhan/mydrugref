@@ -30,6 +30,7 @@ Invalid XML Body.
   <%= @significance %>
 <% end %>
 
+<% unless @conditions.empty? %>
 <h3>Conditions</h3>
 <ul>
   <% for c in @conditions %>
@@ -40,7 +41,9 @@ Invalid XML Body.
   	</li>
   <% end %>
 </ul>
+<% end %>
 
+<% unless @consequences.empty? %>
 <h3>Consequence</h3>
 <ol>
   <% for c in @consequences %>
@@ -51,6 +54,7 @@ Invalid XML Body.
   	</li>
   <% end %>
 </ol>
+<% end %>
 
 <% end %>
 

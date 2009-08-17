@@ -21,7 +21,8 @@
 
 <% drug_refs_form :post, @post do |f| %>
 
-<%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+<label><%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+</label>
 
 <div id='hidden_drug_ref_inputs'></div>
   

@@ -12,6 +12,7 @@ class GuidelinesController < PostsController
     super
     begin
       xml_bod = REXML::Document.new @post.body
+      raise REXML::ParseException, "Not XML" if xml_bod.root.nil?
     rescue REXML::ParseException => exc
       @invalid = true
       @message = exc
@@ -23,12 +24,16 @@ class GuidelinesController < PostsController
       @conditions = []
       xml_bod.elements.each("*/conditions/condition") { |c| @conditions << c.attributes }
       @consequences = []
-      xml_bod.root.elements["consequence"].elements.each { |w|
-        hash = w.attributes
-        hash['name'] = w.name
-        hash['text'] = w.text 
-        @consequences << hash
-      }
+      begin
+        xml_bod.root.elements["consequence"].elements.each { |w|
+          hash = w.attributes
+          hash['name'] = w.name
+          hash['text'] = w.text 
+          @consequences << hash
+        }
+      rescue NoMethodError # Root has no elements
+        
+      end
     end
   end
   

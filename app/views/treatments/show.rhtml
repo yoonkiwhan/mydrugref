@@ -9,7 +9,10 @@
   <h3>First Line Drugs</h3>
   <ol>
   <% for dr in @flds%>
-  <li><b><%= dr.code.tc_atc %></b> (<%= dr.code.tc_atc_number %>)</li>
+  <li>
+    <b><%= dr.display_name %></b>
+    (<%= dr.display_code %>)
+  </li>
   <br>
   <% end %>
   </ol>
@@ -19,7 +22,7 @@
   <h3>Second Line Drugs</h3>
   <ol>
   <% for dr in @slds %>
-  <li><b><%= dr.code.tc_atc %></b> (<%= dr.code.tc_atc_number %>)</li>
+  <li><b><%= dr.display_name %></b> (<%= dr.display_code %>)</li>
   <br>
   <% end %>
   </ol>
@@ -29,7 +32,7 @@
   <h3>For Pregnant Women, Suggest</h3>
   <ol>
   <% for dr in @pregs %>
-  <li><b><%= dr.code.tc_atc %></b> (<%= dr.code.tc_atc_number %>)</li>
+  <li><b><%= dr.display_name %></b> (<%= dr.display_code %>)</li>
   <br>
   <% end %>
   </ol>
@@ -39,7 +42,7 @@
   <h3>Do not use -- ineffective or may be harmful</h3>
   <ol>
   <% for dr in @dnus %>
-  <li><b><%= dr.code.tc_atc %></b> (<%= dr.code.tc_atc_number %>)</li>
+  <li><b><%= dr.display_name %></b> (<%= dr.display_code %>)</li>
   <br />
   <% end %>
   </ol>

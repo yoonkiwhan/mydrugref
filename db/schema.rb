@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090623145227) do
+ActiveRecord::Schema.define(:version => 20090818144705) do
 
   create_table "attachments", :force => true do |t|
     t.binary   "content"
@@ -155,6 +155,17 @@ ActiveRecord::Schema.define(:version => 20090623145227) do
     t.integer "post_id"
     t.string  "label"
     t.string  "tc_atc_number"
+  end
+
+  create_table "e_forms", :force => true do |t|
+    t.string   "name"
+    t.string   "category"
+    t.integer  "created_by"
+    t.string   "content_type"
+    t.string   "filename"
+    t.integer  "size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "friends_users", :id => false, :force => true do |t|

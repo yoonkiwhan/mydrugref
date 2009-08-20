@@ -1,7 +1,24 @@
 class BackendController < ApplicationController
   web_service_api OscarApi
   web_service_scaffold :invoke if Rails.env == 'development'
-  
+
+
+  def get_e_forms()
+    e_forms = []
+    for ef in EForm.all
+      e_forms << make_oscar_e_form(ef)
+    end
+    e_forms
+  end  
+
+  def make_oscar_e_form(ef)
+    OscarEForm.new(:id => ef.id, 
+                   :created_at => ef.created_at, 
+                   :creator => ef.creator.name, 
+                   :name => ef.name, 
+                   :category => ef.category, 
+                   :url => "http://mydrugref.org" + ef.public_filename)
+  end
 
   def fetch(methods, atcs, email="none", inclusive=true)
    

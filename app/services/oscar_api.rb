@@ -14,5 +14,8 @@ class OscarApi < ActionWebService::API::Base
   api_method :get_guidelines,
              :expects => [[:string]],
              :returns => [[Oscarresult]]
- 
+
+  api_method :get_e_forms,
+             :returns => [[OscarEForm]]
+
 end

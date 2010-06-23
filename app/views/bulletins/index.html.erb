@@ -1,0 +1,9 @@
+<% if logged_in? %>
+  <%= link_to 'Add New Bulletin', new_bulletin_url, :class => 'new_post' %>
+<% end %>
+<br />
+
+<div id="posts">
+  <%= render :partial => "post", :collection => @posts %>
+  <%= will_paginate @posts %>
+</div>

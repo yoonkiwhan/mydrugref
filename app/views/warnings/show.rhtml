@@ -1,0 +1,25 @@
+<% if logged_in? and can_edit? @post %>
+    <%= link_to 'Edit', edit_warning_url(@post), :class => 'new_post' %>
+<% end %>
+  <div id="meta">
+  	Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b> 
+  	(<b><%= @post.significance.upcase %></b> significance )
+	
+  </div>
+  <% for dr in @post.drug_refs%>
+    <h3><%= proper_noun(dr.display_name) %></h3>
+    <b>ATC Code: </b><%= dr.display_code %>
+  <% end %>
+  <h3>Warning</h3>
+ <%= @post.body unless @post.body.nil? %>
+  <h3>Evidence</h3>
+  <%= @post.evidence %>  
+  <h3>Reference</h3>
+   <div id="detail">
+    <% if @post.reference[0..6] == "http://" %>
+     <a href=<%= @post.reference %>><%= truncate(@post.reference, 50) %></a>
+    <% else %>
+     <%= @post.reference %>
+    <% end %>
+   </div>
+<%= render :partial => "comments/comments", :comments => @post.comments %>

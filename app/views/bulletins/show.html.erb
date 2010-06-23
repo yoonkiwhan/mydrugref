@@ -1,0 +1,29 @@
+<% if logged_in? and can_edit? @post %>
+    <%= link_to 'Edit', edit_bulletin_url(@post), :class => 'new_post' %>
+<% end %>
+  <div id="meta">
+  	Posted <%= time_ago_in_words @post.created_at %> ago by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
+	
+  </div>
+<% for dr in @post.drug_refs%>
+    <h3><%= proper_noun(dr.display_name) %></h3>
+    <b>ATC Code: </b><%= dr.display_code %>
+  <% end %>
+  <h3>News Source</h3>
+   <div id="detail"><%= simple_format(@post.news_source) unless @post.news_source.empty? %></div>
+  <h3>News Date</h3>
+   <div id="detail"><%= simple_format(@post.news_date) unless @post.news_date.empty? %></div>
+  <h3>Brief Description</h3>
+  <div id="detail">
+ <%= simple_format(@post.body) unless @post.body.empty? %></div>
+  <% unless @post.reference.empty? %>
+  <h3>Reference</h3>
+   <div id="detail">
+  <% if @post.reference[0..6] == "http://" %>
+<a href="<%= @post.reference %>"><%= truncate(@post.reference, 50) %></a>
+  <% else %>
+  <%= @post.reference %>
+  <% end %>
+</div>
+  <% end %>
+<%= render :partial => "comments/comments", :comments => @post.comments %>

@@ -1,0 +1,48 @@
+<div id='form_wrapper'>
+<span id='controller_name' class='interactions'></span>
+
+<label>Affecting Drug</label>
+<div id='affecting'>
+  <p id='helptext'>
+    Search for the drug in the Health Canada Database below. <br />
+    Click on a result to add it to your post.
+  </p>
+  <div class='search'><%= render :partial => 'search_div' %></div>
+  <ul class="int_atcs"></ul>
+</div>
+
+ 
+<label>Affected Drug</label>
+<div id='affected'>
+  <p style='color: grey;'>
+    Affected drug not yet added
+  </p>
+</div>
+
+<% drug_refs_form :post, @post do |f| %>
+
+<label><%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+</label>
+
+<div id='hidden_drug_ref_inputs'></div>
+  
+  <label for="post_effect">Effect</label>
+<%= f.radio_button :effect, 'Augments', :checked => 'checked' %> Augments
+<%= f.radio_button :effect, 'Inhibits' %> Inhibits
+<%= f.radio_button :effect, 'No Effect' %> No Effect
+
+
+  <%= f.text_area :body, :label => "Details" %>
+  
+  <label for="post_evidence">Evidence</label>
+  <%= f.select :evidence, %w{ Good Fair Poor } %>
+  
+  <%= f.text_field :reference, :label => "Reference" %>
+  
+  <label for="post_significance">Significance</label>
+  <%= f.select :significance, %w{ High Medium Low } %>
+  
+  <%= standard_submit %>
+  
+<% end %>
+</div>

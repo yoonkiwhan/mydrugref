@@ -1,0 +1,37 @@
+<div id='form_wrapper'>
+<span id='controller_name' class='prices'></span>  
+<p id='helptext'>
+  Use the search box below to search for the drug whose price you wish to post.<br/>
+  The form will generate boxes containing possible matches to your query.<br/>
+  These boxes show the drug brand name and DIN in bold, followed by its 
+  <%= link_to 'ATC Code', 'http://en.wikipedia.org/wiki/Anatomical_Therapeutic_Chemical_Classification_System' %> 
+  and class, the company name, and the drug's active ingredients in italics.
+  Click on a box to add the drug to your post.
+  <%= link_to_function 'Remove', "$(this).up('p').remove()", :id => 'remove' %>
+</p>
+<div class='search'>
+    <label><span id='searching_by'>Brand Name</span></label>
+    <input id='drugtext' name='drugtext' type='text' onkeypress='SearchDiv.enterMeansSearch(event);'>
+    <%= button_to_function "Search", "SearchDiv.getPricesResults('brandname')", :id => 'search_button' %>
+    <img id="spinner" style="display: none;" src="/images/spinner.gif" />
+    <span id='alt_search_link'>
+        <a href="#" onclick="SearchDiv.priceByIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>
+    </span>
+    <div id='results'></div>
+  </div>
+  
+<% drug_refs_form :post, @post do |f| %>  
+  <label>Drug ATC
+  <%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+  </label>
+  <ul id='post_drug_refs'>
+  </ul>
+
+  <%= f.text_field :cost, :label => "Price (type a number without the dollar sign)" %>
+  <%= f.text_field :reference, :label => "Retailer" %>
+  <%= f.text_area :body, :label => "Details" %>
+  
+  <%= standard_submit %>
+  
+<% end %>
+</div>

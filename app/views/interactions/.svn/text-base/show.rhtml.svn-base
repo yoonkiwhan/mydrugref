@@ -1,0 +1,44 @@
+<% if logged_in? and can_edit? @post %>
+    <%= link_to 'Edit', edit_interaction_url(@post), :class => 'new_post' %>
+<% end %>
+
+  <div id="meta">Posted <%= time_ago_in_words @post.created_at %> ago by 
+  <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
+  (<b><%= @post.significance.upcase %></b> significance )</div>
+  
+  <h3>Affecting Drug<% if @drug1s.length > 1 %>s<% end %></h3>
+  <% @drug1s.each do |drug| %>
+  <b><%= drug[:atc] %></b>&nbsp
+    <%= proper_noun(drug[:code].tc_atc) unless drug[:code].nil? %>
+  <br />
+  <% end %>
+  
+  <h3>Effect</h3>
+   <%= @post.effect %>
+
+  <h3>Affected Drug<% if @drug2s.length > 1 %>s<% end %></h3>
+  <% @drug2s.each do |drug| %>
+  <b><%= drug[:atc] %></b>&nbsp
+    <%= proper_noun(drug[:code].tc_atc) unless drug[:code].nil? %>
+  <br />
+  <% end %>
+  
+   <div id="detail"><%= @atc2 %></div>
+  <% if @post.body.any? %>
+  <h3>Details</h3>
+  <div id="detail"><%= simple_format(@post.body) %></div>
+  <% end %>
+  
+  <h3>Evidence</h3>
+   <%= @post.evidence %>
+  <% if @post.reference != nil %>
+  <h3>Reference</h3>
+   <div id="detail">
+    <% if @post.reference[0..6] == "http://" %>
+     <a href="<%= @post.reference %>"><%= truncate(@post.reference, 50) %></a>
+    <% else %>
+     <%= @post.reference %>
+    <% end %>
+   </div>
+  <% end %>
+<%= render :partial => "comments/comments", :comments => @post.comments %>

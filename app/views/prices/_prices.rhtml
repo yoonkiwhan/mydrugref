@@ -1,0 +1,20 @@
+<% for price in @prices %>
+
+<div class="post">
+<%= user_thumb price.creator %>
+<p class="meta">Created <%= nice_date price.created_at %></p>
+    <% unless price.created_at == price.updated_at %>
+		<p class="meta"><b>   Updated <%=nice_date price.updated_at %></b></p>
+		<% end %>
+<% if logged_in? and current_user == price.creator %>
+		<big><strong>
+		<%= link_to 'Edit', :controller => "prices", :action => "edit", 
+		:drug_identification_number => @drug.drug_identification_number, :id => price.id %>
+		</big></strong>
+		<% end %>
+<p>
+<p>Price: <%= number_to_currency(price.cost) %>
+<p>Retailer: <%= price.reference %>
+<%= clear_div %>
+</div>
+<% end %>  

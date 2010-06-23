@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/1/trunk/vendor/plugins/acts_as_taggable_on_steroids/lib
+END
+tagging.rb
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1/trunk/vendor/plugins/acts_as_taggable_on_steroids/lib/tagging.rb
+END
+tag_counts_extension.rb
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1/trunk/vendor/plugins/acts_as_taggable_on_steroids/lib/tag_counts_extension.rb
+END
+acts_as_taggable.rb
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1/trunk/vendor/plugins/acts_as_taggable_on_steroids/lib/acts_as_taggable.rb
+END
+tag_list.rb
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1/trunk/vendor/plugins/acts_as_taggable_on_steroids/lib/tag_list.rb
+END
+tag.rb
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1/trunk/vendor/plugins/acts_as_taggable_on_steroids/lib/tag.rb
+END

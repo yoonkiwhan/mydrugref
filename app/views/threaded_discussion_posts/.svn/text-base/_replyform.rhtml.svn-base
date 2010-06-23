@@ -1,0 +1,7 @@
+<% td_form :tdpost, @tdpost do |f| %>
+  <%= f.text_field :name, :value => "Re: #{@parent.name}" %>
+  <%= f.text_area :body %>
+  <%= f.hidden_field :parent, :value => @parent.id %>
+  <%= standard_submit "ThreadedDiscussionPost", @tdpost %>
+<% end %>
+</form>

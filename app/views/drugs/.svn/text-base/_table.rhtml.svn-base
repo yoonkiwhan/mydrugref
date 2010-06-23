@@ -1,0 +1,14 @@
+<table id='drugtable' style="margin-top: 20px;">
+<tr><th class='wider'>Brand Name</th><th>ATC Code</th><th>Company Name</th><th># Associated Posts</th></tr>		
+<% for drug in @drugs %>
+<tr>
+    <td><strong><%= link_to truncate(proper_noun(drug.brand_name), :length => 75), drug_url(:id => drug) %></strong></td>
+    	<td><%= drug.code.tc_atc_number unless drug.code.nil? %></td>
+    	<td><%= proper_noun(drug.company.company_name) %></td>
+	<td><%= drug.drug_refs.count %> associated posts</td>    
+</tr>
+<% end %>
+<tr>
+    <td colspan="3"><%= will_paginate @drugs %></td>
+</tr>
+</table>

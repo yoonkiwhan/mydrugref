@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/test/backends/remote
+END
+s3_test.rb
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/test/backends/remote/s3_test.rb
+END

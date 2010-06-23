@@ -1,0 +1,7 @@
+<% @tags.each do |name| %>
+  <ul>
+  <li>
+  <%= link_to name, :controller => 'tags', :action => 'show', :id => name %>
+  </li>
+  </ul>
+<% end %>

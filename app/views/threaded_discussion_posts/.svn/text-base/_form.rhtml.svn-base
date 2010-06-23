@@ -1,0 +1,7 @@
+<% standard_form :tdpost, @tdpost do |f| %>
+  <%= f.text_field :name %>
+  <%= f.text_area :body %>
+
+  <%= standard_submit "ThreadedDiscussionPost", @tdpost %>
+<% end %>
+</form>

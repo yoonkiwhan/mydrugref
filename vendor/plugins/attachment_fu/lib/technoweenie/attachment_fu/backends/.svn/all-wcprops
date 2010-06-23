@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/lib/technoweenie/attachment_fu/backends
+END
+file_system_backend.rb
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/lib/technoweenie/attachment_fu/backends/file_system_backend.rb
+END
+db_file_backend.rb
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/lib/technoweenie/attachment_fu/backends/db_file_backend.rb
+END
+s3_backend.rb
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/lib/technoweenie/attachment_fu/backends/s3_backend.rb
+END

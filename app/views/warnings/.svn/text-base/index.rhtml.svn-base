@@ -1,0 +1,42 @@
+<% if logged_in? %>
+  <%= link_to 'Add New Warning', new_warning_url, :class => 'new_post' %>
+<% end %>
+<br />
+
+
+<table id="posts">
+ 	<tr>
+	     <th><%= link_to "Drug", :action => :index %></th>
+             <th>Warning</th>
+      	     <th><%= link_to "Author", :action => :index, :sort_by => :author %></th>
+       	     <th><%= link_to "Created", :action => :index, :sort_by => :date %></th>
+       	     <th>Comments</th>
+	</tr>
+	<% for post in @posts %>
+        <tr class = <%= post.significance.downcase %>>
+    		<td><b><%= link_to (post.name.nil? ? proper_noun(post.drug_refs[0].code.tc_atc) : post.name), 
+    		           warning_url(:id => post.id) %></td></b>
+    		<td><%= link_to truncate(post.body, 50), warning_url(:id => post.id) %></td>
+    		<td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
+    		<td><%= nice_date post.created_at %></td> 
+    		<td>
+    		<% c = post.comments %>
+	<% if c.count == 0 %>
+	   None
+	<% else %>   
+	<%= pluralize c.size, 'comment' %>
+	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->
+	    <br />
+	    <% num_yes = c.find_all{|com| com.agree}.length %>
+	    <% num_no = c.find_all{|com| com.agree == false}.length %>
+        <%= link_to  "#{(num_yes*100)/(num_yes + num_no)}% agree", 
+        :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	    <br /><small> (<%= num_yes %> / <%= num_yes + num_no %> people) </small>
+	  <% end %>
+	 <% end %>
+    		</td> 
+  	</tr>
+	<% end %>
+</table>
+
+<%= will_paginate @posts %>

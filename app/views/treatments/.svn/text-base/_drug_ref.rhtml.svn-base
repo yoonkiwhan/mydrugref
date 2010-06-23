@@ -1,0 +1,22 @@
+<div class="drugref">
+    <% if dr.object.new_record? %>
+      <% @fieldnum = unique_num.to_s %>
+    <% else %>
+      <% @fieldnum = dr.object.id.to_s %>
+    <% end %>
+    <label>Drug Brand Name</label>
+    <input id=<%= "brandname" + @fieldnum %> type="text">
+    <div class="auto_complete" id=<%= "auto_complete_field" + @fieldnum %>></div>
+    <script>
+    PostForm.autocomplete('brandname<%= @fieldnum %>', 
+                          'auto_complete_field<%= @fieldnum %>', 
+                          '/posts/auto_complete', 
+                          '.<%= @fieldnum %>');
+    </script>    
+            <label>DIN Number</label>           
+            <%= dr.text_field :drug_identification_number, :readonly => true, :class => @fieldnum %>
+            
+            <%= dr.select :label, [['First Line Drug', 'FLD'], ['Second Line Drug', 'SLD'], 
+                                   ['Suggested for Pregnant Women', 'Preg']] %>
+            <%= remove_drug_ref_link(dr) %>
+</div>

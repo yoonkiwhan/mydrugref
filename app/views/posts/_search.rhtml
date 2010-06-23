@@ -1,0 +1,48 @@
+<p align="center"><strong><%= @results.length %></strong> posts matched <strong>"<%= @query %>"</strong>:</p>
+<% if @results.length > 0 %>
+  <table id="posts">
+    <tr>
+	  <th>Title</th>
+	  <th>Type</th>
+ 	  <th>Created</th>
+      <th>Body</th>
+	  <th>Author</th>
+	  <th>Comments</th>
+    </tr>
+  <% @results.each do |post| %>
+  <tr class=<%= (post.significance == ' ' or post.significance.nil?) ? 'none' : post.significance.downcase %>>	
+    		    <td><b>
+  <% if post.class == Comment %>
+
+ <%= link_to post.name, comment_url(:id => post.id, :post_type => post.post.class.to_s, :post_id => post.post_id) %>
+
+  <% else %>
+
+    <%= link_to post.name, :controller => post.class.to_s.downcase + 's', :action => 'show', :id => post.id %>
+
+  <% end %>
+                </b></td>
+				<td><%= post.class %></td>
+    			<td><%= nice_date post.created_at %></td>   
+    			<td><%= truncate(post.body, 50) %></td> 
+	            <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td>
+				<td>
+				<% c = post.comments %>
+	<% if c.count == 0 %>
+	   None
+	<% else %>   
+	<%= pluralize c.size, 'comment' %>
+	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->
+	    <br />
+	    <% num_yes = c.find_all{|com| com.agree}.length %>
+	    <% num_no = c.find_all{|com| com.agree == false}.length %>
+        <%= link_to  "#{(num_yes*100)/(num_yes + num_no)}% agree", 
+        :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	    <br /><small> (<%= num_yes %> / <%= num_yes + num_no %> people) </small>
+	  <% end %>
+	 <% end %>
+	            </td>
+  				</tr>
+  <% end %>
+	</table>
+<% end %>

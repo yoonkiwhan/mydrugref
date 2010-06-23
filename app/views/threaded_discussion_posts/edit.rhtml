@@ -1,0 +1,8 @@
+<%= form_tag :action => "update", :id => @tdpost.id  %>
+<p><b><label for="threaded_discussion_post[name]">Name:</label></b><br/>
+<%= text_field "threaded_discussion_post", "name", :value => @tdpost.name %><br>
+<p><b><label for="threaded_discussion_post[body]">Body:</label></b><br/>
+<%= text_area "threaded_discussion_post", "body", "rows" => 5, :value => @tdpost.body %><br>
+<%= submit_tag "Edit Post" %><%= link_to "Delete", {:action => "destroy", :id => @tdpost.id}, :confirm => "Are you sure?", :class => "small delete" %>
+    </div>
+

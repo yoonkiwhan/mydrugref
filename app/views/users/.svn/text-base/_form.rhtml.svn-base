@@ -1,0 +1,7 @@
+<% standard_form :user, @user do |f| %>
+  <%= f.text_field :name %>
+  <%= f.password_field :password %>
+  <%= f.text_field :email %>
+  <%= standard_submit "User", @user %>
+<% end %>
+</form>

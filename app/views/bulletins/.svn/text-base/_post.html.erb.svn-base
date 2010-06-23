@@ -1,0 +1,32 @@
+<div class="post">
+  <div class="user">
+  Posted by <br />
+  <%= link_to post.creator.short_name, user_url(:id => post.created_by) %>
+  </div>
+  <div class="body">
+    <h5>
+        <%= link_to post.name, bulletin_url(:id => post) %>
+    </h5>
+    <p class="meta">
+      <span class="comments">
+      <% c = post.comments %>
+	<% if c.count == 0 %>
+	   No Comments
+	<% else %>   
+	<%= pluralize c.size, 'comment' %>
+	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->
+	    <br />
+	    <% num_yes = c.find_all{|com| com.agree}.length %>
+	    <% num_no = c.find_all{|com| com.agree == false}.length %>
+        <%= link_to  "#{(num_yes*100)/(num_yes + num_no)}% agree", 
+        :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	    <br /><small> (<%= num_yes %> / <%= num_yes + num_no %> people) </small>
+	  <% end %>
+	 <% end %>
+	  </span>
+      Created <%= time_ago_in_words post.created_at %> ago
+    </p>
+    <%= simple_format truncate(post.body, 100) %>
+  </div>
+  <%= clear_div %>
+</div>

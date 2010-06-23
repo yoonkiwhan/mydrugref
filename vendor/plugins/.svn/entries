@@ -1,0 +1,43 @@
+10
+
+dir
+128
+http://mydrugref.googlecode.com/svn/trunk/vendor/plugins
+http://mydrugref.googlecode.com/svn
+
+
+
+2009-08-20T04:56:39.797909Z
+128
+deborahlchan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+70dedb63-593e-0410-87e1-edbeff3ae1a3
+
+assert_valid_markup
+dir
+
+attachment_fu
+dir
+
+betternestedset
+dir
+
+acts_as_taggable_on_steroids
+dir
+
+transactional_migrations
+dir
+

@@ -1,0 +1,185 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/127/trunk/db/migrate
+END
+025_add_name.rb
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/47/trunk/db/migrate/025_add_name.rb
+END
+030_make_din_string.rb
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/79/trunk/db/migrate/030_make_din_string.rb
+END
+20090525185529_change_to_class1.rb
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/79/trunk/db/migrate/20090525185529_change_to_class1.rb
+END
+024_create_threaded_discussion_posts.rb
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/47/trunk/db/migrate/024_create_threaded_discussion_posts.rb
+END
+20090604155610_add_tc_atc_number.rb
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/79/trunk/db/migrate/20090604155610_add_tc_atc_number.rb
+END
+023_add_added_by.rb
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/39/trunk/db/migrate/023_add_added_by.rb
+END
+016_news_fields.rb
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/22/trunk/db/migrate/016_news_fields.rb
+END
+20090623145227_add_uuid.rb
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/106/trunk/db/migrate/20090623145227_add_uuid.rb
+END
+026_add_trusted.rb
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/55/trunk/db/migrate/026_add_trusted.rb
+END
+022_remove_user_info.rb
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/38/trunk/db/migrate/022_remove_user_info.rb
+END
+021_alter_significance.rb
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/38/trunk/db/migrate/021_alter_significance.rb
+END
+013_treatments_criteria.rb
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1/trunk/db/migrate/013_treatments_criteria.rb
+END
+20090602144443_change_significance_limit.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/79/trunk/db/migrate/20090602144443_change_significance_limit.rb
+END
+027_create_drug_refs.rb
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/79/trunk/db/migrate/027_create_drug_refs.rb
+END
+20090527190552_remove_tons_o_columns.rb
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/79/trunk/db/migrate/20090527190552_remove_tons_o_columns.rb
+END
+20090818144705_create_e_forms.rb
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/127/trunk/db/migrate/20090818144705_create_e_forms.rb
+END
+020_change_cost.rb
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/34/trunk/db/migrate/020_change_cost.rb
+END
+012_one_vote.rb
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/1/trunk/db/migrate/012_one_vote.rb
+END
+014_acts_as_taggable_migration.rb
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/1/trunk/db/migrate/014_acts_as_taggable_migration.rb
+END
+028_change_fldrug1.rb
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/79/trunk/db/migrate/028_change_fldrug1.rb
+END
+20090603193943_remove_more_post_columns.rb
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/79/trunk/db/migrate/20090603193943_remove_more_post_columns.rb
+END
+009_changeatclimit.rb
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/1/trunk/db/migrate/009_changeatclimit.rb
+END
+010_new_vote.rb
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/1/trunk/db/migrate/010_new_vote.rb
+END
+019_add_sessions.rb
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/32/trunk/db/migrate/019_add_sessions.rb
+END
+017_add_cost.rb
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/25/trunk/db/migrate/017_add_cost.rb
+END
+011_goat_vote.rb
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1/trunk/db/migrate/011_goat_vote.rb
+END
+20090602151549_change_goat.rb
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/79/trunk/db/migrate/20090602151549_change_goat.rb
+END
+018_add_din.rb
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/27/trunk/db/migrate/018_add_din.rb
+END
+015_add_friendships.rb
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1/trunk/db/migrate/015_add_friendships.rb
+END
+029_change_to_din.rb
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/79/trunk/db/migrate/029_change_to_din.rb
+END

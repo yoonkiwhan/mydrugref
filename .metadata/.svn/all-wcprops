@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/85/trunk/.metadata
+END
+.log
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/85/trunk/.metadata/.log
+END
+version.ini
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1/trunk/.metadata/version.ini
+END
+.lock
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/1/trunk/.metadata/.lock
+END

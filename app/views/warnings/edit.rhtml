@@ -1,0 +1,42 @@
+<div id='form_wrapper'>
+<span id='controller_name' class='warnings'></span>
+<%= render :partial => 'posts/helptext' %>
+<div class='search'>
+    <label>
+    <span id='searching_by'>Brand Name</span>  
+    </label>
+    <input id='drugtext' name='drugtext' type='text' onkeypress='SearchDiv.enterMeansSearch(event);'>
+    <%= button_to_function "Search", "SearchDiv.searchForResults('brandname')", :id => 'search_button' %>
+<img id="spinner" style="display: none;" src="/images/spinner.gif" />
+    <span id='alt_search_link'>
+        <a href="#" onclick="SearchDiv.byIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>
+    </span>
+    <div id='results'></div>
+  </div>
+  
+<% standard_form :post, @post do |f| %>  
+  <label>Drug ATC
+  <%= "<span class='error'>" + @post.errors.on(:drug_refs) + "</span>" unless @post.errors.on(:drug_refs).nil? %>
+  </label>
+  <ul id='post_drug_refs'>
+  <% for d in @post.drug_refs %>
+    <% c = d.code %>
+    <% @post_atc = {:atc_code => d.tc_atc_number, :atc_class => c.tc_atc, :id => d.id, :con_name => 'warnings' } %>
+    <%= render :partial => '/posts/existing_post_atc', :object => @post_atc %>
+  <% end %>
+  </ul>
+
+  <%= f.text_area :body, :label => "Warning" %>
+  
+  <label for="post_evidence">Evidence</label>
+  <%= f.select :evidence, %w{ Good Fair Poor } %>
+  
+  <%= f.text_field :reference, :label => "Reference" %>
+  
+  <label for="post_significance">Significance</label>
+  <%= f.select :significance, %w{ High Medium Low } %>
+  
+  <%= standard_submit %>
+  
+<% end %>
+</div>

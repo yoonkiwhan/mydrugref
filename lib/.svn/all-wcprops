@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 27
+/svn/!svn/ver/110/trunk/lib
+END
+authentication.rb
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1/trunk/lib/authentication.rb
+END
+._.svn
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/1/trunk/lib/._.svn
+END
+labeling_form_helper.rb
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/20/trunk/lib/labeling_form_helper.rb
+END
+uuid_helper.rb
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/106/trunk/lib/uuid_helper.rb
+END

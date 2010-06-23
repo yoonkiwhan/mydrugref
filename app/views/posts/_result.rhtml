@@ -1,0 +1,12 @@
+<div class=<%= result[:added] ? 'added' : 'result' %> onmouseover='ResultDiv.lightUp($(this)); return false;' 
+     onmouseout='ResultDiv.backToNorm($(this)); return false;' onclick='ResultDiv.add($(this)); return false;'>
+    <span id='atc_code'><%= result[:atc_code] %></span>
+    <span id='atc_class'><%= proper_noun(result[:atc_class]) %></span>
+    <span>Brands include: <%= proper_noun(result[:brand_name]) %></span>
+    <% for ai in result[:ais] %>
+      <span class="ingredient"><%= proper_noun(ai.ingredient) %></span>
+    <% end %>
+    <% if result[:added] %>
+      <p>Added to post</p>
+    <% end %>
+  </div>

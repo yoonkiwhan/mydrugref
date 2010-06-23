@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 27
+/svn/!svn/ver/127/trunk/app
+END
+._helpers
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/1/trunk/app/._helpers
+END
+._models
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/1/trunk/app/._models
+END
+._.svn
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/1/trunk/app/._.svn
+END
+._controllers
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1/trunk/app/._controllers
+END
+._views
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/1/trunk/app/._views
+END

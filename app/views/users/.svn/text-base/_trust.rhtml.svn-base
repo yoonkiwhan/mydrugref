@@ -1,0 +1,16 @@
+<%# This query is put here so that the partial can easily be included in any view %>
+<br><% if logged_in? and current_user.valid? %>
+    <% unless @current_user.friends.blank? %>
+    <h4>You trust: </h4>
+        <ul id="statuses">
+   
+        <% for pal in @current_user.friends %> 
+	<% if pal == @trustee %>
+	<li id="new_trustee">
+	<% else %>           
+	 <li>
+	<% end %>
+<%= link_to pal.short_name, :action => 'show', :controller => "users", :id => pal.id %></li> 
+        <% end %></ul>
+    <% end %>
+   <% end %>

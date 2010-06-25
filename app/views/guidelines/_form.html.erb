@@ -1,11 +1,27 @@
-<% standard_form :post, @post do |f| %>
+<script src="/javascripts/prototype.js" type="text/javascript">
+</script>
 
-<%= f.text_field :name, :label => "Name" %>
-
-<%= f.text_area :body, :label => 'XML Body', :class => 'code' %>
-
-<%= standard_submit %>
-	
+<% form_tag :controller => :posts, :action => :search do %>
+  <%= text_field_tag :title %><br /><br />
+  <%= select_tag "type_options",
+                 options_for_select([ 'All', 'Posts', 'Warnings', 'Interactions', 'Treatments', 'Bulletins' ]) %><br / ><br />
+  <%= select_tag "date_options",
+                 options_for_select( [[ 'All Dates', Time.at(0)],
+                                      [ 'This year', Time.now.at_beginning_of_year ],
+                                      [ 'This month', Time.now.at_beginning_of_month ],
+                                      [ 'This week', Time.now.at_beginning_of_week ],
+                                      [ 'Today', Time.now.at_beginning_of_day]] ) %><br /><br />
+  <%= submit_tag "Search" %>
 <% end %>
 
-</form>
+<!--
+<p><a href="#" onclick="appendToElement()">Append to element</a></p>
+<ol id="conditions"></ol>
+<script type="text/javascript">
+  function appendToElement() {
+    new Ajax.Updater('conditions',
+        'WOW!!',
+      { insertion:Insertion.Bottom });
+  }
+</script>
+-->

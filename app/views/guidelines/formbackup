@@ -1,0 +1,18 @@
+<% standard_form :post, @post do |f| %>
+
+  Title: <%= text_field_tag :title %>
+  Evidence: <%= text_field_tag :evidence %>
+  Significance: <%= text_field_tag :significance %>
+
+  <span id='add_condition_link'>
+    <a href="#" onclick="DynamicForm.addField('conditions_area', 'condition_');">+ Add Conditiona</a>
+  </span>
+
+  <ol id="conditions_area">
+    <li>Type: <input type = "text" name = "condition_1" id = "condition_1" /> </li>
+  </ol>
+
+  <%= standard_submit %>
+
+<% end %>
+</form>

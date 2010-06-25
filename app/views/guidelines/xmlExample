@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+
+require 'builder'
+
+favorites = {
+      'candy' => 'Neccos', 'novel' => 'Empire of the Sun', 'holiday' => 'Easter'
+}
+
+xml = Builder::XmlMarkup.new( :target => $stdout, :indent => 2 )
+
+xml.instruct! :xml, :version => "1.1", :encoding => "US-ASCII"
+
+xml.favorites do 
+ favorites.each do | name, choice |
+   xml.favorite( choice, :item => name )
+ end
+end
+

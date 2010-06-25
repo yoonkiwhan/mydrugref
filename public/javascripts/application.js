@@ -1,3 +1,27 @@
+var DynamicForm = {
+    addField: function(field, area) {
+      if(!document.getElementById) return;
+
+      var field_area = document.getElementById(area);
+      var all_inputs = field_area.getElementsByTagName("input");
+      var last_item = all_inputs.length - 1;
+      var count = Number(last.split("_")[1]) + 1;
+
+      if(document.createElement) {
+        var list = document.createElement("li");
+        var input = document.createElement("input");
+        input.id = field+count;
+        input.name = field+count;
+        input.type = "text";
+        list.appendChild(input);
+        field_area.appendChild(list);
+      } else {
+        field_area.innerHTML += "<li><input name='"+(field+count)+"' id='"+(field+count)+"' type='text' /></li>";
+      }
+  }
+}
+
+
 var InteractionForm = {
     searchForMore: function(label){
       var searchStuff = '<p id="helptext">Search for the drug in the Health Canada Database below. <br />' +

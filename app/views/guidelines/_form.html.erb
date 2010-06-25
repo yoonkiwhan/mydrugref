@@ -10,19 +10,21 @@
      Conditions <a href="#" onClick="appendToElement();" title="Add a condition">+</a>
      <hr /> <br />
    </div>
-   <div id="AjaxPanel">
+   <ul id="AjaxPanel">
      <!-- if user adds more members details, JS will populate this section -->
-     <span style="width:50px;">Type:</span>
-     <input type="text" name="type" size="20" />
-     <input type="text" name="specs" size="10" />
-     <input type="text" name="details" size="20" /> <br />
-   </div>
+     <li> <span style="width:50px;">Type:</span>
+     <%= select_tag "condition_type",
+         options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]) %>
+     <%= select_tag "condition_target",
+         options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
+     <%= text_field_tag "condition_text" %> <br /> </li>
+   </ul>
 
 <%= standard_submit %>
 <% end %>
 
 <script type="text/javascript">
   function appendToElement() {
-    var oAjax=new Ajax.Updater({success: 'AjaxPanel'}, :action => "condition", { insertion: Insertion.Bottom }); 
+    var oAjax=new Ajax.Updater('AjaxPanel', /guidelines/condition, { insertion: Insertion.Bottom }); 
   }
 </script>

@@ -16,3 +16,12 @@
 
 <% end %>
 </form>
+
+
+ Type: <%= select_tag "condition_type_1",
+                 options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]) %>
+               <%= select_tag "condition_target_1",
+                 options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
+               <%= text_field_tag :condition_text_1" %>
+                   
+

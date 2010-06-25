@@ -16,6 +16,12 @@ var DynamicForm = {
         list.appendChild(input);
         field_area.appendChild(list);
       } else {
+        field_area.innerHTML += " <li> Type: <%= select_tag '"+(condition_type_ )+ "',
+                   options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]) %>
+                 <%= select_tag "condition_target_1",
+                   options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
+                 <%= text_field_tag :condition_text_1" %>
+          </li>";
         field_area.innerHTML += "<li><input name='"+(field+count)+"' id='"+(field+count)+"' type='text' /></li>";
       }
   }

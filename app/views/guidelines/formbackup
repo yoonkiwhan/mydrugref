@@ -24,4 +24,31 @@
                  options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
                <%= text_field_tag :condition_text_1" %>
                    
+SORT OF WORKING!!
+
+<%= javascript_include_tag :defaults %>
+
+<% standard_form :post, @post do |f| %>
+
+   <span style="width:150px;">Title:</span><input type="text" name="title" size="30" />
+   <span style="width:150px;">Evidence:</span><input type="text" name="evidence" size="30" />
+   <span style="width:150px;">Significance:</span><input type="text" name="significance" size="30" />
+
+   <div id="conditions">
+     Conditions <a href="#" onClick="new Ajax.Updater('AjaxPanel', 'condition', { insertion: Insertion.Bottom });"     title="Add a condition">+</a>
+     <hr /> <br />
+   </div>
+   <ul id="AjaxPanel">
+     <!-- if user adds more members details, JS will populate this section -->
+     <li> <span style="width:50px;">Type:</span>
+     <%= select_tag "condition_type",
+         options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]) %>
+     <%= select_tag "condition_target",
+         options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
+     <%= text_field_tag "condition_text" %> <br /> </li>
+   </ul>
+
+<%= standard_submit %>
+
+<% end %>
 

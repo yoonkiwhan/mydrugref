@@ -7,10 +7,9 @@
    <span style="width:150px;">Significance:</span><input type="text" name="significance" size="30" />
 
    <div id="conditions">
-     Conditions <a href="#" onClick="appendToElement();" title="Add a condition">+</a>
+     Conditions <a href="#" onClick="appendToElement('Ajax_conditions', 'condition');" title="Add a condition">+</a>
      <hr /> <br />
-   </div>
-   <ul id="AjaxPanel">
+   <ul id="Ajax_conditions">
      <!-- if user adds more members details, JS will populate this section -->
      <li> <span style="width:50px;">Type:</span>
      <%= select_tag "condition_type",
@@ -19,12 +18,26 @@
          options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
      <%= text_field_tag "condition_text" %> <br /> </li>
    </ul>
+   </div>
+
+   <div id="consequence">
+     Consequences <a href="#" onClick="appendToElement('Ajax_consequences', 'consequence');" title="Add a consequence">+</a>
+     <hr /> <br />
+   <ul id="Ajax_consequences">
+     <!-- if user adds more members details, JS will populate this section -->
+     <li> <span style="width:50px;">Warning:</span>
+     <%= select_tag "warning_type",
+         options_for_select([ 'Stregth', 'Recommendation', 'Warning' ]) %>
+     <%= text_field_tag "warning_text" %> <br /> </li>
+   </ul>
+   </div>
 
 <%= standard_submit %>
-<% end %>
 
 <script type="text/javascript">
-  function appendToElement() {
-    var oAjax=new Ajax.Updater('AjaxPanel', /guidelines/condition, { insertion: Insertion.Bottom }); 
+  function appendToElement(field, from) {
+    var oAjax=new Ajax.Updater(field, from, { insertion: Insertion.Bottom }); 
   }
 </script>
+
+<% end %>

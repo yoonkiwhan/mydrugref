@@ -1,54 +1,39 @@
 <% standard_form :post, @post do |f| %>
 
-  Title: <%= text_field_tag :title %>
-  Evidence: <%= text_field_tag :evidence %>
-  Significance: <%= text_field_tag :significance %>
-
-  <span id='add_condition_link'>
-    <a href="#" onclick="DynamicForm.addField('conditions_area', 'condition_');">+ Add Conditiona</a>
-  </span>
-
-  <ol id="conditions_area">
-    <li>Type: <input type = "text" name = "condition_1" id = "condition_1" /> </li>
-  </ol>
-
-  <%= standard_submit %>
-
-<% end %>
-</form>
-
-
- Type: <%= select_tag "condition_type_1",
-                 options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]) %>
-               <%= select_tag "condition_target_1",
-                 options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
-               <%= text_field_tag :condition_text_1" %>
-                   
-SORT OF WORKING!!
-
-<%= javascript_include_tag :defaults %>
-
-<% standard_form :post, @post do |f| %>
-
-   <span style="width:150px;">Title:</span><input type="text" name="title" size="30" />
-   <span style="width:150px;">Evidence:</span><input type="text" name="evidence" size="30" />
-   <span style="width:150px;">Significance:</span><input type="text" name="significance" size="30" />
+   <span>Title:</span><input type="text" name="title" size="30" />
+   <span>Evidence:</span><input type="text" name="evidence" size="30" />
+   <span>Significance:</span><input type="text" name="significance" size="30" />
 
    <div id="conditions">
-     Conditions <a href="#" onClick="new Ajax.Updater('AjaxPanel', 'condition', { insertion: Insertion.Bottom });"     title="Add a condition">+</a>
-     <hr /> <br />
-   </div>
-   <ul id="AjaxPanel">
+     <label>Conditions <a href="#" onClick="appendToElement('Ajax_conditions', 'condition');" title="Add a condition">+</a> <br /></label>
+   <ul id="Ajax_conditions">
      <!-- if user adds more members details, JS will populate this section -->
-     <li> <span style="width:50px;">Type:</span>
+     <li> <span>Type:</span>
      <%= select_tag "condition_type",
-         options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]) %>
+       options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), 'style="width:20px"' %>
      <%= select_tag "condition_target",
          options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]) %>
-     <%= text_field_tag "condition_text" %> <br /> </li>
+     <%= text_field_tag "condition_text", '', :size => 10 %> <br /> </li>
    </ul>
+   </div>
+
+   <div id="consequence">
+     <label>Consequences <a href="#" onClick="appendToElement('Ajax_consequences', 'consequence');" title="Add a consequence">+</a> <br /></label>
+   <ol id="Ajax_consequences">
+     <!-- if user adds more members details, JS will populate this section -->
+     <li> <span>Warning:</span>
+     <%= select_tag "warning_type",
+         options_for_select([ 'Stregth', 'Recommendation', 'Warning' ]) %>
+     <%= text_field_tag "warning_text" %> <br /> </li>
+   </ol>
+   </div>
 
 <%= standard_submit %>
 
-<% end %>
+<script type="text/javascript">
+  function appendToElement(field, from) {
+    var oAjax=new Ajax.Updater(field, from, { insertion: Insertion.Bottom }); 
+  }
+</script>
 
+<% end %>

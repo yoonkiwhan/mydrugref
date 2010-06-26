@@ -1,18 +1,12 @@
 <% if logged_in? and current_user.valid? %>
-<div id="form_container">
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link"><span>+ </span><%= link_to_function "New #{post_type}", "PostForm.toggle()", :class => 'create' %>
-  </div>
-  <%= render :partial => 'form' %>
-</div>
+  <%= link_to "New #{post_type}", new_guideline_url, :class => 'new_post' %>
 <% end %>
-<br>
+<br />
 
 <table id="posts">
   <tr>
     <th>Name</th><th>Author</th><th>Last Updated</th>
   </tr>
-
   <% @grouped_posts.each do |uuid, posts| %>
     <tr class='no_sig'>
       <td><%= link_to posts[-1].name, guideline_path(posts[-1].id) %></td>

@@ -1,5 +1,5 @@
 <% if logged_in? %>
-  <%= link_to 'Add New Bulletin', new_bulletin_url, :class => 'new_post' %>
+  <%= link_to "Add New #{post_type}", new_bulletin_url, :class => 'new_post' %>
 <% end %>
 <br />
 

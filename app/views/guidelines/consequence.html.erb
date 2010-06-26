@@ -1,4 +1,4 @@
 <li> <span>Warning:</span>
-  <%= select_tag "warning_type",
-     options_for_select([ 'Stregth', 'Recommendation', 'Warning' ]) %>
-  <%= text_field_tag "warning_text" %> <br /> </li>
+<%= select_tag "warning_type",
+    options_for_select([ 'Stregth', 'Recommendation', 'Warning' ]), :style => "width:130px" %>
+<%= text_field_tag "warning_text", '', :style => "width:280px;display:inline", %> </li>

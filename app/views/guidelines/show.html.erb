@@ -9,10 +9,6 @@
   <div id="meta">
   	Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
 	
-  </div>
-  <%= render :partial => 'form' %>
- </div>
-
 <% if @invalid %>
 
 <br />

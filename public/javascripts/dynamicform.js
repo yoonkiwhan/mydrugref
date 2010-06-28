@@ -1,6 +1,6 @@
 document.observe('dom:loaded', function() {
     $$('#form_wrapper form')[0].observe('submit', function(e) {
-        //Event.stop(e); //For testing, to prevent saving to database
+        Event.stop(e); //For testing, to prevent saving to database
         var form = $$('#form_wrapper form')[0];
         var data = form.serialize().parseQuery();
         var XML = ''
@@ -26,7 +26,8 @@ document.observe('dom:loaded', function() {
             }
         }
         XML += '</consequence> </guideline>'
-        $('body').update(XML);
+
+        submit(data.title, XML)
         }
     );
 });
@@ -42,3 +43,10 @@ function isString() {
         return (criterion != null);  }return false;
 }
 
+function submit(name, body) {
+    new Ajax.Request('/guidelines', {
+        method: 'post',
+        parameters: {'post[name]': name,
+                     'post[body]': body}
+    })
+}

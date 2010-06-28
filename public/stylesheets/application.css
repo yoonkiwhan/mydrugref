@@ -360,6 +360,11 @@ form.standard {
     width: 510px;
 }
 
+form#new_guideline {
+  margin-left: 0;
+  width: 100%;
+}
+
 form#drug_ref {
   margin-left: 0;
   width: 100%;

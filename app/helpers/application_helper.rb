@@ -105,6 +105,16 @@ module ApplicationHelper
     concat "</fieldset>"
   end
   
+  def guideline_form name, object, &block
+    url  = { :action    => object.new_record? ? "index" : "show" }
+    html = { :class     => "standard", :id => "new_guideline",
+             :style     => (@edit_on ? '' : "display: none;"),
+             :multipart => true }
+    concat form_tag(url, html) + "<fieldset>"
+    concat '<input name="_method" type="hidden" value="put" />' unless object.new_record?
+    yield LabelingFormBuilder.new(name, object, self, {}, block)
+    concat "</fieldset>"
+  end
   
   def drug_refs_form name, object, &block
     url  = { :action    => object.new_record? ? "index" : "show" }

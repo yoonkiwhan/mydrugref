@@ -12,7 +12,7 @@ document.observe('dom:loaded', function() {
         }
         else {
             for (var i = 0; i < data.condition_type.length; i++) {
-                XML += '<condition type="' + data.condition_type[i] + '" target="' + data.condition_target[i] + '" text="' + data.condition_text[i] + '"/> '    
+                XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i] + '="' + data.condition_text[i] + '"/> '    
             }
         }
         XML += '</conditions> <consequence> '

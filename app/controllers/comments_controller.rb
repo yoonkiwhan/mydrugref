@@ -6,13 +6,13 @@ class CommentsController < ApplicationController
   def index
   end
 
-    def find_post
-      @post = Post.find params[:post_id]
-     
-    end
+  def find_post
+    @post = Post.find params[:post_id]
+   
+  end
+
   # Handles both Ajax and regular form submissions
   def create
-    
     @comment = Comment.new params[:comment]
     @comment.post_id = @post.id
     @comment.name = "Re: #{@post.name}"
@@ -36,16 +36,16 @@ class CommentsController < ApplicationController
   end
   
   def update
-      @comment = Comment.find(params[:id])
-      
-      if @comment.update_attributes(params[:comment])
-          flash[:notice] = "Your changes were saved."
-          redirect_to :action => 'show', :controller => "#{@post.class.to_s}s", :id => @comment.post_id        
-      
-      else
-      render  :action => 'edit'
-      end
+    @comment = Comment.find(params[:id])
+    
+    if @comment.update_attributes(params[:comment])
+        flash[:notice] = "Your changes were saved."
+        redirect_to :action => 'show', :controller => "#{@post.class.to_s}s", :id => @comment.post_id        
+    
+    else
+    render  :action => 'edit'
     end
+  end
   
   def destroy
     @comment = Comment.find_by_id(params[:id])
@@ -56,7 +56,6 @@ class CommentsController < ApplicationController
   
   def show
     @comment = @post.comments.find params[:id]
-    
   end
-  
+
 end

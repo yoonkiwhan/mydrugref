@@ -3,11 +3,13 @@
   <div id="new_link">
   	<% if logged_in? and can_edit? @post %>
   		<span>&nbsp;&nbsp;</span>
-  		<%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %>
+  		<%= link_to "Edit", edit_guideline_url, :class => 'update' %>
     <% end %>
   </div>
   <div id="meta">
   	Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
+  </div>
+</div>
 	
 <% if @invalid %>
 

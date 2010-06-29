@@ -1,0 +1,49 @@
+<%= javascript_include_tag 'edit_guideline_dynform' %>
+
+<div id='form_wrapper'>
+
+<% guideline_form :post, @post do |f| %>
+  <%= text_field_tag "uuid", @uuid, :type => "hidden" %>
+  <%= text_field_tag "g_id", @post.id, :type => "hidden" %>
+
+  <label>Title</label><%= text_field_tag "title", @page_title %>
+  <label>Evidence</label><%= text_field_tag "evidence", @evidence %>
+  <label>Significance</label><%= text_field_tag "significance", @significance %>
+
+  <% unless @consequences.empty? %>
+  <div id="conditions">
+    <label>Conditions <a href="#" onClick="appendToElement('Ajax_conditions', 'condition');" title="Add a condition">+</a> <br /></label>
+  <ul id="Ajax_conditions">
+    <% for c in @conditions %>
+      <li> <span>Type:</span>
+        <%= select_tag 'condition_type',
+          options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ], c['type']), :style => "width:80px" %>
+        <% c.delete("type").attributes.each do |attname, attval| %>
+          <%= select_tag "condition_target",
+              options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], attname), :style => "width:80px" %>
+          <%= text_field_tag "condition_text", attval, :style => "width:260px;display:inline" %> </li>
+        <% end %>
+    <% end %>
+  </ul>
+  </div>
+  <% end %>
+
+  <% unless @consequences.empty? %>
+  <div id="consequences">
+    <label>Consequences <a href="#" onClick="appendToElement('Ajax_consequences', 'consequence');" title="Add a consequence">+</a> <br /></label>
+  <ol id="Ajax_consequences">
+    <% for c in @consequences %>
+    <li> <span>Warning:</span>
+      <%= select_tag "warning_strength",
+          options_for_select([ 'Recommendation', 'Warning' ], c['strength']), :style => "width:130px" %>
+      <%= text_field_tag "warning_text", c['text'], :style => "width:280px;display:inline" %> </li>
+    <% end %>
+  </ol>
+  </div>
+  <% end %>
+
+
+<input id='commit' type="submit" value="Save Guideline" name="commit">
+
+<% end %>
+</div>

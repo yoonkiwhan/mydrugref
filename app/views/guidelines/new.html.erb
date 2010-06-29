@@ -1,4 +1,4 @@
-<%= javascript_include_tag 'dynamicform' %>
+<%= javascript_include_tag 'new_guideline_dynform' %>
 
 <div id='form_wrapper'>
 
@@ -17,7 +17,7 @@
       options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => "width:80px" %>
     <%= select_tag "condition_target",
         options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => "width:80px" %>
-    <%= text_field_tag "condition_text", '', :style => "width:260px;display:inline", %> </li>
+    <%= text_field_tag "condition_text", '', :style => "width:260px;display:inline" %> </li>
   </ul>
   </div>
 
@@ -26,9 +26,9 @@
   <ol id="Ajax_consequences">
     <!-- if user adds more members details, JS will populate this section -->
     <li> <span>Warning:</span>
-    <%= select_tag "warning_type",
-        options_for_select([ 'Stregth', 'Recommendation', 'Warning' ]), :style => "width:130px" %>
-    <%= text_field_tag "warning_text", '', :style => "width:280px;display:inline", %> </li>
+    <%= select_tag "warning_strength",
+        options_for_select([ 'Recommendation', 'Warning' ]), :style => "width:130px" %>
+    <%= text_field_tag "warning_text", '', :style => "width:280px;display:inline" %> </li>
   </ol>
   </div>
 

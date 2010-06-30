@@ -11,24 +11,27 @@
   <div id="conditions">
     <label>Conditions <a href="#" onClick="appendToElement('Ajax_conditions', 'condition');" title="Add a condition">+</a> <br /></label>
   <ul id="Ajax_conditions">
-    <!-- if user adds more members details, JS will populate this section -->
-    <li> <span>Type:</span>
+    <li class='fields'> <span>Type:</span>
     <%= select_tag 'condition_type',
-      options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => "width:80px" %>
-    <%= select_tag "condition_target",
-        options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => "width:80px" %>
-    <%= text_field_tag "condition_text", '', :style => "width:260px;display:inline" %> </li>
+      options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => 'width:80px' %>
+    <%= select_tag 'condition_target',
+      options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => 'width:80px' %>
+    <%= text_field_tag 'condition_text', '', :style => 'width:260px;display:inline' %> 
+    <%= hidden_field_tag 'destroy_condition', 0 %>  
+    <%= link_to_function '(Remove)', 'remove_fields(this)' %>
+  </li>
   </ul>
   </div>
 
   <div id="consequences">
     <label>Consequences <a href="#" onClick="appendToElement('Ajax_consequences', 'consequence');" title="Add a consequence">+</a> <br /></label>
   <ol id="Ajax_consequences">
-    <!-- if user adds more members details, JS will populate this section -->
-    <li> <span>Warning:</span>
+    <li class='fields'> <span>Warning:</span>
     <%= select_tag "warning_strength",
         options_for_select([ 'Recommendation', 'Warning' ]), :style => "width:130px" %>
-    <%= text_field_tag "warning_text", '', :style => "width:280px;display:inline" %> </li>
+    <%= text_field_tag "warning_text", '', :style => "width:280px;display:inline" %> 
+    <%= hidden_field_tag 'destroy_consequence', 0 %>  
+    <%= link_to_function '(Remove)', 'remove_fields(this)' %> </li>
   </ol>
   </div>
 

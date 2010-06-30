@@ -10,21 +10,29 @@ document.observe('dom:loaded', function() {
         XML += '<conditions> '
 
         if (isString(data.condition_type)) {
-            XML += '<condition type="' + data.condition_type + '" ' + data.condition_target + '="' + data.condition_text + '"/> '    
+            if (data.destroy_condition == 0) {
+                XML += '<condition type="' + data.condition_type + '" ' + data.condition_target + '="' + data.condition_text + '"/> '
+            }
         }
         else {
             for (var i = 0; i < data.condition_type.length; i++) {
-                XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i] + '="' + data.condition_text[i] + '"/> '    
+                if (data.destroy_condition[i] == 0) {
+                    XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i] + '="' + data.condition_text[i] + '"/> '
+                }            
             }
         }
         XML += '</conditions> <consequence> '
 
         if (isString(data.warning_strength)) {
-            XML += '<warning strength="' + data.warning_strength + '">' + data.warning_text + '</warning> '    
+            if (data.destroy_consequence == 0) {
+                XML += '<warning strength="' + data.warning_strength + '">' + data.warning_text + '</warning> '
+            }
         }
         else {
             for (var j = 0; j < data.warning_strength.length; j++) {
-                XML += '<warning strength="' + data.warning_strength[j] + '">' + data.warning_text[j] + '</warning> '    
+                if (data.destroy_consequence[j] == 0) {
+                    XML += '<warning strength="' + data.warning_strength[j] + '">' + data.warning_text[j] + '</warning> '
+                }
             }
         }
         XML += '</consequence> </guideline>'
@@ -55,4 +63,9 @@ function submit(name, body, uuid, g_id) {
                      '_method': 'put'  }
     })
     window.location = "/guidelines";
+}
+
+function remove_fields(link) {
+    $(link).previous('input[type=hidden]').value = '1';
+    $(link).up('.fields').hide();
 }

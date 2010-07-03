@@ -1,59 +1,50 @@
-<div id="form_container" <% if @edit_on %>class="active"<% end %>>
-  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
-  <div id="new_link">
-  	<% if logged_in? and can_edit? @post %>
-  		<span>&nbsp;&nbsp;</span>
-  		<%= link_to "Edit", edit_guideline_url, :class => 'update' %>
-    <% end %>
-  </div>
-  <div id="meta">
-  	Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
-  </div>
+<% if logged_in? and can_edit? @post %>
+  <%= link_to "Edit", edit_guideline_url(@post), :class => 'new_post' %>
+<% end %>
+
+<div id="meta">
+  Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
 </div>
 	
 <% if @invalid %>
-
-<br />
-Invalid XML Body.
-
+  <br />
+  Invalid XML Body.
 <% else %>
-
-<% unless @evidence.nil? %>
-  <h3>Evidence</h3>
-  <%= @evidence %>
-<% end %>
-
-<% unless @significance.nil? %>
-  <h3>Significance</h3>
-  <%= @significance %>
-<% end %>
-
-<% unless @conditions.empty? %>
-<h3>Conditions</h3>
-<ul>
-  <% for c in @conditions %>
-  	<li><b><%= c["type"].capitalize %></b> -- 
-  	    <% c.delete("type").attributes.each do |attname, attval| %>
-        <b><%= attname.capitalize %></b>: <%= attval %>
-        <% end %>
-  	</li>
+  <% unless @evidence.nil? %>
+    <h3>Evidence</h3>
+    <%= @evidence %>
   <% end %>
-</ul>
-<% end %>
 
-<% unless @consequences.empty? %>
-<h3>Consequence</h3>
-<ol>
-  <% for c in @consequences %>
-  	<li><b><%= c["name"].capitalize %></b>
-    <% c.delete("name").attributes.each do |attname, attval| %>
-  	  <br /><b><%= attname.capitalize %></b>: <%= attval %>
-  	<% end %>
-  	</li>
+  <% unless @significance.nil? %>
+    <h3>Significance</h3>
+    <%= @significance %>
   <% end %>
-</ol>
-<% end %>
 
+  <% unless @conditions.empty? %>
+  <h3>Conditions</h3>
+  <ul>
+    <% for c in @conditions %>
+      <li><b><%= c["type"].capitalize %></b> -- 
+          <% c.delete("type").attributes.each do |attname, attval| %>
+          <b><%= attname.capitalize %></b>: <%= attval %>
+          <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <% end %>
+
+  <% unless @consequences.empty? %>
+  <h3>Consequence</h3>
+  <ol>
+    <% for c in @consequences %>
+      <li><b><%= c["name"].capitalize %></b>
+      <% c.delete("name").attributes.each do |attname, attval| %>
+        <br /><b><%= attname.capitalize %></b>: <%= attval %>
+      <% end %>
+      </li>
+    <% end %>
+  </ol>
+  <% end %>
 <% end %>
 
 <h3>XML Body</h3>
@@ -77,5 +68,4 @@ Invalid XML Body.
     <% end %>
   </ol>
 <% end %>
-
 <%= render :partial => "comments/comments", :comments => @post.comments %>

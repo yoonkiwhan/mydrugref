@@ -134,6 +134,11 @@ table .none {
 	background-color: #6699FF;
 }
 
+/* Limit width of tables */
+table#posts {
+    width: 100%;
+}
+
 /* Links */
 /* -------------------------------------------------------------------------- */
 
@@ -593,17 +598,41 @@ table#drugtable th.wider { width: 30%; }
   color: #fff;
   font-size: 1em;
   font-weight: bold;
-  padding: 3px 0px 3px 3px;
+  padding: 3px 0px 3px 0px;
   line-height: 1em;
   border-bottom: 1px solid #555;
 }
 
 #comments form, #comments div.post { margin: 1em 0 1em 1em; background-color: #eee; }
-#comments form textarea { width: 90%; height: 80px; }
-#comments h3 { font-size: 1em; }
-#comments input { float: left; }
-#comments p img { margin-top: 1px; margin-left: 10px; }
-#comments select { width: 100px; float: right; margin-right: 50px; }
+
+#comments form textarea { 
+  width: 530px;
+  height: 80px;
+  margin-bottom: 5px;
+}
+
+#comments h3 { font-size: 1em; border-bottom: 0px}
+
+#comments input { 
+  float: left; 
+}
+
+#comments fieldset {
+  margin-left: 10px;
+}
+
+#comments select { width: 100px; float: right; margin-right: 21px; }
+
+div#image img {
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+
+div#text {
+  float:left;
+  width: 440px;
+}
 
 /* User list */
 /* -------------------------------------------------------------------------- */

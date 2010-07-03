@@ -3,17 +3,15 @@
 
 <%= render :partial => 'posts/helptext' %>
 <div class='search'>
-    <label>
-    <span id='searching_by'>Brand Name</span>  
-    </label>
-    <input id='drugtext' name='drugtext' type='text' onkeypress='SearchDiv.enterMeansSearch(event);'>
-    <%= button_to_function "Search", "SearchDiv.searchForResults('brandname')", :id => 'search_button' %>
-    <img id="spinner" style="display: none;" src="/images/spinner.gif" />
-    <span id='alt_search_link'>
-        <a href="#" onclick="SearchDiv.byIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>
-    </span>
-    <div id='results'></div>
-  </div>
+  <label> <span id='searching_by'>Brand Name</span> </label>
+  <input id='drugtext' name='drugtext' type='text' onkeypress='SearchDiv.enterMeansSearch(event);'>
+  <%= button_to_function "Search", "SearchDiv.searchForResults('brandname')", :id => 'search_button' %>
+  <img id="spinner" style="display: none;" src="/images/spinner.gif" />
+  <span id='alt_search_link'>
+      <a href="#" onclick="SearchDiv.byIngredient(); return false;">Search By Active Ingredient (Generic Name)</a>
+  </span>
+  <div id='results'></div>
+</div>
 
 <% drug_refs_form :post, @post do |f| %>   
   <label>Drug ATC
@@ -29,7 +27,7 @@
   </ul>
   
   <label for="post_effect">Effect</label>
-<%= f.select :effect, [ 'Augments', 'Inhibits', 'No Effect' ] %>
+  <%= f.select :effect, [ 'Augments', 'Inhibits', 'No Effect' ] %>
 
   <%= f.text_area :body, :label => "Details" %>
   
@@ -42,6 +40,5 @@
   <%= f.select :significance, %w{ High Medium Low } %>
   
   <%= standard_submit %>
-  
 <% end %>
 </div>

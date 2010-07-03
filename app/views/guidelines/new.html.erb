@@ -1,8 +1,9 @@
-<%= javascript_include_tag 'new_guideline_dynform' %>
+<%= javascript_include_tag 'guideline_dynform' %>
 
 <div id='form_wrapper'>
 
 <% guideline_form :post, @post do |f| %>
+  <%= text_field_tag "method", 'create', :type => "hidden" %>
 
   <label>Title</label><%= text_field_tag "title" %>
   <label>Evidence</label><%= text_field_tag "evidence" %>

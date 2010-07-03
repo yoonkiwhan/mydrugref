@@ -1,5 +1,5 @@
 <% if logged_in? and can_edit? @post %>
-    <%= link_to 'Edit', edit_interaction_url(@post), :class => 'new_post' %>
+  <%= link_to 'Edit', edit_interaction_url(@post), :class => 'new_post' %>
 <% end %>
 
   <div id="meta">Posted <%= time_ago_in_words @post.created_at %> ago by 

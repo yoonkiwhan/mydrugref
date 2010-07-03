@@ -33,7 +33,10 @@ class PostsController < ApplicationController
       if @post.name.nil? ; @post.name = @post.make_a_name end # After DrugRefs have been validated
       @post.save
       flash[:notice] = 'Post successfully created.'
-      redirect_to :action => 'show', :controller => @post.class.to_s + 's', :id => @post.id
+      respond_to do |format|
+        format.html { redirect_to :action => 'show', :controller => @post.class.to_s + 's', :id => @post.id }
+        format.js
+      end
     else
       @page_title = "New #{post_type}"
       @edit_on = true

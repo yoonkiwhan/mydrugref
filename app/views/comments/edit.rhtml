@@ -19,5 +19,6 @@
      </p>
    </fieldset>
  <% end %>
-<%= link_to "Delete", {:post_id => @post, :id => @comment.id, :action => 'destroy'}, :confirm => "Are you sure?", :class => "delete" %>
+ <%= link_to "Delete", {:post_id => @post, :id => @comment.id, :action => 'show'}, :method => :delete, 
+             :confirm => "Are you sure?", :class => "delete" %>
 </div>

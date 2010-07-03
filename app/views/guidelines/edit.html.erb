@@ -1,10 +1,11 @@
-<%= javascript_include_tag 'edit_guideline_dynform' %>
+<%= javascript_include_tag 'guideline_dynform' %>
 
 <div id='form_wrapper'>
 
 <% guideline_form :post, @post do |f| %>
   <%= text_field_tag "uuid", @uuid, :type => "hidden" %>
   <%= text_field_tag "g_id", @post.id, :type => "hidden" %>
+  <%= text_field_tag "method", 'update', :type => "hidden" %>
 
   <label>Title</label><%= text_field_tag "title", @page_title %>
   <label>Evidence</label><%= text_field_tag "evidence", @evidence %>
@@ -48,6 +49,8 @@
 
 
 <input id='commit' type="submit" value="Save Guideline" name="commit">
+<span> or </span> <%= link_to "Delete", { :action => 'show' }, :method => :delete, 
+            :confirm => "Are you sure?", :class => "delete", :style => "display:inline" %>
 
 <% end %>
 </div>

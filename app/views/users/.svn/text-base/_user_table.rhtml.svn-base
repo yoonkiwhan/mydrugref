@@ -1,0 +1,11 @@
+<% if @users and not @users.empty? %>
+<table id="posts" style="margin-top: 20px;">
+  <% for user in @users %>
+    <tr>
+      <td><strong><%= link_to user.name, user_url(:id => user) %></strong></td>
+      <td><%= user.email %></td>
+      <td><%= user.phone %></td>
+    </tr>
+  <% end %>
+</table>
+<% end %>

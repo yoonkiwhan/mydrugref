@@ -1,0 +1,169 @@
+10
+
+dir
+128
+http://mydrugref.googlecode.com/svn/trunk
+http://mydrugref.googlecode.com/svn
+
+
+
+2009-08-20T04:56:39.797909Z
+128
+deborahlchan
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+70dedb63-593e-0410-87e1-edbeff3ae1a3
+
+test
+dir
+
+app
+dir
+
+log
+dir
+
+Rakefile
+file
+
+
+
+
+2010-06-22T20:30:43.218931Z
+17f2f134da4cd31ea095d5868ca89e86
+2007-09-17T15:19:57.224655Z
+1
+ruby
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+307
+
+.project
+file
+
+
+
+
+2010-06-22T20:30:43.218931Z
+b7186aee2f223c4fd87c46d20a154d0f
+2009-06-15T20:06:56.136037Z
+81
+deborahlchan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+427
+
+db
+dir
+
+vendor
+dir
+
+README
+file
+
+
+
+
+2010-06-22T20:30:43.218931Z
+0a60ad909bc71d456870a943fae21a12
+2007-09-19T20:18:54.228717Z
+11
+ruby
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8002
+
+.metadata
+dir
+
+tmp
+dir
+
+script
+dir
+
+config
+dir
+
+doc
+dir
+
+lib
+dir
+
+index
+dir
+
+public
+dir
+

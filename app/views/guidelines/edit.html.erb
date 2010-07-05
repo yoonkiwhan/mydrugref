@@ -1,0 +1,56 @@
+<%= javascript_include_tag 'guideline_dynform' %>
+
+<div id='form_wrapper'>
+
+<% guideline_form :post, @post do |f| %>
+  <%= text_field_tag "uuid", @uuid, :type => "hidden" %>
+  <%= text_field_tag "g_id", @post.id, :type => "hidden" %>
+  <%= text_field_tag "method", 'update', :type => "hidden" %>
+
+  <label>Title</label><%= text_field_tag "title", @page_title %>
+  <label>Evidence</label><%= text_field_tag "evidence", @evidence %>
+  <label>Significance</label><%= text_field_tag "significance", @significance %>
+
+  <div id="conditions">
+    <label>Conditions <a href="#" onClick="appendToElement('Ajax_conditions', '/guidelines/condition');" title="Add a condition">+</a> <br /></label>
+  <% unless @consequences.empty? %>
+  <ul id="Ajax_conditions">
+    <% for c in @conditions %>
+      <li class='fields'> <span>Type:</span>
+        <%= select_tag 'condition_type',
+          options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ], c['type']), :style => "width:80px" %>
+        <% c.delete("type").attributes.each do |attname, attval| %>
+          <%= select_tag "condition_target",
+              options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], attname), :style => "width:80px" %>
+          <%= text_field_tag "condition_text", attval, :style => "width:260px;display:inline" %>
+        <% end %>
+          <%= hidden_field_tag 'destroy_condition', 0 %>  
+          <%= link_to_function '(Remove)', 'remove_fields(this)' %> </li>
+    <% end %>
+  </ul>
+  </div>
+  <% end %>
+
+  <div id="consequences">
+    <label>Consequences <a href="#" onClick="appendToElement('Ajax_consequences', '/guidelines/consequence');" title="Add a consequence">+</a> <br /></label>
+  <% unless @consequences.empty? %>
+  <ol id="Ajax_consequences">
+    <% for c in @consequences %>
+    <li class='fields'> <span>Warning:</span>
+      <%= select_tag "warning_strength",
+          options_for_select([ 'Recommendation', 'Warning' ], c['strength']), :style => "width:130px" %>
+      <%= text_field_tag "warning_text", c['text'], :style => "width:280px;display:inline" %>
+      <%= hidden_field_tag 'destroy_consequence', 0 %>
+      <%= link_to_function '(Remove)', 'remove_fields(this)' %> </li>
+    <% end %>
+  </ol>
+  </div>
+  <% end %>
+
+
+<input id='commit' type="submit" value="Save Guideline" name="commit">
+<span> or </span> <%= link_to "Delete", { :action => 'show' }, :method => :delete, 
+            :confirm => "Are you sure?", :class => "delete", :style => "display:inline" %>
+
+<% end %>
+</div>

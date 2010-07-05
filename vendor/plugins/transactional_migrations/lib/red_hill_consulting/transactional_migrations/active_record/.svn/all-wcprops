@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/!svn/ver/1/trunk/vendor/plugins/transactional_migrations/lib/red_hill_consulting/transactional_migrations/active_record
+END
+migration.rb
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/!svn/ver/1/trunk/vendor/plugins/transactional_migrations/lib/red_hill_consulting/transactional_migrations/active_record/migration.rb
+END

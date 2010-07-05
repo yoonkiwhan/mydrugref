@@ -1,0 +1,29 @@
+<% if logged_in? and current_user.valid? %>
+<div id="form_container">
+  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
+  <div id="new_link"><span>+ </span><%= link_to_function "New Forum Post", "PostForm.toggle()", :class => 'create' %></div>
+  <%= render :partial => 'form' %>
+</div>
+<% end %>
+
+<table border = "0" cellpadding="3" cellspacing="2"  width = "100%">
+ 		<tr>
+			<td align="center" valign="top" bgcolor="#e1e1e1" width="20%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Topic</b>
+ 			</font>
+            </td>
+     
+           	<td align="center" valign="top" bgcolor="#e1e1e1" width="16%" nowrap>
+ 			<font size="1" color="#6b6b6b" face="verdana,arial,helvetica,sans-serif">
+  				<b>Author</b>
+ 			</font>
+           	</td>
+  		</tr>
+  		<% for post in @topics %>
+  				<tr align="center" bgcolor="<%= cycle("#a2b5cd", "#6699FF") %>">
+    <td><b><%= link_to post.name, :action => 'show', :controller => "threaded_discussion_posts", :id => post.id %></td></b>
+    	<td><font size="1"><%= link_to post.creator.name, user_url(:id => post.created_by) %></font></td> 
+  				</tr>
+		<% end %>
+	</table>

@@ -1,0 +1,34 @@
+<% standard_form :post, @post do |f| %>
+
+<p><b>Please type at least three characters and wait patiently for autocomplete to find your drug. </p></b>
+
+<div class='heading'>Condition</div>
+
+<%= f.text_field :name, :label => " " %>
+
+<div class='heading'>Drugs</div>
+	
+<div id='drug_refs'>
+  <% f.fields_for :drug_refs do |dr_form| -%>
+    <%= render :partial => 'drug_ref', :locals => {:dr => dr_form, :unique_num => 1} %>
+  <% end %>
+</div>
+
+<%= add_drug_button("Add Another Drug", f) %>
+
+ <%= f.text_area :body, :label => "Comments/Instructions" %>
+ 
+ <%= f.text_field :reference, :label => "Reference" %>
+
+<label>Category</label>
+
+<%= f.select(:tag_list, %w{ Cardiovascular Dermatology Ears\ Nose\ and\ Throat 
+    Endocrinology Gastroenterology Genitourinary\ System HIV Hematology Musculoskeletal\ System 
+    Neurology Opthalmology Obstetrics\ and\ Gynecology Palliative\ Care Psychiatry\ and\ Behaviour 
+    Respiratory\ System }) %>
+
+<%= standard_submit %>
+	
+<% end %>
+
+</form>

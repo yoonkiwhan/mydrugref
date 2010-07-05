@@ -1,0 +1,20 @@
+<div id="form_container">
+  <div id="cancel_link">
+    <%= link_to_function "Cancel", "PostForm.toggle()",
+          :class => 'delete small' %>
+  </div>
+  <% if logged_in? and current_user.valid? and current_user.name != "Guest" %><div id="new_link">
+    <span>+ </span>
+    <%= link_to_function "Add New User", "PostForm.toggle()",
+          :class =>'create' %>
+  </div><% end %>
+  <%= render :partial =>'form' %>
+</div>
+
+<table id="users" style="margin-top: 20px;">
+  <% for user in @users %>
+    <tr>
+      <td><strong><%= link_to user.name, user_url(:id => user) %></strong></td>
+    </tr>
+  <% end %>
+</table>

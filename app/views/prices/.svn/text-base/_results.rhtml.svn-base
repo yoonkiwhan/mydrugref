@@ -1,0 +1,10 @@
+<%= link_to_function 'Clear', "$(this).up('#results').update();" %>
+<% if @results.is_a?(String) %>
+  <div id='no_results'>
+  Sorry, no matches found in the Health Canada drug database. <br /> Try searching by a different brand name.
+  </div>
+<% else %>
+  <%= render :partial => 'result', :collection => @results %>
+<% end %>
+
+<%= link_to_function 'Clear', "$(this).up('#results').update();" %>

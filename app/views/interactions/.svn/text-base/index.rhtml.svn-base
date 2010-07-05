@@ -1,0 +1,47 @@
+<% if logged_in? and current_user.valid? %>
+    <%= link_to 'Add New Interaction', new_interaction_url, :class => 'new_post' %>
+<% end %>
+<br>
+
+
+<table id="posts">
+    <tr>
+	<th>Affecting Drug</th>
+        <th><%= link_to "Effect", :action => :index, :sort_by => :effect %></th>
+        <th>Affected Drug</th>
+        <th><%= link_to "Author", :action => :index, :sort_by => :author %></th>
+        <th><%= link_to "Created", :action => :index %></th>
+        <th>Comments</th>
+    </tr>
+    <% for post in @posts %>
+       <% for dr in post.drug_refs %>
+         <!-- Holbrook Interactions contain atc codes that are not in the Health Canada Database -->
+  	     <% if dr.label == 'int_drug2' then dr.code.nil? ? drug2 = dr.tc_atc_number : drug2 = dr.code.tc_atc %>
+  	     <% elsif dr.label == 'int_drug1' then dr.code.nil? ? drug1 = dr.tc_atc_number : drug1 = dr.code.tc_atc %>
+         <% end %>
+       <% end %>
+       <tr class=<%= post.significance.downcase %>>
+           <td><b><%= link_to proper_noun(drug1), interaction_url(:id => post.id) %></td></b>
+ 	   <td><%= post.effect %></td>
+    	   <td><b><%= link_to proper_noun(drug2), interaction_url(:id => post.id) %></td></b>
+    	   <td><%= link_to post.creator.name, user_url(:id => post.created_by) %></td> 
+    	   <td><%= nice_date post.created_at %></td> 
+    	   <td><% c = post.comments %>
+	<% if c.count == 0 %>
+	   None
+	<% else %>   
+	<%= pluralize c.size, 'comment' %>
+	  <% unless c.detect {|com| !com.agree.nil? }.nil? %><!-- unless none of the comments have votes -->
+	    <br />
+	    <% num_yes = c.find_all{|com| com.agree}.length %>
+	    <% num_no = c.find_all{|com| com.agree == false}.length %>
+        <%= link_to  "#{(num_yes*100)/(num_yes + num_no)}% agree", 
+        :action => 'show', :controller => post.class.to_s.downcase + "s", :id => post %>
+	    <br /><small> (<%= num_yes %> / <%= num_yes + num_no %> people) </small>
+	  <% end %>
+	 <% end %></td> 
+       </tr>
+    <% end %>
+</table>
+
+<%= will_paginate @posts %>

@@ -1,0 +1,27 @@
+<% if logged_in? and can_edit? @post %>
+    <%= link_to 'Edit', edit_price_url(@post), :class => 'new_post' %>
+<% end %>
+  <div id="meta">
+  	Posted <%= nice_date @post.created_at %> by 
+  	<b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b> 
+  </div>
+  <% dr = @post.drug_refs[0] %>
+    <h3><%= proper_noun(dr.drug.brand_name) %> Information</h3>
+    <p>
+    <b>ATC Code: </b><%= dr.tc_atc_number %>
+    </p>
+    <p>
+    <b>DIN Number: </b><%= dr.drug_identification_number %>
+    </p>
+    <b>Active Ingredients:</b>
+    <% dr.drug.active_ingredients.each do |a| %>
+    <br /><%= a.ingredient.capitalize %>
+    <% end %>
+  <h3>Price</h3>
+  <%= number_to_currency(@post.cost) %>
+  <h3>Retailer</h3>
+  <%= @post.reference %>
+  <h3>Details</h3>
+ <%= @post.body unless @post.body.nil? %>
+ 
+<%= render :partial => "comments/comments", :comments => @post.comments %>

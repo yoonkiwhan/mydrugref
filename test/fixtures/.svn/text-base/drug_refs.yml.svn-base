@@ -1,0 +1,138 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# Warnings
+
+abacavir:
+  post: abacavir
+  tc_atc_number: J05AF06
+  label: Warning
+  
+amoxicillin:
+  post: amox
+  tc_atc_number: J01CA04
+  label: Warning
+  
+codeine1:
+  post: codeine
+  tc_atc_number: R05DA04
+  label: Warning
+
+codeine2:
+  post: codeine
+  tc_atc_number: N02AA79
+  label: Warning
+
+codeine3:
+  post: codeine
+  tc_atc_number: N02BA71
+  label: Warning
+
+codeine4:
+  post: codeine
+  tc_atc_number: R05FA02
+  label: Warning
+
+codeine5:
+  post: codeine
+  tc_atc_number: N02AA59
+  label: Warning
+ 
+# Interactions
+  
+allopurinol:
+  post: int_one
+  tc_atc_number: M04AA01
+  label: int_drug1
+  
+int_amox:
+  post: int_one
+  tc_atc_number: J01CA04
+  label: int_drug2
+
+another_int_amox:
+  post: int_two
+  tc_atc_number: J01CA04
+  label: int_drug2
+  
+eryth:
+  post: int_two
+  tc_atc_number: S01AA17
+  label: int_drug1
+  
+int_di:
+  post: int_three
+  tc_atc_number: M01AB05
+  label: int_drug1
+
+int_meto:
+  post: int_three
+  tc_atc_number: C07AB02
+  label: int_drug2
+  
+# Treatments
+
+fl_ben:
+  post: hypertension_and_diabetes
+  tc_atc_number: C09AA07
+  label: FLD
+
+fl_hyd:
+  post: hypertension_and_diabetes
+  tc_atc_number: C03AA03
+  label: FLD
+
+sl_met:
+  post: hypertension_and_diabetes
+  tc_atc_number: C07AB02
+  label: SLD
+
+sl_fed:
+  post: hypertension_and_diabetes
+  tc_atc_number: C08CA02
+  label: SLD
+
+sl_praz:
+  post: hypertension_and_diabetes
+  tc_atc_number: C02CA01
+  label: SLD
+
+p_meth:
+  post: hypertension_and_diabetes
+  tc_atc_number: C02AB02
+  label: Preg
+
+p_hyd:
+  post: hypertension_and_diabetes
+  tc_atc_number: C02DB02
+  label: Preg
+  
+fl_prop:
+  post: hypertension_and_heart_disease
+  tc_atc_number: C07AA05
+  label: FLD
+  
+sl_vera:
+  post: hypertension_and_heart_disease
+  tc_atc_number: C08DA01
+  label: SLD
+  
+anti_hist:
+  post: sneezes
+  tc_atc_number: R06AE07
+  label: FLD
+  
+# Bulletins
+
+some_drug:
+  post: breaking_news
+  tc_atc_number: N06BC01
+  label: Bulletin
+  
+# Prices
+
+price_of_some_drug:
+  post: price_one
+  tc_atc_number: N06BC01
+  drug_identification_number: 02231960
+  label: Price
+  

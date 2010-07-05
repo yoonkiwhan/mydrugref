@@ -10,13 +10,13 @@
     <b>ATC Code: </b><%= dr.display_code %>
   <% end %>
   <h3>News Source</h3>
-   <div id="detail"><%= simple_format(@post.news_source) if @post.news_source.any? %></div>
+   <div id="detail"><%= simple_format(@post.news_source) unless @post.news_source.empty? %></div>
   <h3>News Date</h3>
-   <div id="detail"><%= simple_format(@post.news_date) if @post.news_date.any? %></div>
+   <div id="detail"><%= simple_format(@post.news_date) unless @post.news_date.empty? %></div>
   <h3>Brief Description</h3>
   <div id="detail">
- <%= simple_format(@post.body) if @post.body.any? %></div>
-  <% if @post.reference.any? %>
+ <%= simple_format(@post.body) unless @post.body.empty? %></div>
+  <% unless @post.reference.empty? %>
   <h3>Reference</h3>
    <div id="detail">
   <% if @post.reference[0..6] == "http://" %>

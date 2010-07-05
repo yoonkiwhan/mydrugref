@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/124/trunk/app/views/posts
+END
+_post_atc.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/121/trunk/app/views/posts/_post_atc.rhtml
+END
+news.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/124/trunk/app/views/posts/news.rhtml
+END
+index.html.erb
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/74/trunk/app/views/posts/index.html.erb
+END
+_helptext.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/98/trunk/app/views/posts/_helptext.rhtml
+END
+_result.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/92/trunk/app/views/posts/_result.rhtml
+END
+_results.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/93/trunk/app/views/posts/_results.rhtml
+END
+_search.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/110/trunk/app/views/posts/_search.rhtml
+END
+_existing_post_atc.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/121/trunk/app/views/posts/_existing_post_atc.rhtml
+END
+_p_five.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/110/trunk/app/views/posts/_p_five.rhtml
+END
+_searchform.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/89/trunk/app/views/posts/_searchform.rhtml
+END

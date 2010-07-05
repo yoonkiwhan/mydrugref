@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/test/backends
+END
+file_system_test.rb
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/test/backends/file_system_test.rb
+END
+db_file_test.rb
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/128/trunk/vendor/plugins/attachment_fu/test/backends/db_file_test.rb
+END

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/110/trunk/app/views/prices
+END
+_existing_price_drug.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/99/trunk/app/views/prices/_existing_price_drug.rhtml
+END
+_result.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/99/trunk/app/views/prices/_result.rhtml
+END
+_results.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/97/trunk/app/views/prices/_results.rhtml
+END
+show.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/110/trunk/app/views/prices/show.rhtml
+END
+_price.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/110/trunk/app/views/prices/_price.rhtml
+END
+_price_drug.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/99/trunk/app/views/prices/_price_drug.rhtml
+END
+_prices.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/76/trunk/app/views/prices/_prices.rhtml
+END
+edit.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/93/trunk/app/views/prices/edit.rhtml
+END
+index.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/93/trunk/app/views/prices/index.rhtml
+END
+new.rhtml
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/97/trunk/app/views/prices/new.rhtml
+END

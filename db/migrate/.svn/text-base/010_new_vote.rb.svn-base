@@ -1,0 +1,11 @@
+class NewVote < ActiveRecord::Migration
+  def self.up
+    add_column :posts, :vote, :string
+    add_column :posts, :goat, :boolean
+  end
+
+  def self.down
+    remove_column :posts, :vote, :string
+    remove_column :posts, :goat, :boolean
+  end
+end

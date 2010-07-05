@@ -1,0 +1,106 @@
+class UsersController < ApplicationController
+
+#  before_filter :require_admin, :only => [ :new, :create ]
+  before_filter :not_guest, :only => [ :new, :create ]
+  before_filter :find_user, :only => [ :show, :edit, :update, :destroy ]
+  before_filter :check_permissions, :only => [ :edit, :update, :destroy ]
+  skip_before_filter :check_for_valid_user, :only => [ :edit, :update ]
+  filter_parameter_logging :password
+  
+  def index
+    @page_title = "MyDrugRef Users"
+    @users = User.find :all, :order => 'name'
+    @user = User.new
+  end
+  
+  def new
+    @page_title = "New User"
+    @user = User.new
+    @edit_on = true
+  end
+
+  def create
+    @hash = params[:user]
+    @hash["added_by"] = @current_user.id
+    user = @hash
+    if @user = User.create(@hash)
+      UserMailer.deliver_greeting(user)
+      flash[:notice] = 'User was successfully saved. Login information sent.'
+      @current_user.friends << @user
+      @user.friends << @current_user
+      redirect_to user_url(:id => @user)
+    else
+      render :action => 'index'
+    end
+  end
+
+  def show
+    @friends = @user.friends
+    @trusters = @user.trusted_by
+    if params[:format]=='jpg'
+      if @user.picture
+        send_data @user.picture.content, :filename => "#{@user.id}.jpg", :type => 'image/jpeg', :disposition => 'inline'
+      else
+        send_file RAILS_ROOT+'/public/images/default_user.jpg', :filename => "#{@user.id}.jpg", :type => 'image/jpeg', :disposition => 'inline'
+      end
+      return
+    end
+  end
+  
+  def show_posts
+    @user = User.find(params[:userid])
+    @treatments = @user.treatments
+    @comments = @user.comments
+    @interactions = @user.interactions
+    @warnings = @user.warnings
+    @bulletins = @user.bulletins
+    g = @user.guidelines
+    @guidelines = g.group_by {|guide| guide.uuid}
+    @guidelines.each do |k, v|
+      @guidelines[k] = v.sort_by {|guide| guide.id}
+    end
+    render :partial => 'posts'
+  end
+
+  def edit
+    @edit_on = true
+    @friends = @user.friends
+    @allusers = User.find(:all)
+    render :action => 'show'
+  end
+  
+  def update
+    success = @user.update_attributes params[:user]
+    respond_to do |format|
+      format.html {
+        if success
+          flash[:notice] = 'User was successfully updated.'
+          redirect_to user_url
+        else
+          @edit_on = true
+          render :action => 'show'
+        end
+        }
+    end
+  end
+  
+  def destroy
+    @user.destroy
+    flash[:notice] = "User deleted."
+    redirect_to users_url
+  end
+
+  private
+  
+    def post_type; "User"; end
+    helper_method :post_type
+
+    def find_user
+      @user = User.find params[:id]
+    end
+    
+    def check_permissions
+      return false unless can_edit? @user
+    end
+
+end

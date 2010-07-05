@@ -4,9 +4,9 @@
 
   <%= f.text_field :name, :label => "Condition" %> 
 
-<%= render :partial => 'posts/helptext' %>
+  <%= render :partial => 'posts/helptext' %>
 
-<div class='search'>
+  <div class='search'>
     <label>
     <span id='searching_by'>Brand Name</span>  
     </label>
@@ -18,27 +18,27 @@
     </span>
     <div id='results'></div>
   </div>
-   
+     
   <label>Drugs of Choice ATCs</label>
   <ul id='post_drug_refs'>
     <% for d in @post.drug_refs %>
-    <% c = d.code %>
-    <% @post_atc = {:atc_code => d.tc_atc_number, :atc_class => c.tc_atc, :id => d.id, :con_name => 'treatments',
-                    :label => d.label } %>
-    <%= render :partial => '/posts/existing_post_atc', :object => @post_atc %>
-  <% end %>
+      <% c = d.code %>
+      <% @post_atc = {:atc_code => d.tc_atc_number, :atc_class => c.tc_atc, :id => d.id, :con_name => 'treatments',
+                      :label => d.label } %>
+      <%= render :partial => '/posts/existing_post_atc', :object => @post_atc %>
+    <% end %>
   </ul>
 
   <%= f.text_area :body, :label => "Comments/Instructions" %>
-  
+
   <%= f.text_field :reference, :label => "Reference" %>
-  
+
   <label>Category</label>
 
-<%= f.select(:tag_list, %w{ Cardiovascular Dermatology Ears\ Nose\ and\ Throat 
-    Endocrinology Gastroenterology Genitourinary\ System HIV Hematology Musculoskeletal\ System 
-    Neurology Opthalmology Obstetrics\ and\ Gynecology Palliative\ Care Psychiatry\ and\ Behaviour 
-    Respiratory\ System }) %>
+  <%= f.select(:tag_list, %w{ Cardiovascular Dermatology Ears\ Nose\ and\ Throat 
+      Endocrinology Gastroenterology Genitourinary\ System HIV Hematology Musculoskeletal\ System 
+      Neurology Opthalmology Obstetrics\ and\ Gynecology Palliative\ Care Psychiatry\ and\ Behaviour 
+      Respiratory\ System }) %>
   
   <%= standard_submit %>
   

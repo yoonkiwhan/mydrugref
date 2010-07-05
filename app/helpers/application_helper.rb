@@ -1,6 +1,50 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def break_long_word txt, col=80
+    txt.gsub(/(.{1,#{col}})( +|$\n?)|(.{1,#{col}})/,
+             "\\1\\3\n")
+  end
+
+  def table_header header_hash, control
+    return_html = ''
+    header_hash.each_pair do |k,v|
+      if v == "unsortable"
+        return_html += header_unsortable(k, control)
+      elsif v == "sortable"
+        return_html += header_not_sorted(k, control, "DESC")
+      elsif v == "ASC"
+        return_html += header_asc(k, control)
+      elsif v == "DESC"
+        return_html += header_desc(k, control)
+      end
+    end
+    return return_html
+  end
+
+  def header_desc header_title, control
+    str = %{<th><a href="#{control}?order=ASC&sort_by=#{header_title}">#{header_title}</a> }
+    str += %{<img src="/images/desc.gif"></th>}
+    return str
+  end
+
+  def header_asc header_title, control
+    str = %{<th><a href="#{control}?order=DESC&sort_by=#{header_title}">#{header_title}</a> }
+    str += %{<img src="/images/asc.gif"></th>}
+    return str
+  end
+
+  def header_not_sorted header_title, control, sort_link
+    str = %{<th><a href="#{control}?order=#{sort_link}&sort_by=#{header_title}">#{header_title}</a> }
+    str += %{<img src="/images/bg.gif"></th>}
+    return str
+  end
+
+  def header_unsortable header_title, control
+    str = %{<th> #{header_title} </th>}
+    return str
+  end
+
   # Returns the name of an icon (in public/images) for the given content type
   def icon_for content_type
     case content_type.to_s.strip
@@ -105,6 +149,16 @@ module ApplicationHelper
     concat "</fieldset>"
   end
   
+  def guideline_form name, object, &block
+    url  = { :action    => object.new_record? ? "index" : "show" }
+    html = { :class     => "standard", :id => "new_guideline",
+             :style     => (@edit_on ? '' : "display: none;"),
+             :multipart => true }
+    concat form_tag(url, html) + "<fieldset>"
+    concat '<input name="_method" type="hidden" value="put" />' unless object.new_record?
+    yield LabelingFormBuilder.new(name, object, self, {}, block)
+    concat "</fieldset>"
+  end
   
   def drug_refs_form name, object, &block
     url  = { :action    => object.new_record? ? "index" : "show" }

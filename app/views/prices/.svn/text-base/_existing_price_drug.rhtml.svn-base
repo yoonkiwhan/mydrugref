@@ -1,0 +1,21 @@
+<li>
+  <span class="brand_name"><%= proper_noun(@price_drug[:brand_name]) %></span> &nbsp 
+  <span class="din"><%= @price_drug[:din] %></span>
+  <% Drug.find(@price_drug[:din]).active_ingredients.each do |ai| %>
+    <br /><%= proper_noun(ai.ingredient) + ': ' + ai.strength + ai.strength_unit %>
+  <% end %>
+  <input id=<%= "post_drug_refs_attributes_" + @price_drug[:id].to_s + "_tc_atc_number"%>
+         name=<%= "post[drug_refs_attributes][" + @price_drug[:id].to_s + "][tc_atc_number]"%>
+         type="hidden" value=<%= @price_drug[:atc] %> />
+  <input id=<%= "post_drug_refs_attributes_" + @price_drug[:id].to_s + "_drug_identification_number"%>
+         name=<%= "post[drug_refs_attributes][" + @price_drug[:id].to_s + "][drug_identification_number]"%>
+         type="hidden" value=<%= @price_drug[:din].to_s %> />
+  <input id=<%= "post_drug_refs_attributes_" + @price_drug[:id].to_s + "_label"%>
+         name=<%= "post[drug_refs_attributes][" + @price_drug[:id].to_s + "][label]"%> 
+         type="hidden" value="Price" />         
+  <input id=<%= "post_drug_refs_attributes_" + @price_drug[:id].to_s + "_id"%>
+         name=<%= "post[drug_refs_attributes][" + @price_drug[:id].to_s + "][id]"%>
+         type="hidden" value=<%= @price_drug[:id] %> />
+<%= link_to_function "Remove from post", 
+    "PostForm.deletePriceDrugRef($(this.up('li')), " + @price_drug[:id].to_s + ")" %>
+</li>

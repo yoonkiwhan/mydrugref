@@ -1,13 +1,13 @@
 <h2> Search Posts </h2>
 <% form_tag :only_path => false, :controller => :posts, :action => :search do %>
   <%= text_field_tag :query %><br /><br />
-  <%= select_tag("type_options", 
-                 options_for_select(%w{ All\ Posts Warnings Interactions Treatments Bulletins }) ) %><br /><br />
-  <%= select_tag ("date_options",
-                   options_for_select( [[ 'All Dates', Time.at(0)],
-                                        [ 'This year', Time.now.at_beginning_of_year ],
-                                        [ 'This month', Time.now.at_beginning_of_month ],
-                                        [ 'This week', Time.now.at_beginning_of_week ],
-                                        [ 'Today', Time.now.at_beginning_of_day]] ) ) %><br />
-         <br /><%= submit_tag "Search" %>  
+  <%= select_tag "type_options", 
+                 options_for_select([ 'All', 'Posts', 'Warnings', 'Interactions', 'Treatments', 'Bulletins' ]) %><br /><br />
+  <%= select_tag "date_options",
+                 options_for_select( [[ 'All Dates', Time.at(0)],
+                                      [ 'This year', Time.now.at_beginning_of_year ],
+                                      [ 'This month', Time.now.at_beginning_of_month ],
+                                      [ 'This week', Time.now.at_beginning_of_week ],
+                                      [ 'Today', Time.now.at_beginning_of_day]] ) %><br /><br />
+  <%= submit_tag "Search" %>  
 <% end %>

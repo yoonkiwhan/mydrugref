@@ -48,7 +48,7 @@
   </ol>
   <% end %>
   
-  <% if @post.reference.any? %>
+  <% unless @post.reference.empty? %>
   <h3>Reference</h3>
   <div id="detail">
    <% if @post.reference[0..6] == "http://" %>
@@ -62,7 +62,7 @@
   
   <h3>Comments/Instructions</h3>
   <div id="detail">
-    <%= simple_format(@post.body) if @post.body.any? %>
+    <%= simple_format(@post.body) unless @post.body.empty? %>
   </div>
   
   <% @tags = Tag.find(:all) %>

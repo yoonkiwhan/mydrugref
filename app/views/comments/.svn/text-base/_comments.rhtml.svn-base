@@ -1,0 +1,34 @@
+<div id="comments">
+  <h2><% if @post.comments.any? %>
+   <%= pluralize @post.comments.size, 'comment' %> so far 
+      <% elsif logged_in? %>Be the first to post a comment
+      <% else %>No comments so far
+      <% end %>
+  </h2>
+
+<%= render :partial => 'comments/comment', :collection => @post.comments %>
+
+<% if logged_in? %>  
+  <% remote_form_for :comment,
+                     :url => comments_url(:post_type => "Comment", :post_id => @post),
+                     :html => { :action => comments_url(:post_type => params[:controller], :post_id => @post) },
+                     :before => "$('spinner').show()",
+                     :complete => "$('spinner').hide(); $('comment_body').value=''" do |c| %>
+   <fieldset>
+     <h3><%= current_user.name %> said . . .</h3>
+     <p><%= c.text_area :body %></p>
+     <% if @post.comments.detect {|com| com.created_by == current_user.id and !com.agree.nil? }.nil? %>
+     <p><!-- If current_user hasn't already voted agree/disagree -->
+       <%= c.select :agree, [['No Thanks', nil], ['Agree', true], ['Disagree', false]] %>
+       Vote whether you agree or disagree. 
+       Agreeing with this post will allow users that trust you to receive the post from Oscar.
+     </p>
+     <% end %>
+     <p>
+       <%= submit_tag "Post New Comment" %>
+       <%= image_tag "spinner.gif", :style => "display: none;", :id => "spinner" %>
+     </p>
+   </fieldset>
+ <% end %>
+<% end %>
+</div>

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 26
+/svn/!svn/ver/127/trunk/db
+END
+._.svn
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/1/trunk/db/._.svn
+END
+schema.rb
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/127/trunk/db/schema.rb
+END
+._migrate
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/1/trunk/db/._migrate
+END

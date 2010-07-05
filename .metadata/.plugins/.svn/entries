@@ -1,0 +1,61 @@
+10
+
+dir
+128
+http://mydrugref.googlecode.com/svn/trunk/.metadata/.plugins
+http://mydrugref.googlecode.com/svn
+
+
+
+2009-06-16T14:44:19.132433Z
+85
+deborahlchan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+70dedb63-593e-0410-87e1-edbeff3ae1a3
+
+org.eclipse.tomcat
+dir
+
+org.radrails.server.core
+dir
+
+org.eclipse.core.runtime
+dir
+
+org.eclipse.ui
+dir
+
+org.eclipse.debug.core
+dir
+
+org.eclipse.ui.ide
+dir
+
+org.eclipse.ui.workbench
+dir
+
+org.eclipse.help.base
+dir
+
+org.eclipse.core.resources
+dir
+
+com.aptana.ide.intro
+dir
+
+org.eclipse.debug.ui
+dir
+

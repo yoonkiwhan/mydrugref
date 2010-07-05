@@ -1,0 +1,83 @@
+<div id="form_container" <% if @edit_on %>class="active"<% end %>>
+  <div id="cancel_link"><%= link_to_function "Cancel", "PostForm.toggle()", :class => 'delete small' %></div>
+  <div id="new_link">
+  	<% if logged_in? and can_edit? @post %>
+  		<span>&nbsp;&nbsp;</span>
+  		<%= link_to_function "Edit", "PostForm.toggle()", :class => 'create' %>
+    <% end %>
+  </div>
+  <div id="meta">
+  	Posted <%= nice_date @post.created_at %> by <b><%= link_to @post.creator.name, user_url(:id => @post.creator), { 'class' => 'grey' } %></b>
+	
+  </div>
+  <%= render :partial => 'form' %>
+ </div>
+
+<% if @invalid %>
+
+<br />
+Invalid XML Body.
+
+<% else %>
+
+<% unless @evidence.nil? %>
+  <h3>Evidence</h3>
+  <%= @evidence %>
+<% end %>
+
+<% unless @significance.nil? %>
+  <h3>Significance</h3>
+  <%= @significance %>
+<% end %>
+
+<% unless @conditions.empty? %>
+<h3>Conditions</h3>
+<ul>
+  <% for c in @conditions %>
+  	<li><b><%= c["type"].capitalize %></b> -- 
+  	    <% c.delete("type").attributes.each do |attname, attval| %>
+        <b><%= attname.capitalize %></b>: <%= attval %>
+        <% end %>
+  	</li>
+  <% end %>
+</ul>
+<% end %>
+
+<% unless @consequences.empty? %>
+<h3>Consequence</h3>
+<ol>
+  <% for c in @consequences %>
+  	<li><b><%= c["name"].capitalize %></b>
+    <% c.delete("name").attributes.each do |attname, attval| %>
+  	  <br /><b><%= attname.capitalize %></b>: <%= attval %>
+  	<% end %>
+  	</li>
+  <% end %>
+</ol>
+<% end %>
+
+<% end %>
+
+<h3>XML Body</h3>
+<p style="font-family: monospace;">
+  <%= h @post.body %>
+</p>
+
+<% if @post.all_versions.length > 1 %>
+  <% versns = @post.all_versions.sort_by {|g| g.id} %>
+  <% versns.delete(@post) %>
+  <h3>Other Versions</h3>
+  <ol>
+    <% for v in versns %>
+      <li>
+        <% if v.name.nil? or v.name == "" %>
+          <%= link_to 'No Name', guideline_path(v.id) %>
+        <% else %>
+          <%= link_to v.name, guideline_path(v.id) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+<% end %>
+
+<%= render :partial => "comments/comments", :comments => @post.comments %>

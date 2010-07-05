@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launchConfiguration type="com.aptana.ide.debug.core.jsLaunchConfigurationType">
+  <stringAttribute key="externalBaseUrl" value=""/>
+  <booleanAttribute key="suspendOnExceptions" value="false"/>
+  <booleanAttribute key="overrideDebugPreferences" value="false"/>
+  <stringAttribute key="startPageUrl" value=""/>
+  <booleanAttribute key="suspendOnFirstLine" value="false"/>
+  <stringAttribute key="httpPostContentType" value=""/>
+  <booleanAttribute key="suspendOnDebuggerKeywords" value="true"/>
+  <booleanAttribute key="advancedRunEnabled" value="false"/>
+  <stringAttribute key="httpGetData" value=""/>
+  <booleanAttribute key="suspendOnErrors" value="true"/>
+  <booleanAttribute key="appendProjectName" value="false"/>
+  <stringAttribute key="httpPostData" value=""/>
+  <stringAttribute key="browserNature" value="Firefox"/>
+  <intAttribute key="startActionType" value="1"/>
+  <intAttribute key="serverType" value="1"/>
+  <stringAttribute key="startPagePath" value=""/>
+  <stringAttribute key="browserExecutable" value="/usr/bin/firefox"/>
+</launchConfiguration>

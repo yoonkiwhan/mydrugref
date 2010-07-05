@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 30
+/svn/!svn/ver/127/trunk/config
+END
+._.svn
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/1/trunk/config/._.svn
+END
+routes.rb
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/127/trunk/config/routes.rb
+END
+database.yml
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/110/trunk/config/database.yml
+END
+._environments
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1/trunk/config/._environments
+END
+boot.rb
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/78/trunk/config/boot.rb
+END
+environment.rb
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/106/trunk/config/environment.rb
+END

@@ -570,6 +570,9 @@ table#posts th {
 }
 
 table#posts td { padding: 3px; text-align: center;}
+table#posts a { text-align: left; }
+table#posts col.Author { width: 7em }
+table#posts img { vertical-align: middle; text-align: right;}
 table#posts tr.no_sig { background-color: #cae1ff; }
 table#posts tr.agree { color: green; background-color: #B5EAAA; }
 table#posts tr.disagree { color: #B22222; background-color: #EEB4B4; }

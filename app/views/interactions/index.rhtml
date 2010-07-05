@@ -5,13 +5,14 @@
 
 
 <table id="posts">
+  <col class="Affecting Drug"/>
+  <col class="Effect"/>
+  <col class="Affected Drug"/>
+  <col class="Author"/>
+  <col class="Created"/>
+  <col class="Comments"/>
   <tr>
-    <th>Affecting Drug</th>
-    <th><%= link_to "Effect", :action => :index, :sort_by => :effect %></th>
-    <th>Affected Drug</th>
-    <th><%= link_to "Author", :action => :index, :sort_by => :author %></th>
-    <th><%= link_to "Created", :action => :index %></th>
-    <th>Comments</th>
+    <%= table_header(@header_hash, "treatments") %>
   </tr>
   <% for post in @posts %>
     <% for dr in post.drug_refs %>

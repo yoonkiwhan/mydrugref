@@ -1,6 +1,11 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def break_long_word txt, col=80
+    txt.gsub(/(.{1,#{col}})( +|$\n?)|(.{1,#{col}})/,
+             "\\1\\3\n")
+  end
+
   def table_header header_hash, control
     return_html = ''
     header_hash.each_pair do |k,v|

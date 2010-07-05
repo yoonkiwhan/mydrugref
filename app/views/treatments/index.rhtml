@@ -20,7 +20,7 @@
   </tr>
   <% for post in @posts %>
     <tr class="no_sig">
-      <td><b><%= link_to truncate(post.name, :length => 30), treatment_url(:id => post.id) %></td></b>
+      <td><b><%= link_to break_long_word(truncate(post.name, :length => 30), 15), treatment_url(:id => post.id) %></td></b>
       <td><%= post.drug_of_choice %></td>
       <td><b>
         <% for tag in post.tags %>

@@ -13,7 +13,7 @@ class InteractionsController < PostsController
                else params[:order]
              end
 
-    @posts = Treatment.paginate :page => params[:page], :order => "#{@sort_by} #{@order}", :per_page => 20
+    @posts = Interaction.paginate :page => params[:page], :order => "#{@sort_by} #{@order}", :per_page => 20
 
     @header_hash = {"Affecting Drug" => "unsortable" , "Effect" => "sortable", "Affected Drug" => "unsortable",
                     "Author" => "sortable", "Created" => "sortable", "Comments" => "unsortable" }
@@ -22,18 +22,6 @@ class InteractionsController < PostsController
     else
       @header_hash["Created"] = "DESC"
     end
-
-
-
-
-    @sort_by = params[:sort_by]
-       if @sort_by == "effect"
-	  @posts = Interaction.paginate :page => params[:page], :order => 'effect', :per_page => 25
-       elsif @sort_by == "author"
-	  @posts = Interaction.paginate :page => params[:page], :order => 'created_by', :per_page => 25
-       else
-	  @posts = Interaction.paginate :page => params[:page], :order => 'created_at DESC', :per_page => 25
-       end
   end
   
   def show

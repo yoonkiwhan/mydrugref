@@ -8,12 +8,6 @@ class Post < ActiveRecord::Base
   belongs_to :attachment, :dependent => :destroy
   accepts_nested_attributes_for :drug_refs, :allow_destroy => true
   
-  def has_drug_ref
-    if drug_refs.empty? or deleting_all_drug_refs
-      errors.add(:drug_refs, "Must have at least one ATC Code attached")
-    end
-  end
-  
   def deleting_all_drug_refs
     drug_refs.each do |d|
       unless d.marked_for_destruction?
@@ -22,34 +16,30 @@ class Post < ActiveRecord::Base
     end
     return true
   end
-  
-  def self.search(q, date, type)
-    if type.nil?
-      by_drug_name = Post.find(:all, :include => :drugs, 
-                     :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND created_at > ?', 
-                                     q.downcase, date])
-      by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND created_at > ?', q.downcase, date])
-      by_atc = Post.find(:all, :include => :codes,
-                     :conditions => ['LOWER(cd_therapeutic_class.tc_atc) LIKE ? AND created_at > ?',
-                                     q.downcase, date])
-      by_name = Post.find(:all, :conditions => ['LOWER(name) LIKE ? AND created_at > ?', q.downcase, date])
-    else
-      by_drug_name = Post.find(:all, :include => :drugs, 
-                     :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND type = ? AND created_at > ?', 
-                                     q.downcase, type, date])
-      by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND type = ? AND created_at > ?', 
-                                                q.downcase, type, date])
-      by_atc = Post.find(:all, :include => :codes,
-               :conditions => ['LOWER(cd_therapeutic_class.tc_atc) LIKE ? AND type = ? AND created_at > ?',
-                               q.downcase, type, date])
-      by_name = Post.find(:all, :conditions => ['LOWER(name) LIKE ? AND created_at > ?', q.downcase, date])
+
+  # Creates an attachment from a file upload
+  def file=(file)
+    unless file.size == 0
+      attachment=Attachment.new :content => file.read
+      attachment.save
+      write_attribute('attachment_id', attachment.id)
+      write_attribute('attachment_filename', file.original_filename)
+      write_attribute('attachment_content_type', file.content_type)
+      write_attribute('attachment_size', file.size)
     end
-    by_drug_name | by_body | by_atc | by_name
   end
 
-  #def self.latest
-  #  Post.find(:all, :order => "created_at DESC", :limit => 10)
-  #end
+  def has_drug_ref
+    if drug_refs.empty? or deleting_all_drug_refs
+      errors.add(:drug_refs, "Must have at least one ATC Code attached")
+    end
+  end
+  
+  def self.cemois
+    Post.find(:all,
+                 :conditions =>["created_at between ? AND ?", Time.now.at_beginning_of_month, Time.now],
+                 :order => "created_at DESC")
+  end
 
   def self.latest
     first_10 = Post.find(:all, :order => 'created_at DESC', :limit => 10)
@@ -80,24 +70,31 @@ class Post < ActiveRecord::Base
     end
 
     latest_p
-
   end
 
-  def self.cemois
-    Post.find(:all,
-                 :conditions =>["created_at between ? AND ?", Time.now.at_beginning_of_month, Time.now],
-                 :order => "created_at DESC")
-  end
-
-  # Creates an attachment from a file upload
-  def file=(file)
-    unless file.size == 0
-      attachment=Attachment.new :content => file.read
-      attachment.save
-      write_attribute('attachment_id', attachment.id)
-      write_attribute('attachment_filename', file.original_filename)
-      write_attribute('attachment_content_type', file.content_type)
-      write_attribute('attachment_size', file.size)
+  def self.search(q, date, type)
+    if type.nil?
+      by_drug_name = Post.find(:all, :include => :drugs, 
+                     :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND created_at > ?', 
+                                     q.downcase, date])
+      by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND created_at > ?', q.downcase, date])
+      by_atc = Post.find(:all, :include => :codes,
+                     :conditions => ['LOWER(cd_therapeutic_class.tc_atc) LIKE ? AND created_at > ?',
+                                     q.downcase, date])
+      by_name = Post.find(:all, :conditions => ['LOWER(name) LIKE ? AND created_at > ?', q.downcase, date])
+    else
+      by_drug_name = Post.find(:all, :include => :drugs, 
+                     :conditions => ['LOWER(cd_drug_product.brand_name) LIKE ? AND type = ? AND created_at > ?', 
+                                     q.downcase, type, date])
+      by_body = Post.find(:all, :conditions => ['LOWER(body) LIKE ? AND type = ? AND created_at > ?', 
+                                                q.downcase, type, date])
+      by_atc = Post.find(:all, :include => :codes,
+               :conditions => ['LOWER(cd_therapeutic_class.tc_atc) LIKE ? AND type = ? AND created_at > ?',
+                               q.downcase, type, date])
+      by_name = Post.find(:all, :conditions => ['LOWER(name) LIKE ? AND created_at > ?', q.downcase, date])
     end
+
+    by_drug_name | by_body | by_atc | by_name
   end
+
 end

@@ -1,7 +1,7 @@
 require 'rexml/document'
 
 class GuidelinesController < PostsController
-  layout "application", :except => [:condition, :consequence]
+  layout "application", :except => [:condition, :consequence, :drug_search]
 
   def index
     super

@@ -1,6 +1,6 @@
 <li class='fields'> <span>Type:</span>
 <%= select_tag 'condition_type',
-  options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => 'width:80px' %>
+  options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => 'width:80px', :onchange => "drugBox(this)" %>
 <%= select_tag 'condition_target',
   options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => 'width:80px' %>
 <%= text_field_tag 'condition_text', '', :style => 'width:260px;display:inline' %> 

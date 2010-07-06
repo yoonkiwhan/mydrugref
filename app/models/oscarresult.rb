@@ -23,4 +23,5 @@ class Oscarresult < ActionWebService::Struct
   member :uuid, :string
   member :comments,  [Oscarresult]
   member :drugs,      [OscarDrug]
+
 end

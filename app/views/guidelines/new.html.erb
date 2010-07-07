@@ -18,8 +18,7 @@
     <%= select_tag 'condition_target',
       options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => 'width:80px' %>
     <%= text_field_tag 'condition_text', '', :style => 'width:260px;display:inline', :onClick => "drugBox(this)" %> 
-    <%= hidden_field_tag 'destroy_condition', 0 %>  
-    <%= link_to_function '(Remove)', 'remove_fields(this)' %>
+    <%= link_to_function '(Remove)', "$(this).up('li').remove()" %>
   </li>
   </ul>
   </div>
@@ -31,8 +30,7 @@
     <%= select_tag "warning_strength",
         options_for_select([ 'Recommendation', 'Warning' ]), :style => "width:130px" %>
     <%= text_field_tag "warning_text", '', :style => "width:280px;display:inline" %> 
-    <%= hidden_field_tag 'destroy_consequence', 0 %>  
-    <%= link_to_function '(Remove)', 'remove_fields(this)' %> </li>
+    <%= link_to_function '(Remove)', "$(this).up('li').remove()" %> </li>
   </ol>
   </div>
 

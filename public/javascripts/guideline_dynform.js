@@ -17,29 +17,21 @@ document.observe('dom:loaded', function() {
     XML += '<conditions> '
 
     if (isString(data.condition_type)) {
-      if (data.destroy_condition == 0) {
-        XML += '<condition type="' + data.condition_type + '" ' + data.condition_target + '="' + data.condition_text + '"/> '
-      }
+      XML += '<condition type="' + data.condition_type + '" ' + data.condition_target + '="' + data.condition_text + '"/> '
     }
     else {
       for (var i = 0; i < data.condition_type.length; i++) {
-        if (data.destroy_condition[i] == 0) {
-          XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i] + '="' + data.condition_text[i] + '"/> '
-        }            
+        XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i] + '="' + data.condition_text[i] + '"/> '
       }
     }
     XML += '</conditions> <consequence> '
 
     if (isString(data.warning_strength)) {
-      if (data.destroy_consequence == 0) {
-        XML += '<warning strength="' + data.warning_strength + '">' + data.warning_text + '</warning> '
-      }
+      XML += '<warning strength="' + data.warning_strength + '">' + data.warning_text + '</warning> '
     }
     else {
       for (var j = 0; j < data.warning_strength.length; j++) {
-        if (data.destroy_consequence[j] == 0) {
-          XML += '<warning strength="' + data.warning_strength[j] + '">' + data.warning_text[j] + '</warning> '
-        }
+        XML += '<warning strength="' + data.warning_strength[j] + '">' + data.warning_text[j] + '</warning> '
       }
     }
     XML += '</consequence> </guideline>'
@@ -86,11 +78,6 @@ function isString() {
     if (typeof arguments[0] == 'object') {
         var criterion = arguments[0].constructor.toString().match(/string/i); 
         return (criterion != null);  }return false;
-}
-
-function remove_fields(link) {
-    $(link).previous('input[type=hidden]').value = '1';
-    $(link).up('.fields').hide();
 }
 
 function submit(name, body, reference, uuid, g_id, method) {

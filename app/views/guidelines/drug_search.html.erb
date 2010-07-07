@@ -1,9 +1,11 @@
 <%= stylesheet_link_tag "application" %>
+<%= stylesheet_link_tag "lightwindow" %>
 <%= javascript_include_tag :defaults %>
 <%= javascript_include_tag "lightwindow" %>
+<%= javascript_include_tag "guideline_dynform" %>
 
 <body class='drug_search'>
-  <%= text_field_tag "controller_name", "Guideline", :type => "hidden" %>
+  <%= text_field_tag "controller_name", "guidelines", :type => "hidden" %>
 
   <div id='form_wrapper'>
     <div class='search'>
@@ -18,5 +20,12 @@
       </span>
       <div id='results'></div>
     </div>
+
+    <br />
+    <label>Currently selected drugs:</label> <hr>
+    <ul id="post_drug_refs"> </ul>
+
+    <br />
+    <%= button_to_function "Apply", "#", :style => "width: 50px", :onClick => "insertDrug();" %>
   </div>
 </body>

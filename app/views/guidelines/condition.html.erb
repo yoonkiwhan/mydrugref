@@ -1,8 +1,8 @@
 <li class='fields'> <span>Type:</span>
 <%= select_tag 'condition_type',
-  options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => 'width:80px', :onchange => "drugBox(this)" %>
+  options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => 'width:80px' %>
 <%= select_tag 'condition_target',
   options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => 'width:80px' %>
-<%= text_field_tag 'condition_text', '', :style => 'width:260px;display:inline' %> 
+<%= text_field_tag 'condition_text', '', :style => 'width:260px;display:inline', :onClick => "drugBox(this)" %> 
 <%= hidden_field_tag 'destroy_condition', 0 %>  
 <%= link_to_function '(Remove)', 'remove_fields(this)' %> </li>

@@ -53,20 +53,32 @@ function appendToElement(field, from) {
     new Ajax.Updater(field, from, { insertion: Insertion.Bottom });
 }
 
+var textbox
+
 function drugBox(link) {
-  myLightWindow.activateWindow({
-    href: '/Guidelines/drug_search',
-    title: 'Please select relevant drugs.',
-    width: '500',
-    height: '400'
-  });
+  var between = $(link).previous('select');
+  var target = between.previous('select');
+  textbox = link;
+  if ($F(target) == "Drugs") {
+    myLightWindow.activateWindow({
+      href: '/Guidelines/drug_search',
+      title: 'Please select relevant drugs.',
+      type: 'page',
+      width: '500',
+      height: '400'
+    });
+  }
 }
 
-function drugBoxHelper(link) {
-  if ($F(link) == "Drugs") {
-    var text_box = $(link).next('input');
-    text_box.writeAttribute("onClick", "drugBox(this)");
+function insertDrug() {
+  var data = $$('.atc_code');
+  var drug_codes = "";
+  for (i=0; i < data.length; i++) {
+    drug_codes += data[i].firstChild.nodeValue + "; ";
   }
+  $(textbox).value = drug_codes;
+  textbox = null;
+  myLightWindow.deactivate();
 }
 
 function isString() {

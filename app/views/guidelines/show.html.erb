@@ -12,21 +12,21 @@
 <% else %>
   <% unless @evidence.nil? %>
     <h3>Evidence</h3>
-    <%= @evidence %>
+    <%=h @evidence %>
   <% end %>
 
   <% unless @significance.nil? %>
     <h3>Significance</h3>
-    <%= @significance %>
+    <%=h @significance %>
   <% end %>
 
   <% unless @conditions.empty? %>
   <h3>Conditions</h3>
   <ul>
     <% for c in @conditions %>
-      <li><b><%= c["type"].capitalize %></b> -- 
+      <li><b><%=h c["type"].capitalize %></b> -- 
           <% c.delete("type").attributes.each do |attname, attval| %>
-          <b><%= attname.capitalize %></b>: <%= attval %>
+          <b><%=h attname.capitalize %></b>: <%=h attval %>
           <% end %>
       </li>
     <% end %>
@@ -37,9 +37,9 @@
   <h3>Consequence</h3>
   <ol>
     <% for c in @consequences %>
-      <li><b><%= c["name"].capitalize %></b>
+      <li><b><%=h c["name"].capitalize %></b>
       <% c.delete("name").attributes.each do |attname, attval| %>
-        <br /><b><%= attname.capitalize %></b>: <%= attval %>
+        <br /><b><%=h attname.capitalize %></b>: <%=h attval %>
       <% end %>
       </li>
     <% end %>
@@ -54,7 +54,7 @@
 
 <% unless @post.reference.nil?%>
   <h3>Reference</h3>
-  <p> <%= link_to @post.reference, @post.reference %> </p>
+  <p> <%= link_to h(@post.reference), @post.reference %> </p>
 <% end %>
 
 <% if @post.all_versions.length > 1 %>
@@ -67,7 +67,7 @@
         <% if v.name.nil? or v.name == "" %>
           <%= link_to 'No Name', guideline_path(v.id) %>
         <% else %>
-          <%= link_to v.name, guideline_path(v.id) %>
+          <%= link_to h(v.name), guideline_path(v.id) %>
         <% end %>
       </li>
     <% end %>

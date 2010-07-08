@@ -64,7 +64,7 @@
     
     <div id="main">
       <%= flash_div :warning %>
-      <%= content_tag :h2, page_title %>
+      <%= content_tag :h2, h(page_title) %>
       <%= yield %>
     </div>
 

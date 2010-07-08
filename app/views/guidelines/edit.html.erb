@@ -19,13 +19,12 @@
         <% for c in @conditions %>
           <li class='fields'> <span>Type:</span>
             <%= select_tag 'condition_type',
-              options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ], c['type']), :style => "width:80px", :onClick => "drugBox(this)" %>
+              options_for_select([ 'Age', 'Dxcodes', 'Sex', 'Drugs', 'Notes' ], c['type'].capitalize.strip), :style => "width:80px" %>
             <% c.delete("type").attributes.each do |attname, attval| %>
               <%= select_tag "condition_target",
-                  options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], attname), :style => "width:80px" %>
+                options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], attname.split(/(?=[A-Z])/).join(" ").strip), :style => "width:80px" %>
               <%= text_field_tag "condition_text", attval, :style => "width:260px;display:inline", :onClick => "drugBox(this)" %>
             <% end %>
-            <%= hidden_field_tag 'condition_detail' %>
             <%= link_to_function '(Remove)', "$(this).up('li').remove()" %>
           </li>
         <% end %>

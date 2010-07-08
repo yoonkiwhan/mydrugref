@@ -40,7 +40,10 @@ class GuidelinesController < PostsController
       @edit_on = true
       render :action => 'edit'
     end
-    
+  end
+
+  def drug_search
+    @drug_atc = params[:atc].split('_')
   end
 
   private

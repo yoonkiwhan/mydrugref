@@ -36,7 +36,6 @@ function insert_drugs() {
     var str = "";
     for (i=0; i < (codes.length - 1); i++) {
       str += "<li><span class='atc_code'>" + codes[i] + "</span>&nbsp;";
-      if (classes != null)
       str += "<span class='atc_class'>" + classes[i] + "</span>";
       str += "<a onclick=\"$(this).up('li').remove(); return false;\" href=\"#\">Remove from post</a></li>";
     };

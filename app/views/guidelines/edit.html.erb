@@ -15,13 +15,11 @@
   <div id="conditions">
     <label>Conditions <a href="#" onClick="appendToElement('Ajax_conditions', '/guidelines/condition');" title="Add a condition">+</a> <br /></label>
     <ul id="Ajax_conditions">
-      <li> <%= @conditions %></li>
       <% unless @consequences.nil? %>
         <% for c in @conditions %>
           <li class='fields'> <span>Type:</span>
-            <p><%= c %></p>
             <%= select_tag 'condition_type',
-              options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ], c['type']), :style => "width:80px" %>
+              options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ], c['type']), :style => "width:80px", :onClick => "drugBox(this)" %>
             <% c.delete("type").attributes.each do |attname, attval| %>
               <%= select_tag "condition_target",
                   options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], attname), :style => "width:80px" %>

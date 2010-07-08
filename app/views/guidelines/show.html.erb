@@ -26,7 +26,7 @@
     <% for c in @conditions %>
       <li><b><%=h c["type"].capitalize %></b> -- 
           <% c.delete("type").attributes.each do |attname, attval| %>
-          <b><%=h attname.capitalize %></b>: <%=h attval %>
+          <b><%=h attname.split(/(?=[A-Z])/).join(" ") %></b>: <%=h attval %>
           <% end %>
       </li>
     <% end %>

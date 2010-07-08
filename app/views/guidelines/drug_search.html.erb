@@ -24,6 +24,11 @@
     <br />
     <label>Currently selected drugs:</label> <hr>
     <ul id="post_drug_refs">
+      <% for atc in @drug_atc %>
+        <li><span class='atc_code'><%= atc %></span>
+        <span class='atc_class'></span>
+        <a onclick="$(this).up('li').remove(); return false;" href="#">Remove from post</a></li>
+      <% end %>
     </ul>
 
     <br />

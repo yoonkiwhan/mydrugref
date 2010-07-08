@@ -4,8 +4,9 @@
 
 <head>
   <title><%= site_title + (page_title.blank? ? '' : " - #{page_title}") %></title>
-  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "application", "lightwindow" %>
   <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "lightwindow" %>
   <%= auto_discovery_link_tag(:rss, :action => :rss, :controller => :feed) %>
 </head>
              

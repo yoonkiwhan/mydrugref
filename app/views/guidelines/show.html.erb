@@ -52,6 +52,11 @@
   <%= h @post.body %>
 </p>
 
+<% unless @post.reference.nil?%>
+  <h3>Reference</h3>
+  <p> <%= link_to @post.reference, @post.reference %> </p>
+<% end %>
+
 <% if @post.all_versions.length > 1 %>
   <% versns = @post.all_versions.sort_by {|g| g.id} %>
   <% versns.delete(@post) %>

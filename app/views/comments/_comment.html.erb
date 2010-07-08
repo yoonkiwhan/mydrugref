@@ -1,0 +1,23 @@
+<div class="post">
+  <%= user_thumb comment.creator %>
+  <div id="text">
+  <p class="meta"><%= nice_date comment.created_at %></p>
+  <% if logged_in? and current_user == comment.creator %>
+    <big><strong>
+      <%= link_to 'Edit', edit_comment_url(:post_type => @post.class.to_s + 's',
+                                           :post_id => @post.id, :id => comment.id ) %>
+    </big></strong>
+  <% end %>
+  <%= simple_format comment.body %>
+  </div>
+
+  <div id="image">
+    <% if comment.agree %> 
+      <img id="comment_pic" src="/images/ilike.png" alt="Agree">
+    <% elsif comment.agree == false %>
+      <img id="comment_pic" src="/images/idontlike.png" alt="Disagree">
+    <% end %>
+  </div>
+
+  <%= clear_div %>
+</div>

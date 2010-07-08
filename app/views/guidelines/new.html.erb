@@ -14,7 +14,7 @@
   <ul id="Ajax_conditions">
     <li class='fields'> <span>Type:</span>
     <%= select_tag 'condition_type',
-      options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => 'width:80px' %>
+      options_for_select([ 'Age', 'Dxcode', 'Sex', 'Drugs', 'Notes' ]), :style => 'width:80px', :onchange => "drugBoxHelper(this)" %>
     <%= select_tag 'condition_target',
       options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => 'width:80px' %>
     <%= text_field_tag 'condition_text', '', :style => 'width:260px;display:inline' %> 
@@ -36,7 +36,11 @@
   </ol>
   </div>
 
-<input id='commit' type="submit" value="Save Guideline" name="commit">
+  <label>Reference</label><%= text_field_tag "reference" %>
+
+  <a href='/guidelines/drug_search.html' class='lightwindow'>CHECK THIS OUT!</a>
+
+  <input id='commit' type="submit" value="Save Guideline" name="commit">
 
 <% end %>
 </div>

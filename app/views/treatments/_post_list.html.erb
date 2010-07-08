@@ -1,18 +1,14 @@
 <% if @total == 0 %>
-
-<p>No items found...</p>
-
+  <p>No items found...</p>
 <% else %>
 
 <p>Number of items found : <b><%= @total %></b></p>
-
 <p>
-<% if @items_pages > 1 %>
-Page&nbsp;:
-<%= pagination_links_remote @items_pages %>
-<% end %>
+  <% if @items_pages > 1 %>
+    Page&nbsp;:
+    <%= pagination_links_remote @items_pages %>
+  <% end %>
 </p>
-
 
 <table>
   <thead>

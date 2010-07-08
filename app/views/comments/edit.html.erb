@@ -1,0 +1,24 @@
+<div id="comments">
+  <h2>Edit your comment</h2>
+	
+<% form_for :comment,
+            :url => comment_url(:post_type => @post.class.to_s + 's', :post_id => @post, :id => params[:id]), 
+            :html => { :method => 'put' } do |c| %>
+   <fieldset>
+     <h3><%= current_user.name %> said . . .</h3>
+     <p><%= c.text_area :body %></p>
+     <% if @post.comments.detect {|com| com.created_by == current_user.id and !com.agree.nil? }.nil? %>
+     <p><!-- If current_user hasn't already voted agree/disagree -->
+       <%= c.select :agree, [['No Thanks', nil], ['Agree', true], ['Disagree', false]] %>
+       Vote whether you agree or disagree. 
+       Agreeing with this post will allow users that trust you to receive the post from Oscar.
+     </p>
+     <% end %>
+     <p>
+       <%= submit_tag "Edit Comment" %>
+     </p>
+   </fieldset>
+ <% end %>
+ <%= link_to "Delete", {:post_id => @post, :id => @comment.id, :action => 'show'}, :method => :delete, 
+             :confirm => "Are you sure?", :class => "delete" %>
+</div>

@@ -25,7 +25,7 @@
               <%= text_field_tag "condition_text", attval, :style => "width:260px;display:inline", :onClick => "drugBox(this)" %>
         <% end %>
           <%= hidden_field_tag 'destroy_condition', 0 %>  
-          <%= link_to_function '(Remove)', 'remove_fields(this)' %> </li>
+          <%= link_to_function '(Remove)', "$(this).up('li').remove()" %> </li>
     <% end %>
   </ul>
   </div>
@@ -40,8 +40,7 @@
       <%= select_tag "warning_strength",
           options_for_select([ 'Recommendation', 'Warning' ], c['strength']), :style => "width:130px" %>
       <%= text_field_tag "warning_text", c['text'], :style => "width:280px;display:inline" %>
-      <%= hidden_field_tag 'destroy_consequence', 0 %>
-      <%= link_to_function '(Remove)', 'remove_fields(this)' %> </li>
+      <%= link_to_function '(Remove)', "$(this).up('li').remove()" %> </li>
     <% end %>
   </ol>
   </div>

@@ -18,9 +18,17 @@ function drugBox(link) {
   var between = $(link).previous('select');
   var target = between.previous('select');
   textbox = link;
+  var codes = $(textbox).value.split("; ");
+  var param = "?atc=";
+  for (var i=0; i < (codes.length - 2); i++) {
+    param += codes[i] + "_";
+  }
+  param += codes[i];
+  var url = '/Guidelines/drug_search' + param;
+
   if ($F(target) == "Drugs") {
     myLightWindow.activateWindow({
-      href: '/Guidelines/drug_search',
+      href: url,
       title: 'Please select relevant drugs.',
       type: 'page',
       width: '500',
@@ -29,34 +37,15 @@ function drugBox(link) {
   };
 };
 
-function insert_drugs() {
-  if ($(textbox).value.length > 0) {
-    var codes = $(textbox).value.split("; ");
-    var classes = $(textbox).next("#condition_detail").value.split("; ");
-    var str = "";
-    for (i=0; i < (codes.length - 1); i++) {
-      str += "<li><span class='atc_code'>" + codes[i] + "</span>&nbsp;";
-      str += "<span class='atc_class'>" + classes[i] + "</span>";
-      str += "<a onclick=\"$(this).up('li').remove(); return false;\" href=\"#\">Remove from post</a></li>";
-    };
-    $('post_drug_refs').insert(str);
-  };
-};
-
 function insertDrug() {
   var code_data = $$('.atc_code');
-  var class_data = $$('.atc_class');
   var drug_codes = "";
-  var drug_classes = "";
 
   for (i=0; i < code_data.length; i++) {
     drug_codes += code_data[i].firstChild.nodeValue + "; ";
-    drug_classes += class_data[i].firstChild.nodeValue + "; ";
   }
 
   $(textbox).value = drug_codes;
-  var next_box = $(textbox).next("#condition_detail");
-  $(next_box).value = drug_classes;
   textbox = null;
   myLightWindow.deactivate();
 }
@@ -107,11 +96,11 @@ function to_xml() {
   XML += '<conditions> ';
 
   if (isString(data.condition_type)) {
-    XML += '<condition type="' + data.condition_type + '" ' + data.condition_target + '="' + data.condition_text.escapeHTML() + '"/> ';
+    XML += '<condition type="' + data.condition_type + '" ' + data.condition_target.sub(' ', '&nbsp;') + '="' + data.condition_text.escapeHTML() + '"/> ';
   }
   else {
     for (var i = 0; i < data.condition_type.length; i++) {
-      XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i] + '="' + data.condition_text[i].escapeHTML() + '"/> ';
+      XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i].sub(' ', '') + '="' + data.condition_text[i].escapeHTML() + '"/> ';
     }
   }
   XML += '</conditions> <consequence> ';

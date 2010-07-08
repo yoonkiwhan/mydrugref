@@ -1,11 +1,12 @@
 <%= javascript_include_tag 'guideline_dynform' %>
+<%= javascript_include_tag 'prototype.rsv' %>
 
 <div id='form_wrapper'>
 
 <% guideline_form :post, @post do |f| %>
   <%= text_field_tag "method", 'create', :type => "hidden" %>
 
-  <label>Title</label><%= text_field_tag "title" %>
+  <label>Title</label><%= text_field_tag "title", '' %>
   <label>Evidence</label><%= text_field_tag "evidence" %>
   <label>Significance</label><%= text_field_tag "significance" %>
 
@@ -18,6 +19,7 @@
     <%= select_tag 'condition_target',
       options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ]), :style => 'width:80px' %>
     <%= text_field_tag 'condition_text', '', :style => 'width:260px;display:inline', :onClick => "drugBox(this)" %> 
+    <%= hidden_field_tag 'condition_detail' %>
     <%= link_to_function '(Remove)', "$(this).up('li').remove()" %>
   </li>
   </ul>

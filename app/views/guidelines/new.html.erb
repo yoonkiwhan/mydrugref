@@ -1,10 +1,10 @@
 <%= javascript_include_tag 'guideline_dynform' %>
-<%= javascript_include_tag 'prototype.rsv' %>
 
 <div id='form_wrapper'>
 
 <% guideline_form :post, @post do |f| %>
-  <%= text_field_tag "method", 'create', :type => "hidden" %>
+  <%= hidden_field_tag "method", 'create' %>
+  <%= hidden_field_tag "g_id", @post.id %>
 
   <label>Title</label><%= text_field_tag "title", '' %>
   <label>Evidence</label><%= text_field_tag "evidence" %>

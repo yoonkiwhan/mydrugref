@@ -25,9 +25,10 @@
   <ul>
     <% for c in @conditions %>
       <li><b><%=h c["type"].capitalize %></b> -- 
-          <% c.delete("type").attributes.each do |attname, attval| %>
-          <b><%=h attname.split(/(?=[A-Z])/).join(" ") %></b>: <%=h attval %>
-          <% end %>
+        <% c.delete("type").attributes.each do |attname, attval| %>
+          <b><%=h attname.split(/(?=[A-Z])/).join(" ") %></b>: 
+          <%=h attval.split("_")[0] %> 
+        <% end %>
       </li>
     <% end %>
   </ul>
@@ -46,11 +47,6 @@
   </ol>
   <% end %>
 <% end %>
-
-<h3>XML Body</h3>
-<p style="font-family: monospace;">
-  <%= h @post.body %>
-</p>
 
 <% unless @post.reference.nil?%>
   <h3>Reference</h3>

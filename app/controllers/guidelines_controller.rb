@@ -42,10 +42,6 @@ class GuidelinesController < PostsController
     end
   end
 
-  def drug_search
-    @drug_atc = params[:atc].split('_')
-  end
-
   private
     def model_name; 'Guideline' end
 

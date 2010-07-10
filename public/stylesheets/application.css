@@ -931,8 +931,7 @@ font-size: 18px; font-weight: bold; }
 #form_wrapper input[type='button'] { width: 150px; display: block; }
 #form_wrapper textarea { height: 150px; }
 #form_wrapper select { margin-bottom: 10px; width: 150px; }
-/* form.standard div#drug_refs { width: 250px; float:left; }
-form.standard div#num_drugs { border: dashed 1px #AAA; float: right;} */
+#form_wrapper input.validate_fail { border: 1px solid #FF3300; }
 
 /* New Link Stuff */
 

@@ -1337,6 +1337,7 @@ lightwindow.prototype = {
 						this.resizeTo.height = $('lightwindow_contents').scrollHeight+(this.options.contentOffset.height);
 						this.resizeTo.width = $('lightwindow_contents').scrollWidth+(this.options.contentOffset.width);
 						this._processWindow();
+                        add_to_drugbox();
 					}.bind(this)
 				}
 			);

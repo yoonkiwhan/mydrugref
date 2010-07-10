@@ -1,12 +1,11 @@
 <%= javascript_include_tag 'guideline_dynform' %>
-<%= javascript_include_tag 'prototype.rsv' %>
 
 <div id='form_wrapper'>
 
 <% guideline_form :post, @post do |f| %>
-  <%= text_field_tag "uuid", @uuid, :type => "hidden" %>
-  <%= text_field_tag "g_id", @post.id, :type => "hidden" %>
-  <%= text_field_tag "method", 'update', :type => "hidden" %>
+  <%= hidden_field_tag "uuid", @uuid %>
+  <%= hidden_field_tag "g_id", @post.id %>
+  <%= hidden_field_tag "method", 'update' %>
 
   <label>Title</label><%= text_field_tag "title", @page_title %>
   <label>Evidence</label><%= text_field_tag "evidence", @evidence %>
@@ -23,7 +22,10 @@
             <% c.delete("type").attributes.each do |attname, attval| %>
               <%= select_tag "condition_target",
                 options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], attname.split(/(?=[A-Z])/).join(" ").strip), :style => "width:80px" %>
-              <%= text_field_tag "condition_text", attval, :style => "width:260px;display:inline", :onClick => "drugBox(this)" %>
+              <%= text_field_tag "condition_text", attval.split("_")[0], :style => "width:260px;display:inline", :onClick => "drugBox(this)" %>
+              <% if attval.split("_").length > 1 %>
+                <input id="condition_detail" type="hidden" value=<%= '"' + attval.split("_")[1] + '"' %> />
+              <% end %>
             <% end %>
             <%= link_to_function '(Remove)', "$(this).up('li').remove()" %>
           </li>

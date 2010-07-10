@@ -41,13 +41,10 @@ function drugBox(link) {
 
 function insertDrug() {
   var code_data = $$('.atc_code');
-  var class_data = $$('.atc_class');
   var drug_codes = "";
-  var drug_classes = "";
 
   for (i=0; i < code_data.length; i++) {
     drug_codes += code_data[i].firstChild.nodeValue + "; ";
-    drug_classes += class_data[i].firstChild.nodeValue + "; ";
   }
   var class_html = '<input id="condition_detail" type="hidden" value="' + drug_classes + '" />';
   $(textbox).value = drug_codes;

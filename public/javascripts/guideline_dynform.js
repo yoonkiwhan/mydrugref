@@ -63,18 +63,6 @@ function add_to_box(code_class, desc_class, insert_tag) {
   $(insert_tag).insert(str);
 };
 
-function add_to_drugbox() {
-  var code_data = $(textbox).value.split("; ");
-  var class_data = $(textbox).next('#condition_detail').value.split("; ");
-  var str = "";
-  for (var i = 0; i < (code_data.length - 1); i++) {
-    str += "<li><span class='atc_code'>" + code_data[i] + "</span>&nbsp;";
-    str += "<span class='atc_class'>" + class_data[i] + "</span>";
-    str += "<a onclick=\"$(this).up('li').remove(); return false;\" href=\"#\">Remove from post</a></li>";
-  };
-  $('post_drug_refs').insert(str);
-};
-
 function drugBox(link) {
   var between = $(link).previous('select');
   var target = between.previous('select');
@@ -118,6 +106,7 @@ function insertToPage(code_class, desc_class, prepend) {
   var codes = code_array.join(", ");
   var descs = class_array.join(", ");
 
+  alert(codes + "   ---   " + descs);
   var desc_html = '<input id="detail" type="hidden" value="' + descs + '" />';
   $(textbox).value = codes;
 
@@ -125,7 +114,7 @@ function insertToPage(code_class, desc_class, prepend) {
     $(textbox).up('li').insert({ bottom: desc_html });
   }
   else {
-    $(textbox).next('#detail').value = desc_html;
+    $(textbox).next('#detail').replace = desc_html;
   }
 
   textbox = null;

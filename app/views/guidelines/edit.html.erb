@@ -19,14 +19,24 @@
           <li class='fields'> <span>Type:</span>
             <%= select_tag 'condition_type',
               options_for_select([ 'Age', 'Dxcodes', 'Sex', 'Drugs', 'Notes' ], c['type'].capitalize.strip), :style => "width:80px" %>
-            <% c.delete("type").attributes.each do |attname, attval| %>
-              <%= select_tag "condition_target",
-                options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], attname.split(/(?=[A-Z])/).join(" ").strip), :style => "width:80px" %>
-              <%= text_field_tag "condition_text", attval.split("_")[0], :style => "width:260px;display:inline", :onClick => "drugBox(this)" %>
-              <% if attval.split("_").length > 1 %>
-                <input id="condition_detail" type="hidden" value=<%= '"' + attval.split("_")[1] + '"' %> />
+            <% if c["type"].capitalize == "Drugs" or c["type"].capitalize == "Dxcodes" %>
+              <% c.delete("type").attributes.each do |attname, attval| %>
+                <% if attname != "desc" %>
+                  <%= select_tag "condition_target",
+                    options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], (attname[0..2].capitalize + " " + attname[3..5].capitalize).strip), :style => "width:80px" %>
+                  <%= text_field_tag "condition_text", attval, :style => "width:260px;display:inline", :onClick => "drugBox(this)" %>
+                <% else %>
+                  <input id="detail" type="hidden" value=<%= '"' + attval + '"' %> />
+                <% end %>
+              <% end %>
+            <% else %>
+              <% c.delete("type").attributes.each do |attname, attval| %>
+                <%= select_tag "condition_target",
+                  options_for_select([ 'All', 'Any', 'Not', 'Not Any', 'Not All' ], (attname[0..2].capitalize + " " + attname[3..5].capitalize).strip), :style => "width:80px" %>
+                <%= text_field_tag "condition_text", attval, :style => "width:260px;display:inline" %>
               <% end %>
             <% end %>
+
             <%= link_to_function '(Remove)', "$(this).up('li').remove()" %>
           </li>
         <% end %>
@@ -41,7 +51,7 @@
         <% for c in @consequences %>
         <li class='fields'> <span>Warning:</span>
           <%= select_tag "warning_strength",
-              options_for_select([ 'Recommendation', 'Warning' ], c['strength']), :style => "width:130px" %>
+              options_for_select([ 'Recommendation', 'Warning' ], c['strength'].capitalize), :style => "width:130px" %>
           <%= text_field_tag "warning_text", c['text'], :style => "width:280px;display:inline" %>
           <%= link_to_function '(Remove)', "$(this).up('li').remove()" %> </li>
         <% end %>

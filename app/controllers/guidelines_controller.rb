@@ -1,7 +1,7 @@
 require 'rexml/document'
 
 class GuidelinesController < PostsController
-  layout "application", :except => [:condition, :consequence, :drug_search]
+  layout "application", :except => [:condition, :consequence, :drug_search, :dx_search]
 
   def index
     super
@@ -41,6 +41,39 @@ class GuidelinesController < PostsController
       render :action => 'edit'
     end
   end
+
+  def get_dxcodes
+    params[:dxcodes].nil? ? existing_atcs = [] : existing_atcs = params[:dxcodes]
+
+    target_table = params[:in]
+    value = ('%' + params[:dxtext] + '%').gsub(' ', '%')
+
+    if target_table == "icd9"
+      got = IcdNine.find(:all, :conditions => ['LOWER(description) LIKE ?', value.downcase], 
+                           :select => 'code, description')
+      target = "icd9"
+    elsif target_table == "icd10"
+      got = IcdTen.find(:all, :conditions => ['LOWER(description) LIKE ?', value.downcase], 
+                           :select => 'code, description')
+      target = "icd10"
+    end
+
+    @results = arrange(got, target, existing_atcs)
+
+    render :partial => 'dxresults', :object => @results
+  end
+
+  def arrange(got, target, existing_atcs)
+    return_array = []
+    for result in got
+      h = {:dx_code => target + ':' + result.code, :dx_desc => result.description, :added => existing_atcs.include?(result.code)}
+      return_array << h
+    end
+
+    return return_array
+  end
+
+
 
   private
     def model_name; 'Guideline' end

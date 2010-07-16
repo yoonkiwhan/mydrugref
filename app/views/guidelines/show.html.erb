@@ -25,9 +25,18 @@
   <ul>
     <% for c in @conditions %>
       <li><b><%=h c["type"].capitalize %></b> -- 
-        <% c.delete("type").attributes.each do |attname, attval| %>
-          <b><%=h attname.split(/(?=[A-Z])/).join(" ") %></b>: 
-          <%=h attval.split("_")[0] %> 
+        <% if c["type"].capitalize != "Drugs" and c["type"].capitalize != "Dxcodes" %> 
+          <% c.delete("type").attributes.each do |attname, attval| %>
+            <b><%=h (attname[0..2].capitalize + " " + attname[3..5].capitalize).strip %></b>: 
+            <%=h attval %> 
+          <% end %>
+        <% else %>
+          <% c.delete("type").attributes.each do |attname, attval| %>
+            <% if attname != "desc" %>
+              <b><%=h (attname[0..2].capitalize + " " + attname[3..5].capitalize).strip %></b>: 
+              <%=h attval %>
+            <% end %>
+          <% end %>
         <% end %>
       </li>
     <% end %>

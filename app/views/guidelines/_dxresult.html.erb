@@ -1,0 +1,9 @@
+<div class=<%= result[:added] ? 'added' : 'result' %> onmouseover='DxDiv.lightUp($(this)); return false;' 
+     onmouseout='DxDiv.backToNorm($(this)); return false;' onclick='DxDiv.add($(this)); return false;'>
+    <span id='dx_code'><%= result[:dx_code] %></span>
+    <span id='dx_desc'><%= proper_noun(result[:dx_desc]) %></span>
+    <% if result[:added] %>
+      <p>Added to post</p>
+    <% end %>
+  </div>
+

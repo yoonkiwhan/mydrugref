@@ -237,6 +237,7 @@ lightwindow.prototype = {
 			galleryAnimationHandler : false,
 			showGalleryCount : false
 		}, options || {});
+
 		this.duration = ((11-this.options.resizeSpeed)*0.15);
 		this._setupLinks();
 		this._getScroll();
@@ -328,7 +329,8 @@ lightwindow.prototype = {
 			width : null,
 			loadingAnimation : null,
 			iframeEmbed : null,
-			form : null
+			form : null,
+            afterComplete: null
 		}, options || {});
 		
 		// Set the window type
@@ -1337,7 +1339,11 @@ lightwindow.prototype = {
 						this.resizeTo.height = $('lightwindow_contents').scrollHeight+(this.options.contentOffset.height);
 						this.resizeTo.width = $('lightwindow_contents').scrollWidth+(this.options.contentOffset.width);
 						this._processWindow();
-                        add_to_drugbox();
+                        
+                        if (this.element.afterComplete) {
+                          var opt = eval(this.element.afterComplete);
+                          opt;
+                        }
 					}.bind(this)
 				}
 			);

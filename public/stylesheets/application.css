@@ -820,6 +820,8 @@ div.auto_complete {
     margin: 0;
 }
 
+#form_wrapper div.search div#results div span#dx_code, 
+#form_wrapper div.search div#results div span#dx_desc, 
 #form_wrapper div.search div#results div span#atc_code, 
 #form_wrapper div.search div#results div span#atc_class, 
 #form_wrapper div.search div#results div span#brand_name, 
@@ -829,6 +831,7 @@ div.auto_complete {
 }
 
 #form_wrapper div.search div#results div span#atc_class, 
+#form_wrapper div.search div#results div span#dx_desc, 
 #form_wrapper div.search div#results div span#brand_name {
     font-variant: small-caps;
 }
@@ -863,12 +866,12 @@ div.auto_complete {
     color: grey;
 }
 
-#form_wrapper ul#post_drug_refs, #form_wrapper ul.int_atcs {
+#form_wrapper ul#post_dxcodes, #form_wrapper ul#post_drug_refs, #form_wrapper ul.int_atcs {
     padding-left: 0;
     margin-left: 0;
 }
 
-#form_wrapper ul#post_drug_refs li, #form_wrapper ul.int_atcs li {
+#form_wrapper ul#post_dxcodes li, #form_wrapper ul#post_drug_refs li, #form_wrapper ul.int_atcs li {
     list-style-type: none;
     border: 1px solid grey;
     padding: 3px;
@@ -880,7 +883,7 @@ div.auto_complete {
     display: none;
 }
 
-#form_wrapper ul#post_drug_refs li a, #form_wrapper ul.int_atcs li a {
+#form_wrapper ul#post_drug_refs li a, #form_wrapper ul.int_atcs li a, #form_wrapper ul#post_dxcodes li a {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -892,12 +895,12 @@ div.auto_complete {
 }
 
 #form_wrapper ul#post_drug_refs li span.atc_code, #form_wrapper ul#post_drug_refs li span.brand_name,
-#form_wrapper ul#post_drug_refs li span.din, #form_wrapper ul.int_atcs li span.atc_code {
+#form_wrapper ul#post_drug_refs li span.din, #form_wrapper ul.int_atcs li span.atc_code, #form_wrapper ul#post_dxcodes li span.dx_code {
     font-weight: bold;
 }
 
 #form_wrapper ul#post_drug_refs li span.atc_class, #form_wrapper ul#post_drug_refs li span.brand_name,
-#form_wrapper ul.int_atcs li span.atc_code {
+#form_wrapper ul.int_atcs li span.atc_code, #form_wrapper ul#post_dxcodes li span.dx_desc {
     font-variant: small-caps;
 }
 

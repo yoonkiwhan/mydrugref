@@ -1,3 +1,38 @@
+var DxDiv = {
+  lightUp: function(div){
+    if (div.hasClassName('result')){
+      div.removeClassName('result');
+      div.addClassName('add');
+      new Insertion.Bottom(div, '<p>Add to post</p>');
+    }
+  },
+  backToNorm: function(div){
+    if(div.hasClassName('add')){
+      div.removeClassName('add');
+      div.addClassName('result');
+      div.down('p').remove();
+    }
+  },
+  makeItGrey: function(div){
+    div.removeClassName('add');
+    div.onclick = '';
+    div.addClassName('added');
+    div.down('p').update('Added to post');
+  },
+  add: function(div){
+    var dxCode = div.down('span#dx_code').innerHTML;
+    var dxDesc = div.down('span#dx_desc').innerHTML;
+
+    DxDiv.makeItGrey(div);
+    
+    str = "<li><span class='dx_code'>" + dxCode + "</span>&nbsp;";
+    str += "<span class='dx_desc'>" + dxDesc + "</span>";
+    str += "<a onclick=\"$(this).up('li').remove(); return false;\" href=\"#\">Remove from post</a></li>";
+    
+    $('post_dxcodes').insert(str);
+  }
+}
+
 document.observe('dom:loaded', function() {
   $$('#form_wrapper form')[0].observe('submit', function(e) {
     Event.stop(e);
@@ -10,17 +45,22 @@ function appendToElement(field, from) {
 };
 
 var textbox;
-
-function add_to_drugbox() {
-  var code_data = $(textbox).value.split("; ");
-  var class_data = $(textbox).next('#condition_detail').value.split("; ");
+function add_to_box(code_class, desc_class, insert_tag) {
+  var code_data = $(textbox).value.split(", ");
+  var class_data = $(textbox).next('#detail').value.split(", ");
   var str = "";
-  for (var i = 0; i < (code_data.length - 1); i++) {
-    str += "<li><span class='atc_code'>" + code_data[i] + "</span>&nbsp;";
-    str += "<span class='atc_class'>" + class_data[i] + "</span>";
+  for (var i = 0; i < code_data.length; i++) {
+    if (code_data[i].slice(0, 3) == 'atc') {
+      str += "<li><span class='" + code_class + "'>" + code_data[i].slice(4) + "</span>&nbsp;";
+    }
+    else {
+      str += "<li><span class='" + code_class + "'>" + code_data[i] + "</span>&nbsp;";
+    }
+    str += "<span class='" + desc_class + "'>" + class_data[i] + "</span>";
     str += "<a onclick=\"$(this).up('li').remove(); return false;\" href=\"#\">Remove from post</a></li>";
   };
-  $('post_drug_refs').insert(str);
+
+  $(insert_tag).insert(str);
 };
 
 function drugBox(link) {
@@ -34,29 +74,46 @@ function drugBox(link) {
       title: 'Please select relevant drugs.',
       type: 'page',
       width: '500',
-      height: '400'
+      height: '400',
+      afterComplete: "add_to_box('atc_code', 'atc_class', 'post_drug_refs')"
     });
-  };
+  }
+  else if ($F(target) == "Dxcodes") {
+    myLightWindow.activateWindow({
+      href: '/Guidelines/dx_search',
+      title: 'Please select relevant dxcodes.',
+      type: 'page',
+      width: '500',
+      height: '400',
+      afterComplete: "add_to_box('dx_code', 'dx_desc', 'post_dxcodes')"
+    });
+  }
 };
 
-function insertDrug() {
-  var code_data = $$('.atc_code');
-  var class_data = $$('.atc_class');
-  var drug_codes = "";
-  var drug_classes = "";
+function insertToPage(code_class, desc_class, prepend) {
+  var code_class_name = '.' + code_class;
+  var desc_class_name = '.' + desc_class;
+  var code_data = $$(code_class_name);
+  var class_data = $$(desc_class_name);
+  var code_array = new Array();
+  var class_array = new Array();
 
   for (i=0; i < code_data.length; i++) {
-    drug_codes += code_data[i].firstChild.nodeValue + "; ";
-    drug_classes += class_data[i].firstChild.nodeValue + "; ";
+    code_array[i] = prepend + code_data[i].firstChild.nodeValue;
+    class_array[i] = class_data[i].firstChild.nodeValue;
   }
-  var class_html = '<input id="condition_detail" type="hidden" value="' + drug_classes + '" />';
-  $(textbox).value = drug_codes;
+
+  var codes = code_array.join(", ");
+  var descs = class_array.join(", ");
+
+  var desc_html = '<input id="detail" type="hidden" value="' + descs + '" />';
+  $(textbox).value = codes;
 
   if ($(textbox).nextSiblings().length == 1) {
-    $(textbox).up('li').insert({ bottom: class_html });
+    $(textbox).up('li').insert({ bottom: desc_html });
   }
   else {
-    $(textbox).next('#condition_detail').value = drug_classes;
+    $(textbox).next('#detail').value = desc_html;
   }
 
   textbox = null;
@@ -64,32 +121,32 @@ function insertDrug() {
 }
 
 function isString() {
-    if (typeof arguments[0] == 'string') return true;
-    if (typeof arguments[0] == 'object') {
-        var criterion = arguments[0].constructor.toString().match(/string/i); 
-        return (criterion != null);  }return false;
+  if (typeof arguments[0] == 'string') return true;
+  if (typeof arguments[0] == 'object') {
+    var criterion = arguments[0].constructor.toString().match(/string/i); 
+    return (criterion != null);  }return false;
 }
 
 function submit(name, body, reference, uuid, g_id, method) {
-    if (method == 'update') {
-      var url = '/guidelines/' + g_id
-      new Ajax.Request(url, {
-          method: 'post',
-          parameters: {'post[name]': name,
-                       'post[body]': body,
-                       'post[reference]': reference,
-                       'post[uuid]': uuid,
-                       '_method': 'put'  }
-      })
-    }
-    else if (method == 'create'){
-      new Ajax.Request('/guidelines', {
-          method: 'post',
-          parameters: {'post[name]': name,
-                       'post[body]': body,
-                       'post[reference]': reference }
-      });
-    }
+  if (method == 'update') {
+    var url = '/guidelines/' + g_id
+    new Ajax.Request(url, {
+      method: 'post',
+      parameters: {'post[name]': name,
+                   'post[body]': body,
+                   'post[reference]': reference,
+                   'post[uuid]': uuid,
+                   '_method': 'put'  }
+    })
+  }
+  else if (method == 'create'){
+    new Ajax.Request('/guidelines', {
+      method: 'post',
+      parameters: {'post[name]': name,
+                   'post[body]': body,
+                   'post[reference]': reference }
+    });
+  }
 }
 
 function to_xml() {
@@ -108,28 +165,28 @@ function to_xml() {
     
     var XML = '';
     var detail_index = 0;
-    var condition_detail = $$('#condition_detail');
+    var condition_detail = $$('#detail');
     XML += '<guideline title="' + data.title.escapeHTML() + '" evidence="' + data.evidence.escapeHTML();
     XML += '" significance="' + data.significance.escapeHTML() + '"> <conditions> ';
 
     if (isString(data.condition_type)) {
-      if (data.condition_type == "Drugs") {
-        XML += '<condition type="' + data.condition_type + '" ' + data.condition_target.sub(' ', '');
-        XML += '="' + data.condition_text.escapeHTML() + '_' + condition_detail[0].value.escapeHTML() + '"/> ';
+      if (data.condition_type == "Drugs" || data.condition_type == "Dxcodes") {
+        XML += '<condition type="' + data.condition_type.toLowerCase() + '" ' + data.condition_target.sub(' ', '').toLowerCase();
+        XML += '="' + data.condition_text.escapeHTML() + '" desc="' + condition_detail[0].value.escapeHTML() + '"/> ';
       }
       else {
-        XML += '<condition type="' + data.condition_type + '" ' + data.condition_target.sub(' ', '') + '="' + data.condition_text.escapeHTML() + '"/> ';
+        XML += '<condition type="' + data.condition_type.toLowerCase() + '" ' + data.condition_target.sub(' ', '').toLowerCase() + '="' + data.condition_text.escapeHTML() + '"/> ';
       }
     }
     else {
       for (var i = 0; i < data.condition_type.length; i++) {
-        if (data.condition_type[i] == "Drugs") {
-          XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i].sub(' ', '');
-          XML += '="' + data.condition_text[i].escapeHTML() + '_' + condition_detail[detail_index].value.escapeHTML() + '"/> ';
+        if (data.condition_type[i] == "Drugs" || data.condition_type[i] == "Dxcodes") {
+          XML += '<condition type="' + data.condition_type[i].toLowerCase() + '" ' + data.condition_target[i].sub(' ', '').toLowerCase();
+          XML += '="' + data.condition_text[i].escapeHTML() + '" desc="' + condition_detail[detail_index].value.escapeHTML() + '"/> ';
           detail_index++;
         }
         else {
-          XML += '<condition type="' + data.condition_type[i] + '" ' + data.condition_target[i].sub(' ', '');
+          XML += '<condition type="' + data.condition_type[i].toLowerCase() + '" ' + data.condition_target[i].sub(' ', '').toLowerCase();
           XML += '="' + data.condition_text[i].escapeHTML() + '"/> ';
         }
       }
@@ -137,11 +194,11 @@ function to_xml() {
     XML += '</conditions> <consequence> ';
 
     if (isString(data.warning_strength)) {
-      XML += '<warning strength="' + data.warning_strength + '">' + data.warning_text.escapeHTML() + '</warning> ';
+      XML += '<warning strength="' + data.warning_strength.toLowerCase() + '">' + data.warning_text.escapeHTML() + '</warning> ';
     }
     else {
       for (var j = 0; j < data.warning_strength.length; j++) {
-        XML += '<warning strength="' + data.warning_strength[j] + '">' + data.warning_text[j].escapeHTML() + '</warning> ';
+        XML += '<warning strength="' + data.warning_strength[j].toLowerCase() + '">' + data.warning_text[j].escapeHTML() + '</warning> ';
       }
     }
     XML += '</consequence> </guideline>';
@@ -207,3 +264,35 @@ function validate_form() {
 
   return validates;
 };
+
+function enterMeansSearch(event) {
+  if (event.keyCode == Event.KEY_RETURN) {
+      $('search_button').click();
+      return false;
+  }
+  else {
+      return true;
+  }
+}
+
+function searchForResults() {
+  $('spinner').show();
+  var table = $('search_param').value
+  new Ajax.Updater('results', '/Guidelines/get_dxcodes', {
+            asynchronous: true, 
+            evalScripts: true, 
+            onSuccess: function(request) { $('spinner').hide() },
+            parameters: 'in=' + table + '&' + getDxCodes() + 'dxtext=' + $F('dxtext')
+            });
+}
+
+function getDxCodes() {
+  var postDxcodes = $$('#post_dxcodes li');
+  dxcodes = "";
+
+  for (var i=0; i < postDxcodes.length; i++){
+    dxcodes += 'dxcodes[]=' + postDxcodes[i].down('.dx_code').innerHTML + '&'
+  }
+
+  return dxcodes;
+}

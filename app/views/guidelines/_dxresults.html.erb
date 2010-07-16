@@ -1,0 +1,9 @@
+<%= link_to_function 'Clear', "$(this).up('#results').update();" %>
+
+<% if @results.empty? %>
+  <div id='no_results'>
+    Sorry, no matches were found in our database.
+  </div>
+<% else %>
+  <%= render :partial => 'dxresult', :collection => @results, :as => :result %>
+<% end %>

@@ -74,7 +74,6 @@ class GuidelinesController < PostsController
   end
 
 
-
   private
     def model_name; 'Guideline' end
 
